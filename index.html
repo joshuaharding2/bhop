@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login or Sign Up</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: sans-serif;
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            flex-direction: column;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding-left: 2em;
+            padding-right: 2em;
+            padding-bottom: 0.4em;
+            background-color: #171717;
+            border-radius: 25px;
+            transition: .4s ease-in-out;
+            width: 400px;
+            max-width: 90%; 
+        }
+        .form:hover {
+            transform: scale(1.05);
+            border: 1px solid black;
+        }
+        #heading {
+            text-align: center;
+            margin-top: 1em;
+            margin-bottom: 0.2em;
+            color: rgb(255, 255, 255);
+            font-size: 2.4em;
+        }
+        .field {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            border-radius: 25px;
+            padding: 0.6em;
+            border: none;
+            outline: none;
+            color: white;
+            background-color: #171717;
+            box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+        }
+        .input-icon {
+            height: 2.6em;
+            width: 2.6em;
+            fill: white;
+        }
+        .input-field {
+            background: none;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: #d3d3d3;
+            font-size: 1.5em;
+        }
+        .form .btn {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            margin-top: 2.0em;
+        }
+        .button1, .button2, .button3 {
+            padding: 0.5em 1.1em;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            transition: .4s ease-in-out;
+            background-color: #252525;
+            color: white;
+            font-size: 1.5em;
+        }
+        .button1:hover { background-color: lime; }
+        .button2:hover { background-color: black; }
+        .button3:hover { background-color: red; }
+        .button1 { margin-right: 0.5em; }
+        .button3 { margin-bottom: 3em; padding-left: 4.5em; padding-right: 4.5em; }
+
+        @keyframes loader_5191 {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .loader .square {
+            background: #ddd;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -5px;
+            margin-left: -5px;
+        }
+        #sq1 { margin-top: -25px; margin-left: -25px; animation: loader_5191 675ms ease-in-out 0s infinite alternate; }
+        #sq2 { margin-top: -25px; animation: loader_5191 675ms ease-in-out 75ms infinite alternate; }
+        #sq3 { margin-top: -25px; margin-left: 15px; animation: loader_5191 675ms ease-in-out 150ms infinite; }
+        #sq4 { margin-left: -25px; animation: loader_5191 675ms ease-in-out 225ms infinite; }
+        #sq5 { animation: loader_5191 675ms ease-in-out 300ms infinite; }
+        #sq6 { margin-left: 15px; animation: loader_5191 675ms ease-in-out 375ms infinite; }
+        #sq7 { margin-top: 15px; margin-left: -25px; animation: loader_5191 675ms ease-in-out 450ms infinite; }
+        #sq8 { margin-top: 15px; animation: loader_5191 675ms ease-in-out 525ms infinite; }
+        #sq9 { margin-top: 15px; margin-left: 15px; animation: loader_5191 675ms ease-in-out 600ms infinite; }
+    </style>
+</head>
+<body>
+    <form id="authForm" class="form">
+        <p id="heading">Login</p>
+        <div id="message" style="color: white;"></div>
+        <div class="field">
+            <!-- Username Icon -->
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                viewBox="0 0 16 16">
+                <path
+                    d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z">
+                </path>
+            </svg>
+            <input autocomplete="off" placeholder="Username" class="input-field" id="name" type="text" required>
+        </div>
+        <div class="field">
+            <!-- Password Icon -->
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                viewBox="0 0 16 16">
+                <path
+                    d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z">
+                </path>
+            </svg>
+            <input placeholder="Password" class="input-field" id="password" type="password" required>
+        </div>
+        <div class="btn">
+            <button type="submit" class="button1">Login</button>
+            <button type="button" class="button2" onclick="toggleMode()">Sign Up Instead</button>
+        </div>
+        <button type="button" class="button3" onclick="window.location.href = 'bhop'">Play as Guest</button>
+    </form>
+    <div id="loader" class="loader" style="display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); align-items: center; justify-content: center;">
+        <div class="square" id="sq1"></div>
+        <div class="square" id="sq2"></div>
+        <div class="square" id="sq3"></div>
+        <div class="square" id="sq4"></div>
+        <div class="square" id="sq5"></div>
+        <div class="square" id="sq6"></div>
+        <div class="square" id="sq7"></div>
+        <div class="square" id="sq8"></div>
+        <div class="square" id="sq9"></div>
+    </div>
+    <script>
+        let mode = "login";
+
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            return parts.length === 2 ? parts.pop().split(';').shift() : null;
+        }
+
+        function logout() {
+            document.cookie = "loggedIn=; max-age=0; path=/;";
+            location.reload();
+        }
+
+        function toggleMode() {
+            mode = mode === "login" ? "signup" : "login";
+            document.getElementById("heading").textContent = mode === "login" ? "Login" : "Sign Up";
+            document.querySelector(".button1").textContent = mode === "login" ? "Login" : "Register";
+            document.querySelector(".button2").textContent = mode === "login" ? "Sign Up Instead" : "Switch to Login";
+            document.getElementById("message").textContent = "";
+        }
+
+        document.getElementById('authForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const loader = document.getElementById("loader");
+            loader.style.display = "flex";
+            const formData = new FormData();
+            formData.append("name", document.getElementById("name").value);
+            formData.append("password", document.getElementById("password").value);
+            formData.append("mode", mode);
+
+            fetch('https://script.google.com/macros/s/AKfycbzywo9VfWfLNCIMtv8UjO3ib97YRJHTcXoqyUiSlvH2c7H84EV46bDgOdiPAiYYzfDMHQ/exec', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.text())
+            .then(result => {
+                loader.style.display = "none";
+                const msg = document.getElementById("message");
+                if (result === "login_success") {
+                    msg.textContent = "Login successful!";
+                    setCookie("loggedIn", "true", 7);
+                    window.location.href = "bhop";
+                } else if (result === "signup_success") {
+                    msg.textContent = "Signup successful! You may now log in.";
+                    toggleMode();
+                } else if (result === "user_exists") {
+                    msg.textContent = "User already exists. Try logging in.";
+                } else {
+                    msg.textContent = "Login failed. Wrong password?";
+                }
+            })
+            .catch(error => {
+                loader.style.display = "none";
+                document.getElementById("message").textContent = "An error occurred: " + error;
+            });
+        });
+
+        window.onload = () => {
+            if (getCookie("loggedIn") === "true") {
+                window.location.href = "bhop";
+            }
+        };
+    </script>
+</body>
+</html>

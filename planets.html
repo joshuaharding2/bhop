@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solar System</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: black; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    let scene, camera, cameraRig, renderer, planets = [], particleSystem, sun;
+    let keys = { w: false, a: false, s: false, d: false, space: false, e: false, q: false, ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, Shift: false };
+    let velocity = new THREE.Vector3();
+    let speed = 1;
+
+    function init() {
+      scene = new THREE.Scene();
+
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5000);
+      camera.position.set(0, 0, 0); // camera inside rig, so start at origin
+
+      // Create the camera rig
+      cameraRig = new THREE.Object3D();
+      cameraRig.position.set(0, 0, 300); // set starting position of rig
+      cameraRig.add(camera);
+      scene.add(cameraRig);
+
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      createSolarSystem();
+
+      window.addEventListener("resize", () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      });
+
+      document.body.addEventListener("click", () => {
+        document.body.requestPointerLock();
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (event.key in keys) keys[event.key] = true;
+      });
+
+      window.addEventListener("keyup", (event) => {
+        if (event.key in keys) keys[event.key] = false;
+      });
+
+      animate();
+    }
+
+    function createSolarSystem() {
+      let sunGeometry = new THREE.SphereGeometry(50, 32, 32);
+      let sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      scene.add(sun);
+
+      const planetData = [
+        { name: "Mercury", radius: 10, distance: 100, speed: 0.02 },
+        { name: "Venus", radius: 20, distance: 200, speed: 0.015 },
+        { name: "Earth", radius: 25, distance: 300, speed: 0.01 },
+        { name: "Mars", radius: 15, distance: 400, speed: 0.008 },
+        { name: "Jupiter", radius: 50, distance: 600, speed: 0.005 },
+        { name: "Saturn", radius: 45, distance: 800, speed: 0.004 },
+        { name: "Uranus", radius: 35, distance: 1000, speed: 0.003 },
+        { name: "Neptune", radius: 30, distance: 1200, speed: 0.002 }
+      ];
+
+      planetData.forEach(planet => {
+        let particleCount = 1000;
+        let positions = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+          let theta = Math.random() * Math.PI * 2;
+          let phi = Math.acos(2 * Math.random() - 1);
+          let r = planet.radius;
+
+          positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+          positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+          positions[i * 3 + 2] = r * Math.cos(phi);
+        }
+
+        let geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        let material = new THREE.PointsMaterial({ size: 1, color: Math.random() * 0xffffff });
+        let mesh = new THREE.Points(geometry, material);
+        mesh.userData = { angle: Math.random() * Math.PI * 2, distance: planet.distance, speed: planet.speed };
+        scene.add(mesh);
+        planets.push(mesh);
+      });
+
+      createParticleField();
+    }
+
+    function createParticleField() {
+      const particleCount = 50000;
+      const positions = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount; i++) {
+        let theta = Math.random() * Math.PI * 2;
+        let phi = Math.acos(2 * Math.random() - 1);
+        let radius = 1500 + Math.random() * 500;
+
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = radius * Math.cos(phi);
+      }
+
+      const particleGeometry = new THREE.BufferGeometry();
+      particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const particleMaterial = new THREE.PointsMaterial({ size: 1, color: 0xffffff });
+
+      particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+      scene.add(particleSystem);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        planets.forEach(planet => {
+            planet.userData.angle += planet.userData.speed;
+            planet.position.x = Math.cos(planet.userData.angle) * planet.userData.distance;
+            planet.position.z = Math.sin(planet.userData.angle) * planet.userData.distance;
+        });
+
+        let direction = new THREE.Vector3();
+        camera.getWorldDirection(direction);
+        if (keys.w) velocity.addScaledVector(direction, 0.2);
+        if (keys.s) velocity.addScaledVector(direction, -0.2);
+        if (keys.a) cameraRig.rotation.y += 0.04;
+        if (keys.d) cameraRig.rotation.y -= 0.04;
+        const pitchLimit = Math.PI / 2 - 0.05;
+        if (keys.e) camera.rotation.x = Math.min(camera.rotation.x + 0.03, pitchLimit);
+        if (keys.q) camera.rotation.x = Math.max(camera.rotation.x - 0.03, -pitchLimit);
+        let left = new THREE.Vector3();
+        left.crossVectors(camera.up, direction).normalize();
+        if (keys.ArrowLeft) velocity.addScaledVector(left, 0.2);
+        let right = new THREE.Vector3();
+        right.crossVectors(direction, camera.up).normalize();
+        if (keys.ArrowRight) velocity.addScaledVector(right, 0.2);
+        let upDown = new THREE.Vector3();
+        camera.getWorldDirection(direction);
+        upDown.crossVectors(left, direction).normalize();
+        if (keys.ArrowDown) velocity.addScaledVector(upDown, 0.2);
+        if (keys.ArrowUp) velocity.addScaledVector(upDown.clone().negate(), 0.2);
+        cameraRig.position.add(velocity);
+        velocity.multiplyScalar(0.9);
+        if (keys.Shift) velocity.y -= 1;
+        if (keys.space) velocity.y += 1;
+        cameraRig.position.add(velocity);
+        velocity.multiplyScalar(0.9);
+        renderer.render(scene, camera);
+    }
+
+    init();
+  </script>
+</body>
+</html>

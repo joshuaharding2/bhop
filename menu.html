@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⠀</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* CSS Reset */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;  /* Ensure body takes up full height */
+            margin: 0;  /* Ensure no margin on body */
+            font-family: sans-serif;  /* Or any default font you'd like */
+            line-height: 1;  /* Remove any line height styling */
+            display: flex;
+            justify-content: center;  /* Horizontally center */
+            align-items: center;  /* Vertically center */
+            background-color: black; /* Set background to black */
+        }
+
+        button {
+            position: relative;
+            width: 11em;
+            height: 4em;
+            outline: none;
+            transition: 0.1s;
+            background-color: transparent;
+            border: none;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ddebf0;
+            font-family: inherit; /* Ensure the button uses the parent's font */
+        }
+
+        #clip {
+            --color: #2761c3;
+            position: absolute;
+            top: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            border: 5px double var(--color);
+            box-shadow: inset 0px 0px 15px #195480;
+            -webkit-clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+
+        .arrow {
+            position: absolute;
+            transition: 0.2s;
+            background-color: #2761c3;
+            top: 35%;
+            width: 11%;
+            height: 30%;
+        }
+
+        #leftArrow {
+            left: -13.5%;
+            -webkit-clip-path: polygon(100% 0, 100% 100%, 0 50%);
+        }
+
+        #rightArrow {
+            -webkit-clip-path: polygon(100% 49%, 0 0, 0 100%);
+            left: 102%;
+        }
+
+        button:hover #rightArrow {
+            background-color: #27c39f;
+            left: -15%;
+            animation: 0.6s ease-in-out both infinite alternate rightArrow8;
+        }
+
+        button:hover #leftArrow {
+            background-color: #27c39f;
+            left: 103%;
+            animation: 0.6s ease-in-out both infinite alternate leftArrow8;
+        }
+
+        .corner {
+            position: absolute;
+            width: 4em;
+            height: 4em;
+            background-color: #2761c3;
+            box-shadow: inset 1px 1px 8px #2781c3;
+            transform: scale(1) rotate(45deg);
+            transition: 0.2s;
+        }
+
+        #rightTop {
+            top: -1.98em;
+            left: 91%;
+        }
+
+        #leftTop {
+            top: -1.96em;
+            left: -3.0em;
+        }
+
+        #leftBottom {
+            top: 2.10em;
+            left: -2.15em;
+        }
+
+        #rightBottom {
+            top: 45%;
+            left: 88%;
+        }
+
+        button:hover #leftTop {
+            animation: 0.1s ease-in-out 0.05s both changeColor8,
+            0.2s linear 0.4s both lightEffect8;
+        }
+
+        button:hover #rightTop {
+            animation: 0.1s ease-in-out 0.15s both changeColor8,
+            0.2s linear 0.4s both lightEffect8;
+        }
+
+        button:hover #rightBottom {
+            animation: 0.1s ease-in-out 0.25s both changeColor8,
+            0.2s linear 0.4s both lightEffect8;
+        }
+
+        button:hover #leftBottom {
+            animation: 0.1s ease-in-out 0.35s both changeColor8,
+            0.2s linear 0.4s both lightEffect8;
+        }
+
+        button:hover .corner {
+            transform: scale(1.25) rotate(45deg);
+        }
+
+        button:hover #clip {
+            animation: 0.2s ease-in-out 0.55s both greenLight8;
+            --color: #27c39f;
+        }
+
+        @keyframes changeColor8 {
+            from {
+                background-color: #2781c3;
+            }
+            to {
+                background-color: #27c39f;
+            }
+        }
+
+        @keyframes lightEffect8 {
+            from {
+                box-shadow: 1px 1px 5px #27c39f;
+            }
+            to {
+                box-shadow: 0 0 2px #27c39f;
+            }
+        }
+
+        @keyframes greenLight8 {
+            from {
+            }
+            to {
+                box-shadow: inset 0px 0px 32px #27c39f;
+            }
+        }
+
+        @keyframes leftArrow8 {
+            from {
+                transform: translate(0px);
+            }
+            to {
+                transform: translateX(10px);
+            }
+        }
+
+        @keyframes rightArrow8 {
+            from {
+                transform: translate(0px);
+            }
+            to {
+                transform: translateX(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+<button id="startButton" onclick="startGame()">
+    P L A Y
+    <div id="clip">
+        <div id="leftTop" class="corner"></div>
+        <div id="rightBottom" class="corner"></div>
+        <div id="rightTop" class="corner"></div>
+        <div id="leftBottom" class="corner"></div>
+    </div>
+    <span id="rightArrow" class="arrow"></span>
+    <span id="leftArrow" class="arrow"></span>
+</button>
+
+    <input type="file" id="fileInput" style="display: none;" accept=".json">
+
+    <script>
+        let scene, camera, renderer;
+        let keys = { w: false, a: false, s: false, d: false, space: false };
+        let velocity = new THREE.Vector3(0, 0, 0);
+        let speed = 0.5;
+        let gravity = -0.01;
+        let jumpPower = 0.25;
+        let isJumping = false;
+        let collidableObjects = [];
+        let objectsInScene = [];
+        let strafeDirection = 0;
+        let startPosition = new THREE.Vector3(0, 1, 3.9);
+
+    function startGame() {
+        document.getElementById("startButton").style.display = "none";
+        init();
+    }
+
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.copy(startPosition);
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            createRooms();
+
+            window.addEventListener("resize", () => {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+            });
+
+            window.addEventListener("keydown", (event) => {
+                if (event.key in keys) keys[event.key] = true;
+                if (event.key === ' ') keys.space = true;
+                if (event.key === 'p') document.getElementById('fileInput').click();
+                if (event.key === 'r') resetPlayer();
+            });
+
+            window.addEventListener("keyup", (event) => {
+                if (event.key in keys) keys[event.key] = false;
+                if (event.key === ' ') keys.space = false;
+            });
+
+            document.getElementById('fileInput').addEventListener('change', handleFileImport);
+
+            animate();
+        }
+
+        function createRooms() {
+            function createRoom(x, y, z) {
+                const geometry = new THREE.BoxGeometry(10, 10, 10);
+                const material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff, wireframe: true });
+                const room = new THREE.Mesh(geometry, material);
+                room.position.set(x, y, z);
+                scene.add(room);
+                objectsInScene.push(room);
+
+                const boundingBox = new THREE.Box3().setFromObject(room);
+                collidableObjects.push({ mesh: room, box: boundingBox });
+            }
+
+                    loadLevel([
+{ "start": { "x": -100, "y": -2.5, "z": -100 }, "end": { "x": 100, "y": -2, "z": 100 } },
+{ "start": { "x": -5.5, "y": -2, "z": -15 }, "end": { "x": -5, "y": 5, "z": 5 } },
+{ "start": { "x": 5.5, "y": -2, "z": -5 }, "end": { "x": 5, "y": 5, "z": 5 } },
+{ "start": { "x": -5, "y": -2, "z": -14.5 }, "end": { "x": 5, "y": 5, "z": -15 } },
+{ "start": { "x": 5, "y": -2, "z": -5 }, "end": { "x": 15, "y": 5, "z": -5.5 } },
+{ "start": { "x": 15, "y": -2, "z": -5 }, "end": { "x": 15.5, "y": 5, "z": -25 } },
+{ "start": { "x": 15, "y": -2, "z": -25 }, "end": { "x": -15, "y": 5, "z": -25.5 } },
+{ "start": { "x": -15, "y": -2, "z": -25 }, "end": { "x": -15.5, "y": 5, "z": -5 } },
+{ "start": { "x": -5, "y": -2, "z": 5 }, "end": { "x": -25, "y": 5, "z": 5.5 } },
+{ "start": { "x": -25, "y": -2, "z": 5 }, "end": { "x": -25.5, "y": 5, "z": -35 } },
+{ "start": { "x": -15, "y": -2, "z": -25 }, "end": { "x": -15.5, "y": 5, "z": -45 } },
+{ "start": { "x": -15, "y": -2, "z": -45 }, "end": { "x": -35, "y": 5, "z": -45.5 } },
+{ "start": { "x": -35, "y": -2, "z": -45 }, "end": { "x": -35.5, "y": 5, "z": -25 } },
+{ "start": { "x": -25, "y": -2, "z": -15 }, "end": { "x": -35, "y": 5, "z": -14.5 } },
+{ "start": { "x": -35, "y": -2, "z": -25 }, "end": { "x": -45, "y": 5, "z": -24.5 } },
+{ "start": { "x": -45, "y": -2, "z": -25 }, "end": { "x": -45.5, "y": 5, "z": -5 } },
+{ "start": { "x": -45, "y": -2, "z": -5 }, "end": { "x": -35, "y": 5, "z": -4.5 } },
+{ "start": { "x": -25, "y": -2, "z": 5 }, "end": { "x": -55, "y": 5, "z": 5.5 } },
+{ "start": { "x": -55, "y": -2, "z": 5 }, "end": { "x": -55.5, "y": 5, "z": -35 } },
+{ "start": { "x": -55, "y": -2, "z": -35 }, "end": { "x": -45, "y": 5, "z": -35.5 } },
+{ "start": { "x": -35, "y": -2, "z": -45 }, "end": { "x": -65, "y": 5, "z": -45.5 } },
+{ "start": { "x": -65, "y": -2, "z": -45 }, "end": { "x": -65.5, "y": 5, "z": -35 } },
+{ "start": { "x": -55, "y": -2, "z": -25 }, "end": { "x": -75, "y": 5, "z": -25.5 } },
+{ "start": { "x": -75, "y": -2, "z": -25 }, "end": { "x": -75.5, "y": 5, "z": -55 } },
+{ "start": { "x": -75, "y": -2, "z": -55 }, "end": { "x": -5, "y": 5, "z": -55.5 } },
+{ "start": { "x": -5, "y": -2, "z": -55 }, "end": { "x": -5.5, "y": 5, "z": -35 } },
+{ "start": { "x": -5, "y": -2, "z": -35 }, "end": { "x": 5, "y": 5, "z": -34.5 } },
+{ "start": { "x": 15, "y": -2, "z": -25 }, "end": { "x": 15.5, "y": 5, "z": -45 } },
+{ "start": { "x": 5, "y": -2, "z": -45 }, "end": { "x": 25, "y": 5, "z": -45.5 } },
+{ "start": { "x": -5, "y": -2, "z": -55 }, "end": { "x": 35, "y": 5, "z": -55.5 } },
+{ "start": { "x": 35, "y": -2, "z": -55 }, "end": { "x": 35.5, "y": 5, "z": 5 } },
+{ "start": { "x": 35, "y": -2, "z": -35 }, "end": { "x": 25, "y": 5, "z": -35.5 } },
+{ "start": { "x": 15, "y": -2, "z": -25 }, "end": { "x": 25, "y": 5, "z": -25.5 } },
+{ "start": { "x": 35, "y": -2, "z": -15 }, "end": { "x": 25, "y": 5, "z": -15.5 } },
+{ "start": { "x": 15, "y": -2, "z": -5 }, "end": { "x": 25, "y": 5, "z": -5.5 } },
+{ "start": { "x": 35, "y": -2, "z": 5 }, "end": { "x": 15, "y": 5, "z": 5.5 } }
+]);
+        }
+
+        function clearScene() {
+            objectsInScene.forEach(obj => scene.remove(obj));
+            objectsInScene = [];
+            collidableObjects = [];
+        }
+
+        function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const levelData = JSON.parse(e.target.result);
+                clearScene();
+                loadLevel(levelData);
+            };
+            reader.readAsText(file);
+        }
+
+        function loadLevel(levelData) {
+            levelData.forEach(box => {
+                let width = Math.abs(box.end.x - box.start.x) || 1;
+                let height = Math.abs(box.end.y - box.start.y) || 1;
+                let depth = Math.abs(box.end.z - box.start.z) || 1;
+
+                let geometry = new THREE.BoxGeometry(width, height, depth);
+                let material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+                let mesh = new THREE.Mesh(geometry, material);
+
+                mesh.position.set(
+                    (box.start.x + box.end.x) / 2,
+                    (box.start.y + box.end.y) / 2,
+                    (box.start.z + box.end.z) / 2
+                );
+
+                scene.add(mesh);
+                objectsInScene.push(mesh);
+
+                const boundingBox = new THREE.Box3().setFromObject(mesh);
+                collidableObjects.push({ mesh: mesh, box: boundingBox });
+            });
+            
+            camera.position.copy(startPosition);
+            velocity.set(0, 0, 0);
+            camera.rotation.set(0, 0, 0);
+        }
+
+        function checkCollisions(position) {
+            let playerBox = new THREE.Box3().setFromCenterAndSize(position, new THREE.Vector3(1, 2, 1));
+            return collidableObjects.some(obj => obj.box.intersectsBox(playerBox));
+        }
+
+        function resetPlayer() {
+            camera.position.copy(startPosition);
+            velocity.set(0, 0, 0);
+            camera.rotation.set(0, 0, 0);
+        }
+
+        function jump() {
+            if (isGrounded) {
+                velocity.y = jumpPower;
+                isGrounded = false;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            let direction = new THREE.Vector3();
+            camera.getWorldDirection(direction);
+
+            let nextPosition = camera.position.clone();
+            if (keys.a || keys.d) nextPosition.addScaledVector(direction, speed);
+            if (keys.a) strafeDirection = 0.08;
+            else if (keys.d) strafeDirection = -0.08;
+            else strafeDirection = 0;
+            if (keys.space) jump();
+
+            velocity.y += gravity;
+            nextPosition.y += velocity.y;
+            camera.rotateY(strafeDirection);
+
+            if (!checkCollisions(nextPosition)) {
+                camera.position.copy(nextPosition);
+            } else {
+                if (velocity.y < 0) {
+                    velocity.y = 0;
+                    isGrounded = true;
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+    </script>
+
+</body>
+</html>

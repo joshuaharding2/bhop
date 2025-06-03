@@ -1,0 +1,1389 @@
+<!--
+    //          ##########                 ##                                  ##                                      ##   ##                        #####
+    //             ##                     ##                                  ##                                      ##                            ##   ##
+    //            ##     ####     #####  ##          ##     ##    ######     ##           ######     ## ####         ##   ##   ##         ######       ##
+    //           ##   ##    ##  ##      ##  ####    ##     ##   ##    ##    ##  ####    ##    ##    ###   ##   #######   ##   ## ####   ##    ##     ##
+    //     ##   ##   ##    ##   ####   ## ##  ##   ##     ##   ##    ##    ## ##  ##   ##    ##    ##        ##    ##   ##   ###   ##  ##    ##    ##
+    //    ##   ##   ##    ##      ##  ###     ##   ##   ###   ##    ##    ###     ##  ##    ##    ##        ##    ##   ##   ##    ##  ##    ##   ##
+    //    #####      ####    #####   ##      ##    #####  ##  ###### ##  ##      ##   ###### ##  ##         #######   ##   ##    ##   #######  #######
+    //                                                                                                                                    ##
+    //        ###                                                                                                                  ##    ##
+    //       ####     ##   ###   ####         ####             ###  ###                                                            ######
+    //      ## ##    ## ###    ##  ##      ###  ###          ### ## ###     ###      ##      ##
+    //     ##  ##   ####     ##    ##    ##      ##        ##   ##   ##   ##       ##      ##
+    //    ##  ##   ##       ##  ##      ##      ####      ##   ##   ##    ##     ####    ####
+    //   ## ##    ##        ##          ###  ###  ###    ##   ##   ##   ##     ##  ##  ##  ##
+    //  ####     ##         ####         ####     ###   ##   ##   ##    ###    ####    ####
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bhop Editor</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            background: white;
+        }
+        #saveButton,
+        #layerInfo {
+            position: absolute;
+            top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #saveButton:hover {
+            background-color: #45a049;
+        }
+        #saveButton {
+            left: 10px;
+        }
+        #loadButton {
+            position: absolute;
+            top: 60px;
+            padding: 10px 20px;
+            background-color: #666666;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #loadButton:hover {
+            background-color: #555555;
+        }
+        #loadButton {
+            left: 10px;
+        }
+        #helpButton {
+            position: absolute;
+            bottom: 10px;
+            padding: 10px 20px;
+            background-color: #666666;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 11;
+        }
+        #helpButton:hover {
+            background-color: #555555;
+        }
+        #helpButton {
+            right: 10px;
+        }
+        #helpOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .helpContent {
+            background: #222;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            text-align: left;
+            font-family: sans-serif;
+            box-shadow: 0 0 20px black;
+        }
+        .helpContent h2 {
+            margin-top: 0;
+        }
+        .helpContent button {
+            margin-top: 20px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+        }
+        .helpContent button:hover {
+            background-color: #45a049;
+        }
+        .helpMenuArrow {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+        }
+        .helpMenuArrow button:hover {
+            background-color: #45a049;
+        }
+        #layerInfo {
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+        }
+        #bottomToolbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(30, 30, 30, 0.9);
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px 0;
+            z-index: 10;
+        }
+        #toolMenu {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(30, 30, 30, 0.95);
+            padding: 10px;
+            border-radius: 12px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 20;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        .tool-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        .tool-button {
+            padding: 8px 14px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .tool-button:hover {
+            background-color: #777;
+        }
+        .tool-button.selected {
+            background-color: #333;
+        }
+        .toolbar-button {
+            padding: 10px 16px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .toolbar-button:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gridCanvas"></canvas>
+    <button id="saveButton">Save</button>
+    <button id="loadButton">Load</button>
+    <button id="helpButton">Help</button>
+    <div id="layerInfo">Layer: 0</div>
+    <div id="bottomToolbar">
+        <button class="toolbar-button" onclick="toggleToolMenu()">Tools</button>
+    </div>
+    <div id="toolMenu">
+        <!-- Click Mode Row -->
+        <div class="tool-row" id="clickModeRow">
+            <button class="tool-button" data-clickmode="normal" onclick="selectClickTool('normal')">Normal</button>
+            <button class="tool-button" data-clickmode="drag" onclick="selectClickTool('drag')">Drag</button>
+        </div>       
+        <!-- Cell Type Row -->
+        <div class="tool-row" id="cellTypeRow">
+            <button class="tool-button" data-celltype="all" onclick="selectCellTool('all')">All</button>
+            <button class="tool-button" data-celltype="platform" onclick="selectCellTool('platform')">Platforms</button>
+            <button class="tool-button" data-celltype="wall" onclick="selectCellTool('wall')">Walls</button>
+            <button class="tool-button" data-celltype="left-wall" onclick="selectCellTool('left-wall')">Vertical Walls</button>
+            <button class="tool-button" data-celltype="top-wall" onclick="selectCellTool('top-wall')">Horizontal Walls</button>
+        </div>
+        <!-- Paint Color Row -->
+        <div class="tool-row" id="paintColorRow">
+            <button class="tool-button" data-paintcolor="normal" onclick="selectColorTool('normal')">Normal</button>
+            <button class="tool-button" data-paintcolor="red" onclick="selectColorTool('red')">Red</button>
+            <button class="tool-button" data-paintcolor="blue" onclick="selectColorTool('blue')">Blue</button>
+            <button class="tool-button" data-paintcolor="yellow" onclick="selectColorTool('yellow')">Yellow</button>
+            <button class="tool-button" data-paintcolor="lime" onclick="selectColorTool('lime')">Green</button>
+            <button class="tool-button" data-paintcolor="magenta" onclick="selectColorTool('magenta')">Purple</button>
+            <!-- <button class="tool-button" data-paintcolor="cyan" onclick="selectColorTool('cyan')">Cyan</button> -->
+            <button class="tool-button" data-paintcolor="white" onclick="selectColorTool('white')">Erase</button>
+        </div>
+        <!-- You can add more rows like this later -->
+    </div>     
+    <div id="helpOverlay">
+        <button class="helpMenuArrow" onclick="updateHelpMenu('backward')">←</button>
+        <div class="helpContent"></div>
+        <button class="helpMenuArrow" onclick="updateHelpMenu('forward')">→</button>
+    </div>
+    <input type="file" id="loadFileInput" accept=".json" style="display: none;" />
+    <script>
+        const canvas = document.getElementById("gridCanvas");
+        const ctx = canvas.getContext("2d");
+        const saveButton = document.getElementById("saveButton");
+        const loadButton = document.getElementById("loadButton");
+        const helpButton = document.getElementById("helpButton");
+        const layerInfo = document.getElementById("layerInfo");
+        let offsetX = 0;
+        let offsetY = 0;
+        let cellSize = 100;
+        let wallThicknessEditor = cellSize / 10;
+        let wallClickThreshold = wallThicknessEditor * 1.5;
+        let platformSize = 10;
+        let platformThickness = 0.5;
+        let platformBottom = -2.5;
+        let wallThickness = 0.5;
+        let wallHeight = 7;
+        let wallBottom = -2;
+        let currentLayer = 0;
+        let layerHeight = 7;
+        let clickTool = 'normal';
+        selectClickTool(clickTool);
+        let cellTool = 'all';
+        selectCellTool(cellTool);
+        let colorTool = 'normal';
+        selectColorTool(colorTool);
+        let isSelecting = false;
+        let isActuallySelecting = false;
+        let isSelectedOnPreviousFrame = false;
+        let selectionStart = null;
+        let selectionEnd = null;
+        let selectedCells = [];
+        let helpMenu = false;
+        let currentHelpPage = 0;
+        let mouseDown = false;
+        let mouseDownTime = 0;
+        let mouseDownPos = null;
+        let lastDragCellKey = null;
+        const helpPages = [
+            `
+                <h2>Help</h2>
+                <h3>Info</h3>
+                <ul>
+                <li>This editor is a 2d top down view. In-game, you spawn at the bottom of the starting red square (0, 1, 3.9), facing forward (up on this editor)</li>
+                <li>The little triangle on some paint colors are arrows. They show the direciton the player will be facing when they get sent to that box.</li>
+                <li>The number in the triangle on teleport type cells shows its teleport ID. The game links teleporters with the same ID so you can teleport between them. Teleport IDs that share more that 2 teleporters will have you teleport to a randomly selected one (pls no massively luck based gameplay)</li>
+                <li>The cells are 10 units wide, with walls being 0.5 units wide and extending to the right and top in game.</li>
+                <li>Platforms are 0.5 units tall, extending downward. They start at y: -2 and end at y: -2.5</li>
+                <li>Walls are 7 units tall, and moving up and down layers changes the y value of those platforms or walls on the layers by 7.</li>
+                <li>Walls are not to scale in the editor (they are 2x the thickness than in game)</li>
+                </ul>
+            `,
+            `
+                <h2>Help</h2>
+                <h3>Controls</h3>
+                <ul>
+                <li><b>Click:</b> Paint walls or platforms depending on tool</li>
+                <li><b>Q / E:</b> Switch layers</li>
+                <li><b>+ / - keys:</b> Zoom in and out</li>
+                <li><b>R:</b> Reset camera and zoom</li>
+                <li><b>WASD:</b> Move camera smoothly</li>
+                <li><b>Arrow Keys:</b> Move camera by 1 cell</li>
+                <li><b>Number Row Keys &#96;, 1, 2, 3, 4:</b> Paint color respectively</li>
+                <li><b>Escape:</b> Close Help Menu</li>
+                <li><b>P:</b> P is for paint (pretty much a bad version of normal clicking that I added for select mode but it doesn't really work)</li>
+                <li><b>F:</b> This key is used to rotate the little arrows. Hover over it and press f (or select a whole bunch) to rotate the arrows (90 degrees to the left)</li>
+                <li><b>< / > keys:</b> Lower and increase the number on teleport cells (same logic as f key)</li>
+                </ul>
+            `,
+            `
+                <h2>Help</h2>
+                <h3>Colors</h3>
+                <ul>
+                <li><b>Red:</b> Normal box, collidable and doesn't do anything special</li>
+                <li><b>Blue:</b> Kill box, collidable</li>
+                <li><b>Yellow:</b> Checkpoint, not collidable</li>
+                <li><b>Green:</b> End box, not collidable (stops timer)</li>
+                <li><b>Purple:</b> Teleport box</li>
+                </ul>
+            `,
+            `  
+                <h2>Help</h2>
+                <h3>Tools</h3>
+                <ul>
+                <li><b>Top Row:</b> Click Mode</li>
+                <ul style="margin-left: 0.5em;">
+                    <li><b>Normal:</b> You can click to change colors, and drag to select</li>
+                    <li><b>Drag:</b> Click and drag to paint over large areas</li>
+                </ul>
+                <li><b>2nd Row:</b> Cell Selection (these combine with any click mode)</li>
+                <ul style="margin-left: 0.5em;">
+                    <li><b>Normal:</b> You can affect all parts of cells</li>
+                    <li><b>Platforms:</b> You will only be able to affect platforms</li>
+                    <li><b>Walls:</b> You will only be able to affect walls</li>
+                    <li><b>Vertical Walls:</b> Only affect vertical walls (the up and down ones)</li>
+                    <li><b>Horizontal Walls:</b> Only affect horizontal walls (the side to side ones)</li>
+                </ul>
+                <li><b>Last row:</b> Paintable colors (changes the colors you can paint, this should be self-explanatory)</li>
+                </ul>
+            `,
+            `
+                <h2>Help</h2>
+                <h3>Editor Tips</h3>
+                <ul>
+                <li>It is recommended that you make checkpoints and end boxes walls, since floors will rely on jump cycles and are easy to miss</li>
+                <li>Also PLEASE don't try to make teleport boxes floors, they don't work well.</li>
+                <li>Don't forget to go up a layer and make a ceiling to your level out of platforms, because otherwise you can likely jump right over the walls in game</li>
+                <li>If you were painting cells and they dissapeared, you likely pressed q/e by accident. Check the layers reporter</li>
+                <li>In game, the checkpoints by default spawn you facing forward (up on the editor). Make sure to rotate them based on the displayed arrow in the editor if you want it changed.</li>
+                </ul>
+            `,
+            `  
+                <h2>Help</h2>
+                <h3>Saving & Playing</h3>
+                <ul>
+                <li><b>Save Button:</b> Downloads a JSON file of your level</li>
+                <li><b>Load Button:</b> Opens downloaded .json file back into the editor</li>
+                <li><b>Playing Your Level: </b>
+                        Go to the actual <a href="https://joshuaharding2codehsme-12369080.codehs.me/bhop"
+                        target="_blank">bhop</a> game and click play, then load custom level at the bottom, and open the downloaded file.</li>
+                </ul>
+            `
+        ];
+        function centerOrigin(centerX, centerY) {
+            offsetX = centerX * cellSize - canvas.width / 2 + cellSize / 2;
+            offsetY = centerY * cellSize - canvas.height / 2 + cellSize / 2;
+        }
+        let gridLayers = { 0: { "0,0,0": "red" } }; // Ensure the center starts red
+        let wallLayers = { 0: {} };
+        let gridData = getGridData();
+        let wallData = getWallData();
+        function updateLayerInfo() {
+            layerInfo.textContent = `Layer: ${currentLayer}`;
+        }
+        function toggleToolMenu() {
+            const menu = document.getElementById("toolMenu");
+            menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+        }
+        function selectClickTool(toolName) {
+            clickTool = toolName;
+            const clickButtons = document.querySelectorAll('#clickModeRow .tool-button');
+            clickButtons.forEach(btn => {
+                btn.classList.toggle("selected", btn.dataset.clickmode === toolName);
+            });
+        }
+        function selectCellTool(toolName) {
+            cellTool = toolName;
+            const clickButtons = document.querySelectorAll('#cellTypeRow .tool-button');
+            clickButtons.forEach(btn => {
+                btn.classList.toggle("selected", btn.dataset.celltype === toolName);
+            });
+        }
+        function selectColorTool(toolName) {
+            colorTool = toolName;
+            const clickButtons = document.querySelectorAll('#paintColorRow .tool-button');
+            clickButtons.forEach(btn => {
+                btn.classList.toggle("selected", btn.dataset.paintcolor === toolName);
+            });
+        }
+        function runClickLogic() {
+            canvas.onclick = null;
+            selectedCells = [];
+            if (clickTool === "drag") return;
+            canvas.onclick = (e) => {
+                const now = performance.now();
+                if (selectionStart && selectionEnd) {
+                    if (isSelectedOnPreviousFrame === true) {
+                        console.log("test");
+                        handleCanvasClick({ x: e.clientX, y: e.clientY }, colorTool === "normal" ? null : colorTool);
+                    } else {
+                        handleCanvasClick({ x: e.clientX, y: e.clientY }, colorTool === "normal" ? null : colorTool);
+                    }
+                    isSelectedOnPreviousFrame = false;
+                } else {
+                    if (isActuallySelecting === false) return; // ignore click if it was a drag
+                        const rect = canvas.getBoundingClientRect();
+                        const mouseX = e.clientX - rect.left;
+                        const mouseY = e.clientY - rect.top;
+                        const worldX = mouseX + offsetX;
+                        const worldY = mouseY + offsetY;
+                        const gx = Math.floor(worldX / cellSize);
+                        const gy = Math.floor(worldY / cellSize);
+                        const localX = ((worldX % cellSize) + cellSize) % cellSize;
+                        const localY = ((worldY % cellSize) + cellSize) % cellSize;
+                        const wallThreshold = wallClickThreshold;
+                        const keys = [];
+                        if (clickTool !== "platform") {
+                            if (localY <= wallThreshold && cellTool !== "left-wall") {
+                                keys.push(`${gx},${gy},${currentLayer}-T`);
+                            } else if ((cellSize - localY) <= wallThreshold) {
+                                // bottom edge → top wall of cell below
+                                keys.push(`${gx},${gy + 1},${currentLayer}-T`);
+                            }
+                            if (localX <= wallThreshold && cellTool !== "top-wall") {
+                                keys.push(`${gx},${gy},${currentLayer}-L`);
+                            } else if ((cellSize - localX) <= wallThreshold) {
+                                // right edge → left wall of cell to the right
+                                keys.push(`${gx + 1},${gy},${currentLayer}-L`);
+                            }
+                        }
+                        // If not near any wall, select platform
+                        if (keys.length === 0) {
+                            const padding = cellSize / 20;
+                            const innerX = gx * cellSize + padding;
+                            const innerY = gy * cellSize + padding;
+                            const innerSize = cellSize * 0.9;
+                            if (
+                                worldX >= innerX && worldX <= innerX + innerSize &&
+                                worldY >= innerY && worldY <= innerY + innerSize
+                            ) {
+                                keys.push(`${gx},${gy},${currentLayer}`);
+                            }
+                        }
+                    }
+                    if (keys.length > 0) {
+                        // Find the lowest gx/gy from keys to use for highlight position
+                        let minGX = gx;
+                        let minGY = gy;
+                        for (const key of keys) {
+                            const match = key.match(/^(-?\d+),(-?\d+),/);
+                            if (match) {
+                                const keyGX = parseInt(match[1]);
+                                const keyGY = parseInt(match[2]);
+                                minGX = Math.min(minGX, keyGX);
+                                minGY = Math.min(minGY, keyGY);
+                            }
+                        }
+                        selectedCells = [{ x: minGX, y: minGY, keys }];
+                        drawGrid();
+                    }
+            }
+        }
+        function getGridData() {
+        if (!gridLayers[currentLayer]) gridLayers[currentLayer] = {};
+        return gridLayers[currentLayer];
+        }
+        function getWallData() {
+        if (!wallLayers[currentLayer]) wallLayers[currentLayer] = {};
+        return wallLayers[currentLayer];
+        }
+        let mouseX = 0;
+        let mouseY = 0;
+        canvas.addEventListener("mousemove", (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        canvas.addEventListener("mousedown", (e) => {
+            mouseDown = true;
+            if (clickTool === "normal") {
+                isSelecting = true;
+                const rect = canvas.getBoundingClientRect();
+                selectionStart = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+                selectionEnd = { ...selectionStart };
+                mouseDownTime = performance.now();
+                mouseDownPos = { x: e.clientX, y: e.clientY };
+            }
+        });
+        canvas.addEventListener("mousemove", (e) => {
+            if (clickTool === "normal" && isSelecting) {
+                isActuallySelecting = true;
+                const rect = canvas.getBoundingClientRect();
+                selectionEnd = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+                drawGrid();
+            } else if (clickTool === "drag" && mouseDown) {
+                const x = e.clientX;
+                const y = e.clientY;
+                const dragKey = getDragTargetKey(x, y);
+                if (dragKey !== lastDragCellKey) {
+                    handleCanvasClick({ x, y }, colorTool === "normal" ? null : colorTool);
+                    lastDragCellKey = dragKey;
+                }
+            }
+        });
+        canvas.addEventListener("mouseup", () => {
+            mouseDown = false;
+            lastDragCellKey = null;
+            if (clickTool === "normal" && isSelecting && selectionStart && selectionEnd) {
+                isSelecting = false;
+                isActuallySelecting = false;
+                selectedCells = [];
+                if (selectionStart.x === selectionEnd.x && selectionStart.y === selectionEnd.y) return;
+                isSelectedOnPreviousFrame = true;
+                const sx = Math.min(selectionStart.x, selectionEnd.x) + offsetX;
+                const sy = Math.min(selectionStart.y, selectionEnd.y) + offsetY;
+                const ex = Math.max(selectionStart.x, selectionEnd.x) + offsetX;
+                const ey = Math.max(selectionStart.y, selectionEnd.y) + offsetY;
+                const minGX = Math.floor(sx / cellSize);
+                const maxGX = Math.floor(ex / cellSize);
+                const minGY = Math.floor(sy / cellSize);
+                const maxGY = Math.floor(ey / cellSize);
+                for (let gx = minGX; gx <= maxGX; gx++) {
+                    for (let gy = minGY; gy <= maxGY; gy++) {
+                        const keys = [];
+                        const cellX = gx * cellSize;
+                        const cellY = gy * cellSize;
+                        const topY = cellY;
+                        const leftX = cellX;
+                        // Top wall
+                        if (cellTool === "all" || cellTool === "wall" || cellTool === "top-wall") {
+                            if (topY >= sy && topY <= ey) {
+                                const topStartX = cellX;
+                                const topEndX = cellX + cellSize;
+                                const overlap = Math.max(0, Math.min(ex, topEndX) - Math.max(sx, topStartX));
+                                if (overlap > 0) {
+                                    keys.push(`${gx},${gy},${currentLayer}-T`);
+                                }
+                            }
+                        }
+                        // Left wall
+                        if (cellTool === "all" || cellTool === "wall" || cellTool === "left-wall") {
+                            if (leftX >= sx && leftX <= ex) {
+                                const leftStartY = cellY;
+                                const leftEndY = cellY + cellSize;
+                                const overlap = Math.max(0, Math.min(ey, leftEndY) - Math.max(sy, leftStartY));
+                                if (overlap > 0) {
+                                    keys.push(`${gx},${gy},${currentLayer}-L`);
+                                }
+                            }
+                        }
+                        // Platform
+                        if (cellTool === "all" || cellTool === "platform") {
+                            const padding = cellSize / 20;
+                            const innerX = cellX + padding;
+                            const innerY = cellY + padding;
+                            const innerSize = cellSize * 0.9;
+                            const platformRect = {
+                                left: innerX,
+                                top: innerY,
+                                right: innerX + innerSize,
+                                bottom: innerY + innerSize
+                            };
+                            const intersects =
+                                platformRect.left < ex &&
+                                platformRect.right > sx &&
+                                platformRect.top < ey &&
+                                platformRect.bottom > sy;
+                            if (intersects) {
+                                keys.push(`${gx},${gy},${currentLayer}`);
+                            }
+                        }
+                        if (keys.length > 0) {
+                            selectedCells.push({ x: gx, y: gy, keys });
+                        }
+                    }
+                }
+                selectionStart = null;
+                selectionEnd = null;
+                drawGrid();
+            }
+        });
+        function getDragTargetKey(x, y) {
+            const gridX = Math.floor((x + offsetX) / cellSize);
+            const gridY = Math.floor((y + offsetY) / cellSize);
+            const clickX = ((x + offsetX) % cellSize + cellSize) % cellSize;
+            const clickY = ((y + offsetY) % cellSize + cellSize) % cellSize;
+            if (cellTool !== "platform") {
+                if (clickY <= wallClickThreshold) return `${gridX},${gridY},${currentLayer}-T`; // Top wall
+                if (clickX <= wallClickThreshold) return `${gridX},${gridY},${currentLayer}-L`; // Left wall
+                if ((cellSize - clickX) <= wallClickThreshold) return `${gridX + 1},${gridY},${currentLayer}-L`; // Right wall (left wall of right cell)
+                if ((cellSize - clickY) <= wallClickThreshold) return `${gridX},${gridY + 1},${currentLayer}-T`; // Bottom wall (top wall of below cell)
+            }
+            return `${gridX},${gridY},${currentLayer}`; // Platform
+        }
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawGrid();
+        }
+        const colorMap = {
+            red: [255, 0, 0],
+            orange: [255, 165, 0],
+            yellow: [255, 255, 0],
+            lime: [0, 255, 0],
+            cyan: [0, 255, 255],
+            blue: [0, 0, 255],
+            magenta: [255, 0, 255],
+            pink: [255, 192, 203],
+            white: [255, 255, 255],
+            black: [0, 0, 0],
+            gray: [128, 128, 128],
+        };
+        function darkenColor(color, amount = 50) {
+            let rgb = colorMap[color.toLowerCase()];
+            if (!rgb) {
+                rgb = parseColor(color);
+                if (!rgb) return color; // fail-safe
+            }
+            const [r, g, b] = rgb.map(c => Math.max(0, c - amount));
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+        function parseColor(color) {
+            let match = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            if (match) return match.slice(1).map(Number);
+            match = color.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+            if (match) {
+                return match.slice(1).map(c => parseInt(c, 16));
+            }
+            return null;
+        }
+        function drawGrid() {
+            const gridData = getGridData();
+            const wallData = getWallData();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            wallThicknessEditor = cellSize / 10;
+            wallClickThreshold = wallThicknessEditor * 1.5;
+            const startX = Math.floor(offsetX / cellSize);
+            const startY = Math.floor(offsetY / cellSize);
+            const endX = Math.ceil((offsetX + canvas.width) / cellSize);
+            const endY = Math.ceil((offsetY + canvas.height) / cellSize);
+            const drawBorders = cellSize > 50;
+            const padding = cellSize / 20;
+            const innerSize = cellSize * 0.9;
+            if (drawBorders) ctx.lineWidth = 3;
+            for (let gx = startX; gx <= endX; gx++) {
+                for (let gy = startY; gy <= endY; gy++) {
+                    const cellKey = `${gx},${gy},${currentLayer}`;
+                    const x = gx * cellSize - offsetX;
+                    const y = gy * cellSize - offsetY;
+                    // ─── Platform Rendering ───────────────────────────────
+                    const cell = gridData[cellKey];
+                    if (typeof cell === "object") {
+                        if (cell.color === "yellow" || cell.color === "magenta") {
+                            if (cell.color === "yellow") {
+                                ctx.fillStyle = "yellow";
+                            } else if (cell.color === "magenta") {
+                                ctx.fillStyle = "magenta";
+                            }
+                            ctx.fillRect(x + padding, y + padding, innerSize, innerSize);
+                            // Draw arrow on needed platforms
+                            const rot = (cell.rotation || 0) * -Math.PI / 180;
+                            ctx.save();
+                            ctx.translate(x + cellSize / 2, y + cellSize / 2);
+                            ctx.rotate(rot);
+                            ctx.beginPath();
+                            ctx.moveTo(0, -innerSize / 4);
+                            ctx.lineTo(innerSize / 6, innerSize / 6);
+                            ctx.lineTo(-innerSize / 6, innerSize / 6);
+                            ctx.closePath();
+                            ctx.fillStyle = "black";
+                            ctx.fill();
+                            ctx.restore();
+                            if (cell.color === "magenta" && cell.teleportId != null) {
+                                ctx.fillStyle = "white";
+                                ctx.font = `${cellSize * 0.2}px sans-serif`;
+                                ctx.textAlign = "center";
+                                ctx.textBaseline = "middle";
+                                ctx.fillText(cell.teleportId, x + cellSize / 2, y + cellSize / 2);
+                            }
+                        }
+                    } else {
+                        ctx.fillStyle = cell || "white";
+                        ctx.fillRect(x + padding, y + padding, innerSize, innerSize);
+                    }
+                    if (drawBorders) {
+                        ctx.strokeStyle = "black";
+                        ctx.lineWidth = 3;
+                        ctx.strokeRect(x + padding, y + padding, innerSize, innerSize);
+                    }
+                    // ─── Wall Rendering ──────────────────────────────────
+                    ctx.lineWidth = wallThicknessEditor;
+                    const topWallKey = `${gx},${gy},${currentLayer}-T`;
+                    const leftWallKey = `${gx},${gy},${currentLayer}-L`;
+                    const topWallVal = wallData[topWallKey];
+                    const leftWallVal = wallData[leftWallKey];
+                    const topWallColor = typeof topWallVal === "object" ? topWallVal.color : topWallVal || "white";
+                    const leftWallColor = typeof leftWallVal === "object" ? leftWallVal.color : leftWallVal || "white";
+                    // Top wall line
+                    ctx.strokeStyle = darkenColor(topWallColor);
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + cellSize, y);
+                    ctx.stroke();
+                    // Left wall line
+                    ctx.strokeStyle = darkenColor(leftWallColor);
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x, y + cellSize);
+                    ctx.stroke();
+                    // ─── Wall Arrows (for yellow) ────────────────────────
+                    if (topWallColor === "yellow" || topWallColor === "magenta") {
+                        const rot = (typeof topWallVal === "object" ? topWallVal.rotation ?? 0 : 0) * -Math.PI / 180;
+                        ctx.save();
+                        ctx.translate(x + cellSize / 2, y);
+                        ctx.rotate(rot);
+                        ctx.beginPath();
+                        ctx.moveTo(0, -wallThicknessEditor);
+                        ctx.lineTo(wallThicknessEditor, wallThicknessEditor);
+                        ctx.lineTo(-wallThicknessEditor, wallThicknessEditor);
+                        ctx.closePath();
+                        ctx.fillStyle = "black";
+                        ctx.fill();
+                        ctx.restore();
+                        if (typeof topWallVal === "object" && topWallVal.color === "magenta" && topWallVal.teleportId != null) {
+                            ctx.fillStyle = "white";
+                            ctx.font = `${cellSize * 0.2}px sans-serif`;
+                            ctx.textAlign = "center";
+                            ctx.textBaseline = "bottom";
+                            ctx.fillText(topWallVal.teleportId, x + cellSize / 2, y + wallThicknessEditor * 1.2);
+                        }
+                    }
+                    if (leftWallColor === "yellow" || leftWallColor === "magenta") {
+                        const rot = (typeof leftWallVal === "object" ? leftWallVal.rotation ?? 90 : 0) * -Math.PI / 180;
+                        ctx.save();
+                        ctx.translate(x, y + cellSize / 2);
+                        ctx.rotate(rot);
+                        ctx.beginPath();
+                        ctx.moveTo(0, -wallThicknessEditor);
+                        ctx.lineTo(wallThicknessEditor, wallThicknessEditor);
+                        ctx.lineTo(-wallThicknessEditor, wallThicknessEditor);
+                        ctx.closePath();
+                        ctx.fillStyle = "black";
+                        ctx.fill();
+                        ctx.restore();
+                        if (typeof leftWallVal === "object" && leftWallVal.color === "magenta" && leftWallVal.teleportId != null) {
+                            ctx.fillStyle = "white";
+                            ctx.font = `${cellSize * 0.2}px sans-serif`;
+                            ctx.textAlign = "right";
+                            ctx.textBaseline = "middle";
+                            ctx.fillText(leftWallVal.teleportId, x + wallThicknessEditor / 2, y + cellSize / 2 + wallThicknessEditor * 0.2);
+                        }
+                    }
+                }
+            }
+            // ─── Selection Box ───────────────────────────────────────────
+            if (clickTool === "normal" && selectionStart && selectionEnd) {
+                drawSelectionBox();
+            }
+            // ─── Selection Highlights ────────────────────────────────────
+            selectedCells.forEach(({ keys }) => {
+                keys.forEach(key => {
+                    const [gx, gy, layerAndDir] = key.split(",");
+                    const [layer, dir] = layerAndDir.split("-");
+                    const px = parseInt(gx) * cellSize - offsetX;
+                    const py = parseInt(gy) * cellSize - offsetY;
+                    if (dir === "T" || dir === "L" || dir === "B" || dir === "R") {
+                        ctx.strokeStyle = "rgba(0, 0, 0, 0.5)";
+                        ctx.lineWidth = wallThicknessEditor + 2;
+                        ctx.beginPath();
+                        if (dir === "T") ctx.moveTo(px, py), ctx.lineTo(px + cellSize, py);
+                        else if (dir === "L") ctx.moveTo(px, py), ctx.lineTo(px, py + cellSize);
+                        else if (dir === "B") ctx.moveTo(px, py + cellSize), ctx.lineTo(px + cellSize, py + cellSize);
+                        else if (dir === "R") ctx.moveTo(px + cellSize, py), ctx.lineTo(px + cellSize, py + cellSize);
+                        ctx.stroke();
+                    } else {
+                        ctx.strokeStyle = "red";
+                        ctx.lineWidth = cellSize / 50;
+                        ctx.strokeRect(px, py, cellSize, cellSize);
+                    }
+                });
+            });
+        }
+        function handleCanvasClick(position, color = null) {
+            const x = position.x;
+            const y = position.y;
+            const gridX = Math.floor((x + offsetX) / cellSize);
+            const gridY = Math.floor((y + offsetY) / cellSize);
+            const cellKey = `${gridX},${gridY},${currentLayer}`;
+            const topWallKey = `${gridX},${gridY},${currentLayer}-T`;
+            const leftWallKey = `${gridX},${gridY},${currentLayer}-L`;
+            const wallColors = ["white", "red", "blue", "yellow", "lime", "magenta"];
+            const platformColors = ["white", "red", "blue", "yellow", "lime", "magenta"];
+            const clickX = ((x + offsetX) % cellSize + cellSize) % cellSize;
+            const clickY = ((y + offsetY) % cellSize + cellSize) % cellSize;
+            if (selectedCells.length === 0) {
+                // Painting mode
+                if (cellTool !== 'platform') {
+                    if (clickY <= wallClickThreshold && cellTool !== 'left-wall') {
+                        const current = (typeof wallData[topWallKey] === "object") ? wallData[topWallKey].color : wallData[topWallKey] || "white";
+                        const next = (colorTool === 'erase') ? "white" : color || getNextColor(current, wallColors);
+                        if (next === "yellow") {
+                            wallData[topWallKey] = { color: "yellow", rotation: 0 };
+                        } else if (next === "magenta") {
+                            wallData[topWallKey] = { color: "magenta", rotation: 0, teleportId: 1 };
+                        } else {
+                            wallData[topWallKey] = next;
+                        }
+                    } else if (clickX <= wallClickThreshold && cellTool !== 'top-wall') {
+                        const current = (typeof wallData[leftWallKey] === "object") ? wallData[leftWallKey].color : wallData[leftWallKey] || "white";
+                        const next = (colorTool === 'erase') ? "white" : color || getNextColor(current, wallColors);
+                        if (next === "yellow") {
+                            wallData[leftWallKey] = { color: "yellow", rotation: 0 };
+                        } else if (next === "magenta") {
+                            wallData[leftWallKey] = { color: "magenta", rotation: 0, teleportId: 1 };
+                        } else {
+                            wallData[leftWallKey] = next;
+                        }
+                    } else if ((cellSize - clickX) <= wallClickThreshold && cellTool !== 'top-wall') {
+                        const rightWallKey = `${gridX + 1},${gridY},${currentLayer}-L`;
+                        const current = (typeof wallData[rightWallKey] === "object") ? wallData[rightWallKey].color : wallData[rightWallKey] || "white";
+                        const next = (colorTool === 'erase') ? "white" : color || getNextColor(current, wallColors);
+                        if (next === "yellow") {
+                            wallData[rightWallKey] = { color: "yellow", rotation: 0 };
+                        } else if (next === "magenta") {
+                            wallData[rightWallKey] = { color: "magenta", rotation: 0, teleportId: 1 };
+                        } else {
+                            wallData[rightWallKey] = next;
+                        }
+                    } else if ((cellSize - clickY) <= wallClickThreshold && cellTool !== 'left-wall') {
+                        const bottomWallKey = `${gridX},${gridY + 1},${currentLayer}-T`;
+                        const current = (typeof wallData[bottomWallKey] === "object") ? wallData[bottomWallKey].color : wallData[bottomWallKey] || "white";
+                        const next = (colorTool === 'erase') ? "white" : color || getNextColor(current, wallColors);
+                        if (next === "yellow") {
+                            wallData[bottomWallKey] = { color: "yellow", rotation: 0 };
+                        } else if (next === "magenta") {
+                            wallData[bottomWallKey] = { color: "magenta", rotation: 0, teleportId: 1 };
+                        } else {
+                            wallData[bottomWallKey] = next;
+                        }
+                    } else if (!['wall', 'left-wall', 'top-wall'].includes(cellTool)) {
+                        // platform in normal mode
+                        const current = gridData[cellKey] || "white";
+                        let next = (colorTool === 'erase') ? "white" : color || getNextColor(
+                            typeof current === "object" ? current.color : current,
+                            platformColors
+                        );
+                        if (next === "yellow") {
+                            gridData[cellKey] = { color: "yellow", rotation: 0 };
+                        } else if (next === "magenta") {
+                            gridData[cellKey] = { color: "magenta", rotation: 0, teleportId: 1 };
+                        } else {
+                            gridData[cellKey] = next;
+                        }
+                    }
+                } else {
+                    // Pure platform mode
+                    const current = gridData[cellKey] || "white";
+                    let next = (colorTool === 'erase') ? "white" : color || getNextColor(
+                        typeof current === "object" ? current.color : current,
+                        platformColors
+                    );
+                    if (next === "yellow") {
+                        gridData[cellKey] = { color: "yellow", rotation: 0 };
+                    } else if (next === "magenta") {
+                        gridData[cellKey] = { color: "magenta", rotation: 0, teleportId: 1 };
+                    } else {
+                        gridData[cellKey] = next;
+                    }
+                }
+            } else {
+                // Select mode
+                selectedCells.forEach(({ keys }) => {
+                    keys.forEach(key => {
+                        const isWall = key.endsWith('-T') || key.endsWith('-L');
+                        const current = isWall
+                            ? (typeof wallData[key] === "object" ? wallData[key].color : wallData[key] || "white")
+                            : (typeof gridData[key] === "object" ? gridData[key].color : gridData[key] || "white");
+                        const palette = isWall ? wallColors : platformColors;
+                        const next = (colorTool === 'erase') ? "white" : color || getNextColor(current, palette);
+                        if (isWall) {
+                            wallData[key] = (next === "yellow")
+                                ? { color: "yellow", rotation: 0 }
+                                : (next === "magenta")
+                                    ? { color: "magenta", rotation: 0, teleportId: 1 }
+                                    : next;
+                        } else {
+                            gridData[key] = (next === "yellow")
+                                ? { color: "yellow", rotation: 0 }
+                                : (next === "magenta")
+                                    ? { color: "magenta", rotation: 0, teleportId: 1 }
+                                    : next;
+                        }
+                    });
+                });
+            }
+            drawGrid();
+        }
+        function drawSelectionBox() {
+            const x = Math.min(selectionStart.x, selectionEnd.x);
+            const y = Math.min(selectionStart.y, selectionEnd.y);
+            const width = Math.abs(selectionEnd.x - selectionStart.x);
+            const height = Math.abs(selectionEnd.y - selectionStart.y);
+            ctx.strokeStyle = "red";
+            ctx.lineWidth = 2;
+            ctx.setLineDash([6, 4]);
+            ctx.strokeRect(x, y, width, height);
+            ctx.setLineDash([]);
+        }
+        function getNextColor(currentColor, colorArray) {
+            const index = colorArray.indexOf(currentColor);
+            return colorArray[(index + 1) % colorArray.length];
+        }
+        saveButton.addEventListener("click", () => {
+            const mapping = {
+                "red": "regular",
+                "blue": "kill",
+                "yellow": "checkpoint",
+                "lime": "end",
+                "magenta": "teleport",
+                "cyan": "ice"
+            };
+            const outputData = [];
+            // Add editor metadata
+            outputData.push({
+                editorData: {
+                    gridLayers,
+                    wallLayers
+                }
+            });
+            for (let [layer, gridData] of Object.entries(gridLayers)) {
+                const wallData = wallLayers[layer] || {};
+                // Save platforms
+                for (const [key, value] of Object.entries(gridData)) {
+                    let color = value;
+                    let rotation = 0;
+                    let teleportId = 0;
+                    if (typeof value === "object") {
+                        color = value.color;
+                        rotation = value.rotation || 0;
+                        teleportId = value.teleportId || 0;
+                    }
+                    if (mapping[color]) {
+                        const [gx, gy, lz] = key.split(",").map(Number);
+                        const yOffset = platformBottom + (lz * layerHeight);
+                        const start = {
+                            x: gx * platformSize - 5,
+                            y: yOffset,
+                            z: gy * platformSize
+                        };
+                        const end = {
+                            x: gx * platformSize + platformSize - 5,
+                            y: yOffset + platformThickness,
+                            z: gy * platformSize + platformSize
+                        };
+                        const entry = {
+                            start,
+                            end,
+                            type: mapping[color]
+                        };
+                        if (color === "yellow") {
+                            entry.degrees = rotation;
+                        }
+                        if (color === "magenta") {
+                            entry.degrees = rotation;
+                            entry.teleportId = teleportId;
+                        }
+                        outputData.push(entry);
+                    }
+                }
+                // Save walls
+                for (const [wallKey, rawWallVal] of Object.entries(wallData)) {
+                    const wallMatch = wallKey.match(/^(-?\d+),(-?\d+),(-?\d+)-([TL])$/);
+                    if (!wallMatch) continue;
+                    const gx = parseInt(wallMatch[1]);
+                    const gy = parseInt(wallMatch[2]);
+                    const layer = parseInt(wallMatch[3]);
+                    const wallSide = wallMatch[4];
+                    const wallColor = typeof rawWallVal === "object" ? rawWallVal.color : rawWallVal;
+                    const wallRotation = typeof rawWallVal === "object" ? rawWallVal.rotation || 0 : 0;
+                    const teleportId = typeof rawWallVal === "object" ? rawWallVal.teleportId || 0 : 0;
+                    const wallType = mapping[wallColor];
+                    if (!wallType) continue;
+                    const yOffset = wallBottom + (layer * layerHeight);
+                    let start, end;
+                    if (wallSide === "T") {
+                        start = {
+                            x: gx * platformSize - 5,
+                            y: yOffset,
+                            z: gy * platformSize
+                        };
+                        end = {
+                            x: gx * platformSize + platformSize - 5,
+                            y: yOffset + wallHeight,
+                            z: gy * platformSize - wallThickness
+                        };
+                    } else if (wallSide === "L") {
+                        start = {
+                            x: gx * platformSize - 5,
+                            y: yOffset,
+                            z: gy * platformSize
+                        };
+                        end = {
+                            x: gx * platformSize + wallThickness - 5,
+                            y: yOffset + wallHeight,
+                            z: gy * platformSize + platformSize
+                        };
+                    }
+                    const entry = { start, end, type: wallType };
+                    if (wallType === "checkpoint") {
+                        entry.degrees = wallRotation;
+                    }
+                    if (wallType === "teleport") {
+                        entry.degrees = wallRotation;
+                        entry.teleportId = teleportId;
+                    }
+                    outputData.push(entry);
+                }
+            }
+            // Download file
+            const jsonString = JSON.stringify(outputData);
+            const blob = new Blob([jsonString], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "bhoplevel.json";
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        loadButton.addEventListener("click", () => {
+            document.getElementById("loadFileInput").click();
+        });
+        document.getElementById("loadFileInput").addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (Array.isArray(data) && data[0]?.editorData) {
+                        const { gridLayers: gl, wallLayers: wl } = data[0].editorData;
+                        gridLayers = gl;
+                        wallLayers = wl;
+                        currentLayer = 0;
+                        gridData = getGridData();
+                        wallData = getWallData();
+                        updateLayerInfo();
+                        drawGrid();
+                    } else {
+                        alert("No editor data found in the file.");
+                    }
+                } catch (err) {
+                    alert("Failed to load file: " + err.message);
+                }
+            };
+            reader.readAsText(file);
+        });
+        helpButton.addEventListener("click", () => {
+            toggleHelpMenu();
+        });
+        function toggleHelpMenu() {
+            helpMenu = !helpMenu;
+            document.getElementById("helpOverlay").style.display = helpMenu ? "flex" : "none";
+            if (helpMenu) renderHelpPage();
+        }
+        function updateHelpMenu(direction) {
+            if (direction === "forward") {
+                currentHelpPage = (currentHelpPage + 1) % helpPages.length;
+            } else if (direction === "backward") {
+                currentHelpPage = (currentHelpPage - 1 + helpPages.length) % helpPages.length;
+            }
+            renderHelpPage();
+        }
+        function renderHelpPage() {
+            const helpContent = document.querySelector('.helpContent');
+            helpContent.innerHTML = helpPages[currentHelpPage] + `<button onclick="toggleHelpMenu()">Close</button>`;
+        }
+        window.addEventListener("keydown", (e) => {
+            const moveAmount = cellSize;
+            if (e.key === "ArrowUp") offsetY -= moveAmount;
+            if (e.key === "ArrowDown") offsetY += moveAmount;
+            if (e.key === "ArrowLeft") offsetX -= moveAmount;
+            if (e.key === "ArrowRight") offsetX += moveAmount;
+            if (e.key === "p") handleCanvasClick({ x: mouseX, y: mouseY }, colorTool === "normal" ? null : colorTool);
+            if (e.key === "+" || e.key === "=") {
+                const prevSize = cellSize;
+                cellSize += 10;
+                offsetX += (cellSize - prevSize) / 2;
+                offsetY += (cellSize - prevSize) / 2;
+            }
+            if (e.key === "-" || e.key === "_") {
+                const prevSize = cellSize;
+                cellSize = Math.max(10, cellSize - 10);
+                offsetX -= (prevSize - cellSize) / 2;
+                offsetY -= (prevSize - cellSize) / 2;
+            }
+            if (e.key === "." || e.key === ">") {
+                if (selectedCells.length > 0) {
+                    selectedCells.forEach(({ keys }) => {
+                        keys.forEach((key) => {
+                            if (key.endsWith('-T') || key.endsWith('-L')) {
+                                if (typeof wallData[key] === "object") {
+                                    if (wallData[key].color === "magenta") {
+                                        wallData[key].teleportId = Math.max(wallData[key].teleportId + 1, 1);
+                                    }
+                                }
+                            } else {
+                                if (typeof gridData[key] === "object") {
+                                    if (gridData[key].color === "magenta") {
+                                        gridData[key].teleportId = Math.max(gridData[key].teleportId + 1, 1);
+                                    }
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    const x = mouseX;
+                    const y = mouseY;
+                    const gridX = Math.floor((x + offsetX) / cellSize);
+                    const gridY = Math.floor((y + offsetY) / cellSize);
+                    const clickX = ((x + offsetX) % cellSize + cellSize) % cellSize;
+                    const clickY = ((y + offsetY) % cellSize + cellSize) % cellSize;
+                    const cellKey = `${gridX},${gridY},${currentLayer}`;
+                    const topWallKey = `${gridX},${gridY},${currentLayer}-T`;
+                    const leftWallKey = `${gridX},${gridY},${currentLayer}-L`;
+                    const rightWallKey = `${gridX + 1},${gridY},${currentLayer}-L`;
+                    const bottomWallKey = `${gridX},${gridY + 1},${currentLayer}-T`;
+                    let wall = null;
+                    if (clickY <= wallClickThreshold) {
+                        wall = wallData[topWallKey];
+                        if (typeof wall === "object" && wall.color === "magenta") {
+                            wall.teleportId = Math.max(wall.teleportId + 1, 1);
+                        } else if (wall === "magenta") {
+                            wallData[topWallKey] = { color: "magenta", rotation: 90, teleportId: 1 };
+                        }
+                    } else if (clickX <= wallClickThreshold) {
+                        wall = wallData[leftWallKey];
+                        if (typeof wall === "object" && wall.color === "magenta") {
+                            wall.teleportId = Math.max(wall.teleportId + 1, 1);
+                        } else if (wall === "magenta") {
+                            wallData[leftWallKey] = { color: "magenta", rotation: 90, teleportId: 1 };
+                        }
+                    } else if ((cellSize - clickX) <= wallClickThreshold) {
+                        wall = wallData[rightWallKey];
+                        if (typeof wall === "object" && wall.color === "magenta") {
+                            wall.teleportId = Math.max(wall.teleportId + 1, 1);
+                        } else if (wall === "magenta") {
+                            wallData[rightWallKey] = { color: "magenta", rotation: 90, teleportId: 1 };
+                        }
+                    } else if ((cellSize - clickY) <= wallClickThreshold) {
+                        wall = wallData[bottomWallKey];
+                        if (typeof wall === "object" && wall.color === "magenta") {
+                            wall.teleportId = Math.max(wall.teleportId + 1, 1);
+                        } else if (wall === "magenta") {
+                            wallData[bottomWallKey] = { color: "magenta", rotation: 90, teleportId: 1 };
+                        }
+                    } else {
+                        const cell = gridData[cellKey];
+                        if (typeof cell === "object" && cell.color === "magenta") {
+                            cell.teleportId = Math.max(cell.teleportId + 1, 1);
+                        }
+                    }
+                }
+            }
+            if (e.key === "," || e.key === "<") {
+                if (selectedCells.length > 0) {
+                    selectedCells.forEach(({ keys }) => {
+                        keys.forEach((key) => {
+                            if (key.endsWith('-T') || key.endsWith('-L')) {
+                                if (typeof wallData[key] === "object") {
+                                    if (wallData[key].color === "magenta") {
+                                        wallData[key].teleportId = Math.max(wallData[key].teleportId - 1, 1);
+                                    }
+                                }
+                            } else {
+                                if (typeof gridData[key] === "object") {
+                                    if (gridData[key].color === "magenta") {
+                                        gridData[key].teleportId = Math.max(gridData[key].teleportId - 1, 1);
+                                    }
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    const x = mouseX;
+                    const y = mouseY;
+                    const gridX = Math.floor((x + offsetX) / cellSize);
+                    const gridY = Math.floor((y + offsetY) / cellSize);
+                    const clickX = ((x + offsetX) % cellSize + cellSize) % cellSize;
+                    const clickY = ((y + offsetY) % cellSize + cellSize) % cellSize;
+                    const cellKey = `${gridX},${gridY},${currentLayer}`;
+                    const topWallKey = `${gridX},${gridY},${currentLayer}-T`;
+                    const leftWallKey = `${gridX},${gridY},${currentLayer}-L`;
+                    const rightWallKey = `${gridX + 1},${gridY},${currentLayer}-L`;
+                    const bottomWallKey = `${gridX},${gridY + 1},${currentLayer}-T`;
+                    let wall = null;
+                    if (clickY <= wallClickThreshold) {
+                        wall = wallData[topWallKey];
+                        if (typeof wall === "object" && wall.color === "magenta") {
+                            wall.teleportId = Math.max(wall.teleportId - 1, 1);
+                        } else if (wall === "magenta") {
+                            wallData[topWallKey] = { color: "magenta", rotation: 90, teleportId: 1 };
+                        }
+                    } else if (clickX <= wallClickThreshold) {
+                        wall = wallData[leftWallKey];
+                        if (typeof wall === "object" && wall.color === "magenta") {
+                            wall.teleportId = Math.max(wall.teleportId - 1, 1);
+                        } else if (wall === "magenta") {
+                            wallData[leftWallKey] = { color: "magenta", rotation: 90, teleportId: 1 };
+                        }
+                    } else if ((cellSize - clickX) <= wallClickThreshold) {
+                        wall = wallData[rightWallKey];
+                        if (typeof wall === "object" && wall.color === "magenta") {
+                            wall.teleportId = Math.max(wall.teleportId - 1, 1);
+                        } else if (wall === "magenta") {
+                            wallData[rightWallKey] = { color: "magenta", rotation: 90, teleportId: 1 };
+                        }
+                    } else if ((cellSize - clickY) <= wallClickThreshold) {
+                        wall = wallData[bottomWallKey];
+                        if (typeof wall === "object" && wall.color === "magenta") {
+                            wall.teleportId = Math.max(wall.teleportId - 1, 1);
+                        } else if (wall === "magenta") {
+                            wallData[bottomWallKey] = { color: "magenta", rotation: 90, teleportId: 1 };
+                        }
+                    } else {
+                        const cell = gridData[cellKey];
+                        if (typeof cell === "object" && cell.color === "magenta") {
+                            cell.teleportId = Math.max(cell.teleportId - 1, 1);
+                        }
+                    }
+                }
+            }
+            if (e.key === "r") { offsetX = 0; offsetY = 0; cellSize = 100; centerOrigin(0, 0); }
+            if (e.key === "q") {
+                currentLayer = Math.max(-999, currentLayer - 1);
+                gridData = getGridData();
+                wallData = getWallData();
+                updateLayerInfo();
+            }
+            if (e.key === "e") {
+                currentLayer++;
+                gridData = getGridData();
+                wallData = getWallData();
+                updateLayerInfo();
+            }
+            if (e.key === "Delete" || e.key === "Backspace") {
+                e.preventDefault(); // stop browser from navigating back
+                handleCanvasClick({ x: mouseX, y: mouseY }, "white")
+            }
+            if (e.key === "Escape" && helpMenu) {
+                toggleHelpMenu();
+            }
+            if (e.key === "f") {
+                if (selectedCells.length > 0) {
+                    selectedCells.forEach(({ keys }) => {
+                        keys.forEach((key) => {
+                            if (key.endsWith("-T") || key.endsWith("-L")) {
+                                const wall = wallData[key];
+                                if (typeof wall === "object" && (wall.color === "yellow" || wall.color === "magenta")) {
+                                    wall.rotation = (wall.rotation + 90) % 360;
+                                } else if (wall === "yellow") {
+                                    wallData[key] = { color: "yellow", rotation: 90 };
+                                } else if (wall === "magenta") {
+                                    wallData[key] = { color: "magenta", rotation: 90 };
+                                }
+                            } else {
+                                const cell = gridData[key];
+                                if (typeof cell === "object" && (cell.color === "yellow" || cell.color === "magenta")) {
+                                    cell.rotation = (cell.rotation + 90) % 360;
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    const x = mouseX;
+                    const y = mouseY;
+                    const gridX = Math.floor((x + offsetX) / cellSize);
+                    const gridY = Math.floor((y + offsetY) / cellSize);
+                    const clickX = ((x + offsetX) % cellSize + cellSize) % cellSize;
+                    const clickY = ((y + offsetY) % cellSize + cellSize) % cellSize;
+                    const cellKey = `${gridX},${gridY},${currentLayer}`;
+                    const topWallKey = `${gridX},${gridY},${currentLayer}-T`;
+                    const leftWallKey = `${gridX},${gridY},${currentLayer}-L`;
+                    const rightWallKey = `${gridX + 1},${gridY},${currentLayer}-L`;
+                    const bottomWallKey = `${gridX},${gridY + 1},${currentLayer}-T`;
+                    let wall = null;
+                    if (clickY <= wallClickThreshold) {
+                        wall = wallData[topWallKey];
+                        if (typeof wall === "object" && (wall.color === "yellow" || wall.color === "magenta")) {
+                            wall.rotation = (wall.rotation + 90) % 360;
+                        } else if (wall === "yellow") {
+                            wallData[topWallKey] = { color: "yellow", rotation: 90 };
+                        } else if (wall === "magenta") {
+                            wallData[topWallKey] = { color: "magenta", rotation: 90 };
+                        }
+                    } else if (clickX <= wallClickThreshold) {
+                        wall = wallData[leftWallKey];
+                        if (typeof wall === "object" && (wall.color === "yellow" || wall.color === "magenta")) {
+                            wall.rotation = (wall.rotation + 90) % 360;
+                        } else if (wall === "yellow") {
+                            wallData[leftWallKey] = { color: "yellow", rotation: 90 };
+                        } else if (wall === "magenta") {
+                            wallData[leftWallKey] = { color: "magenta", rotation: 90 };
+                        }
+                    } else if ((cellSize - clickX) <= wallClickThreshold) {
+                        wall = wallData[rightWallKey];
+                        if (typeof wall === "object" && (wall.color === "yellow" || wall.color === "magenta")) {
+                            wall.rotation = (wall.rotation + 90) % 360;
+                        } else if (wall === "yellow") {
+                            wallData[rightWallKey] = { color: "yellow", rotation: 90 };
+                        } else if (wall === "magenta") {
+                            wallData[rightWallKey] = { color: "magenta", rotation: 90 };
+                        }
+                    } else if ((cellSize - clickY) <= wallClickThreshold) {
+                        wall = wallData[bottomWallKey];
+                        if (typeof wall === "object" && (wall.color === "yellow" || wall.color === "magenta")) {
+                            wall.rotation = (wall.rotation + 90) % 360;
+                        } else if (wall === "yellow") {
+                            wallData[bottomWallKey] = { color: "yellow", rotation: 90 };
+                        } else if (wall === "magenta") {
+                            wallData[bottomWallKey] = { color: "magenta", rotation: 90 };
+                        }
+                    } else {
+                        const cell = gridData[cellKey];
+                        if (typeof cell === "object" && (cell.color === "yellow" || cell.color === "magenta")) {
+                            cell.rotation = (cell.rotation + 90) % 360;
+                        }
+                    }
+                }
+            }
+            drawGrid();
+        });
+        window.addEventListener("resize", resizeCanvas);
+        window.onload = () => {
+            resizeCanvas();
+            centerOrigin(0, 0);
+            updateLayerInfo();
+            drawGrid();
+            animate(0);
+            runClickLogic();
+        };
+        window.addEventListener("blur", () => {
+            for (let key in keys) keys[key] = false;
+            mouseDown = false;
+        });
+        const keys = { w: false, a: false, s: false, d: false, "`": false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+        const moveSmoothAmount = 10;
+        const moveInterval = 10;
+        let lastMoveTime = 0;
+        window.addEventListener("keydown", (event) => {
+            if (event.key in keys) keys[event.key] = true;
+        });
+        window.addEventListener("keyup", (event) => {
+            if (event.key in keys) keys[event.key] = false;
+        });
+        function animate(timestamp) {
+            requestAnimationFrame(animate);
+            if (timestamp - lastMoveTime > moveInterval) {
+                lastMoveTime = timestamp;
+                if (!helpMenu) {
+                    if (keys.w) offsetY -= moveSmoothAmount;
+                    if (keys.a) offsetX -= moveSmoothAmount;
+                    if (keys.s) offsetY += moveSmoothAmount;
+                    if (keys.d) offsetX += moveSmoothAmount;
+                    if (keys["`"]) handleCanvasClick({ x: mouseX, y: mouseY }, "white");
+                    if (keys["1"]) handleCanvasClick({ x: mouseX, y: mouseY }, "red");
+                    if (keys["2"]) handleCanvasClick({ x: mouseX, y: mouseY }, "blue");
+                    if (keys["3"]) handleCanvasClick({ x: mouseX, y: mouseY }, "yellow");
+                    if (keys["4"]) handleCanvasClick({ x: mouseX, y: mouseY }, "lime");
+                    if (keys["5"]) handleCanvasClick({ x: mouseX, y: mouseY }, "magenta");
+                    // if (keys["6"]) handleCanvasClick({ x: mouseX, y: mouseY }, "cyan");
+                    drawGrid();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

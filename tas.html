@@ -1,0 +1,1530 @@
+<!-- JoshuaHarding2 was here-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⠀</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: sans-serif;
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            flex-direction: column;
+        }
+        button {
+            position: relative;
+            width: 11em;
+            height: 4em;
+            outline: none;
+            transition: 0.3s;
+            background-color: transparent;
+            border: none;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ddebf0;
+            font-family: inherit;
+            margin: 1em 0; /* Adds space mbetween the buttons */
+        }
+        #clip {
+            --color: #2761c3;
+            position: absolute;
+            top: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            border: 5px double var(--color);
+            box-shadow: inset 0px 0px 15px #195480;
+            -webkit-clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+        .arrow {
+            position: absolute;
+            transition: 0.2s;
+            background-color: #2761c3;
+            top: 35%;
+            width: 11%;
+            height: 30%;
+        }
+        #leftArrow {
+            left: -13.5%;
+            -webkit-clip-path: polygon(100% 0, 100% 100%, 0 50%);
+            clip-path: polygon(100% 0, 100% 100%, 0 50%);
+        }
+        #rightArrow {
+            -webkit-clip-path: polygon(100% 49%, 0 0, 0 100%);
+            clip-path: polygon(100% 49%, 0 0, 0 100%);
+            left: 102%;
+        }
+        button:hover #rightArrow {
+            background-color: #27c39f;
+            left: -15%;
+            animation: 0.6s ease-in-out both infinite alternate rightArrow8;
+        }
+        button:hover #leftArrow {
+            background-color: #27c39f;
+            left: 103%;
+            animation: 0.6s ease-in-out both infinite alternate leftArrow8;
+        }
+        .corner {
+            position: absolute;
+            width: 4em;
+            height: 4em;
+            background-color: #2761c3;
+            box-shadow: inset 1px 1px 8px #2781c3;
+            transform: scale(1) rotate(45deg);
+            transition: 0.2s;
+        }
+        #rightTop {
+            top: -1.98em;
+            left: 91%;
+        }
+        #leftTop {
+            top: -1.96em;
+            left: -3.0em;
+        }
+        #leftBottom {
+            top: 2.10em;
+            left: -2.15em;
+        }
+        #rightBottom {
+            top: 45%;
+            left: 88%;
+        }
+        button:hover #leftTop {
+            animation: 0.1s ease-in-out 0.05s both changeColor8,
+            0.2s linear 0.4s both lightEffect8;
+        }
+        button:hover #rightTop {
+            animation: 0.1s ease-in-out 0.15s both changeColor8,
+            0.2s linear 0.4s both lightEffect8;
+        }
+        button:hover #rightBottom {
+            animation: 0.1s ease-in-out 0.25s both changeColor8,
+            0.2s linear 0.4s both lightEffect8;
+        }
+        button:hover #leftBottom {
+            animation: 0.1s ease-in-out 0.35s both changeColor8,
+            0.2s linear 0.4s both lightEffect8;
+        }
+        button:hover .corner {
+            transform: scale(1.25) rotate(45deg);
+        }
+        button:hover #clip {
+            animation: 0.2s ease-in-out 0.55s both greenLight8;
+            --color: #27c39f;
+        }
+        @keyframes changeColor8 {
+            from {
+                background-color: #2781c3;
+            }
+            to {
+                background-color: #27c39f;
+            }
+        }
+        @keyframes lightEffect8 {
+            from {
+                box-shadow: 1px 1px 5px #27c39f;
+            }
+            to {
+                box-shadow: 0 0 2px #27c39f;
+            }
+        }
+        @keyframes greenLight8 {
+            from {}
+            to {
+                box-shadow: inset 0px 0px 32px #27c39f;
+            }
+        }
+        @keyframes leftArrow8 {
+            from {
+                transform: translate(0px);
+            }
+            to {
+                transform: translateX(10px);
+            }
+        }
+        @keyframes rightArrow8 {
+            from {
+                transform: translate(0px);
+            }
+            to {
+                transform: translateX(-10px);
+            }
+        }
+        .btn {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 13rem;
+            overflow: hidden;
+            height: 3rem;
+            margin: 2em;
+            transform: translateY(4em);
+            transition: transform 0.5s;
+            background-size: 300% 300%;
+            cursor: pointer;
+            backdrop-filter: blur(1rem);
+            border-radius: 5rem;
+            transition: 0.5s;
+            animation: gradient_301 5s ease infinite;
+            border: double 4px transparent;
+            background-image: linear-gradient(#212121, #212121),
+            linear-gradient(
+                137.48deg,
+                #ffdb3b 10%,
+                #fe53bb 45%,
+                #8f51ea 67%,
+                #0044ff 87%
+            );
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+        }
+        #container-stars {
+            position: absolute;
+            margin-top: -2em;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            transition: 114004827s;
+            backdrop-filter: blur(1rem);
+            border-radius: 5rem;
+        }
+        strong {
+            z-index: 2;
+            font-family: "Avalors Personal Use";
+            font-size: 12px;
+            letter-spacing: 5px;
+            color: #ffffff;
+            text-shadow: 0 0 4px white;
+        }
+        #glow {
+            position: absolute;
+            display: flex;
+            width: 12rem;
+        }
+        .circle {
+            width: 100%;
+            height: 30px;
+            filter: blur(2rem);
+            animation: pulse_3011 4s infinite;
+            z-index: -1;
+        }
+        .circle:nth-of-type(1) {
+            background: rgba(254, 83, 186, 0.636);
+        }
+        .circle:nth-of-type(2) {
+            background: rgba(142, 81, 234, 0.704);
+        }
+        .btn:hover #container-stars {
+            z-index: 1;
+            background-color: #212121;
+        }
+        .btn:hover {
+            transform: translateY(4em) scale(1.1);
+        }
+        .btn:active {
+            border: double 4px #fe53bb;
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            animation: none;
+        }
+        .btn:active .circle {
+            background: #fe53bb;
+        }
+        #stars {
+            position: relative;
+            background: transparent;
+            width: 200rem;
+            height: 200rem;
+        }
+        #stars::after {
+            content: "";
+            position: absolute;
+            top: -10rem;
+            left: -100rem;
+            width: 100%;
+            height: 100%;
+            animation: animStarRotate 90s linear infinite;
+        }
+        #stars::after {
+            background-image: radial-gradient(#ffffff 1px, transparent 1%);
+            background-size: 50px 50px;
+        }
+        #stars::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 170%;
+            height: 500%;
+            animation: animStar 60s linear infinite;
+        }
+        #stars::before {
+            background-image: radial-gradient(#ffffff 1px, transparent 1%);
+            background-size: 50px 50px;
+            opacity: 0.5;
+        }
+        @keyframes animStar {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-135rem);
+            }
+        }
+        @keyframes animStarRotate {
+            from {
+                transform: rotate(360deg);
+            }
+            to {
+                transform: rotate(0);
+            }
+        }
+        @keyframes gradient_301 {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        @keyframes pulse_3011 {
+            0% {
+                transform: scale(0.75);
+                box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+            }
+            100% {
+                transform: scale(0.75);
+                box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            }
+        }
+        .levelButton {
+            display: none;
+            transform: translateY(3em);
+            align-items: center;
+            background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+            border: 0;
+            border-radius: 8px;
+            box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+            box-sizing: border-box;
+            color: #ffffff;
+            font-size: 18px;
+            justify-content: center;
+            line-height: 1em;
+            max-width: 100%;
+            min-width: 140px;
+            padding: 3px;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .levelButton:active,
+        .levelButton:hover {
+            outline: 0;
+        }
+        .levelButton span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 24px;
+            height: 100%;
+            width: 100%;
+            background-color: rgb(5, 6, 45);
+            border-radius: 6px;
+            transition: 300ms;
+        }
+        .levelButton:hover span {
+            background: none;
+        }
+        .levelButton:active {
+            transform: translateY(3em) scale(0.9);
+        }
+        .campaignRow {
+            display: flex;
+            flex-direction: row;
+            gap: 1em;
+        }
+        #startButton {
+            margin-top: 8em;
+        }
+        #controlsMenu {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        #controlsMenu.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #updatesMenu {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        #updatesMenu.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .timer {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            display: none; /* Hide timer initially */
+        }
+        .bestTime {
+            position: absolute;
+            top: 54px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            display: none; /* Hide bestTime initially */
+        }
+        .IGT {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            display: none; /* Hide in game time initially */
+        }
+        .checkpoint {
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            display: none; /* Hide checkpoint UI initially */
+        }
+        .title {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 100px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: "Bungee Spice", sans-serif;
+            display: block;
+        }
+        .times {
+            text-align: right;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">BHOP</div>
+    <div class="timer" id="timer">Time: 0.00s</div>
+    <div class="bestTime">Best Time: --.--s</div>
+    <div class="IGT">In Game Time: 0.00s</div>
+    <div class="checkpoint">Checkpoint: -/-</div>
+    <div id="fpsCounter" style="
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 14px;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+        display: none;
+    ">FPS: --</div>
+        <div id="freecamReporter" style="
+        position: absolute;
+        top: 30px;
+        left: 10px;
+        font-size: 14px;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+        display: none;
+    ">Freecam</div>
+    <div id="versionDisplay" style="
+        position: fixed;
+        bottom: 2px;
+        left: 0px;
+        font-size: 10px;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+        display: block;
+    ">1.3.2.1</div>
+    <div id="speedrunTimes">
+        <div id="worldRecord" class="times">World Record: [NOT WORKING]</div>
+        <div id="authorTime" style="top: 30px;" class="times">Author Record: --.--</div>
+        <div id="goldTime" style="top: 50px;" class="times">Gold: --.--</div>
+        <div id="silverTime" style="top: 70px;" class="times">Silver: --.--</div>
+        <div id="bronzeTime" style="top: 90px;" class="times">Bronze: --.--</div>
+    </div>
+    <button id="startButton" onclick="playClicked()">
+        P L A Y
+        <div id="clip">
+            <div id="leftTop" class="corner"></div>
+            <div id="rightBottom" class="corner"></div>
+            <div id="rightTop" class="corner"></div>
+            <div id="leftBottom" class="corner"></div>
+        </div>
+        <span id="rightArrow" class="arrow"></span>
+        <span id="leftArrow" class="arrow"></span>
+    </button>
+    <button id="createButton" onclick="window.location.href='https://joshuaharding2codehsme-12369080.codehs.me/editor'">
+        C R E A T E
+        <div id="clip">
+            <div id="leftTop" class="corner"></div>
+            <div id="rightBottom" class="corner"></div>
+            <div id="rightTop" class="corner"></div>
+            <div id="leftBottom" class="corner"></div>
+        </div>
+        <span id="rightArrow" class="arrow"></span>
+        <span id="leftArrow" class="arrow"></span>
+    </button>
+    <button id="controlsButton" onclick="openMenu('controlsMenu')">
+        C O N T R O L S
+        <div id="clip">
+            <div id="leftTop" class="corner"></div>
+            <div id="rightBottom" class="corner"></div>
+            <div id="rightTop" class="corner"></div>
+            <div id="leftBottom" class="corner"></div>
+        </div>
+        <span id="rightArrow" class="arrow"></span>
+        <span id="leftArrow" class="arrow"></span>
+    </button>
+    <div id="controlsMenu" style="
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(20, 20, 20, 0.95);
+        color: white;
+        padding: 2em;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 25px;
+        text-align: center;
+        max-width: 90%;
+        width: 600px;
+        z-index: 100;
+        flex-direction: column;
+        justify-content: space-between;
+    ">
+        <h2>Controls</h2>
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li><b>⠀</b></li>
+            <li><b>A/D</b>: Strafe left and right</li>
+            <li><b>Q/E</b>: look down and up</li>
+            <li><b>Space</b>: Jump</li>
+            <li><b>P</b>: Load level (play)</li>
+            <li><b>R</b>: Restart</li>
+            <li><b>M</b>: Restart Map (including checkpoints)</li>
+            <li><b>F</b>: Toggle Freecam Mode </li>
+            <li><b>W/S</b>: Move forward and backward (freecam) </li>
+            <li><b>A/D</b>: Look left and right (freecam) </li>
+            <li><b>Q/E</b>: look down and up (freecam) </li>
+            <li><b>Arrow Keys</b>: Move left, right, up, and down (freecam) </li>
+            <li><b>Space / Shift</b>: Move up and down regardless of pitch (freecam) </li>
+        </ul>
+        <button onclick="closeMenu('controlsMenu')" style="
+            margin-top: 1.5em;
+            padding: 0.4em 1em;
+            background-color: transparent;
+            color: #27c39f;
+            border: 2px solid #27c39f;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: 0.5s ease;
+        ">
+            Back
+        </button>
+    </div>
+    <button id="updatesButton" onclick="openMenu('updatesMenu')">
+        U P D A T E S
+        <div id="clip">
+            <div id="leftTop" class="corner"></div>
+            <div id="rightBottom" class="corner"></div>
+            <div id="rightTop" class="corner"></div>
+            <div id="leftBottom" class="corner"></div>
+        </div>
+        <span id="rightArrow" class="arrow"></span>
+        <span id="leftArrow" class="arrow"></span>
+    </button>
+    <div id="updatesMenu" style="
+        display: none;
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        padding: 2em;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 24px;
+        text-align: center;
+        max-width: 90%;
+        width: 600px;
+        z-index: 100;
+        flex-direction: column;
+        justify-content: space-between;
+    ">
+        <h2>What's New? Change log</h2>
+        <ul style="list-style: none;">
+            <li>⠀</li>
+            </ul>
+            <h3>Bug fixes and patch update 1.3.2.1: 4/25/2025</h3>
+            <ul style="list-style: none; padding: 0; text-align: left;">
+                <li>⠀</li>
+            </ul>
+            <ul style="text-align: left;">
+                <li><b>Campaign levels now load correctly on bhop/ instead of just bhop</b></li>
+                <li><b>You can use Q/E outside of freecam to look up and down (Colby request, and btw it was never up and down arrow keys to do that)</b></li>
+                <li><b>Disabling freecam no longer resets your position to start (even with checkpoints activated)</b></li>
+                <li><b>Freecam now stores pitch and yaw when you disable it</b></li>
+                <li><b>Also fixed some annoying warning things in the css of this files visual studio code (not important for normal players)</b></li>
+                <li><b>Made version display in bottom left always visable</b></li>
+                <li><b>Made chromebook mousedisplay behavior work on other devices bc on my macbook the mouse wasn't dissaperaing when I started moving and it was annoying me</b></li>
+            </ul>
+        <ul style="list-style: none;">
+        <li>⠀</li>
+        </ul>
+        <h3>Minor update 1.3.2.0: 4/23/2025</h3>
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li>⠀</li>
+        </ul>
+        <ul style="text-align: left;">
+            <li><b>Added speedrun times to campaign 1 levels</b></li>
+            <li><b>World record doesn't work yet (coming soon!)</b></li>
+        </ul>
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li>⠀</li>
+        </ul>
+        <h3>Minor update 1.3.1.0: 4/23/2025</h3>
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li>⠀</li>
+        </ul>
+        <ul style="text-align: left;">
+            <li><b>Added more campaign 1 levels</b></li>
+            <li><b>It's now it a grid format</b></li>
+        </ul>
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li>⠀</li>
+        </ul>
+        <h3>Major update 1.3.0.0: 4/23/2025</h3>
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li>⠀</li>
+        </ul>
+        <ul style="text-align: left;">
+            <li><b>Game name now displayed on menu screens</b></li>
+            <li><b>Added version numbers (displayed in bottom left)</b></li>
+            <li><b>Added campaigns:</b>
+                <ul style="margin-left: 1.5em; list-style-type: disc;">
+                    <li>Campaigns are pretty much groups of levels that you can play</li>
+                    <li>Aimed to open more general level selection, and be similar to Trackmania (a racing game I'm taking inspiration from)</li>
+                    <li>I'm also looking for levels to add to the game. If you want, you can send me some levels (joshua.harding@dexterschools.org) that have decent gameplay (not trash) and are beatable under a minute or two. I'll consider using those maps to make a campaign and put you in the credits under a new campaign builders section</li>
+                    <li>You can still play custom levels, theres a button for that at the bottom of the campaigns section</li>
+                </ul>
+            </li>
+            <li><b>Updated level loading method:</b>
+                <ul style="margin-left: 1.5em; list-style-type: disc;">
+                    <li>I changed the way the game loads levels, because before there was only 1 default level that was loaded, and I stored that .json data right in the html file. With the addition of campaigns though, there is no way I'm gonna have 100 lines of code for each level, codeHS breaks at just 9k lines of code.</li>
+                    <li>The new system retrieves data from subpages on my website, stored as .json files.</li>
+                    <li>This means if you take this game's code and run it outside of the website (particualry people who make custom versions for fun), there is no filepath to load campaign levels and that will not work. You can still load custom levels from your computer though.</li>
+                    <li>This has the added bonus of making it very easy to add new levels.</li>
+                    <li>Also for some reason it takes the code a bunch of tries to retrieve the data so it might take like half a second to load levels</li>
+                </ul>
+            </li>
+        </ul>
+        <button onclick="closeMenu('updatesMenu')" style="
+            margin-top: 1.5em;
+            padding: 0.4em 1em;
+            background-color: transparent;
+            color: #27c39f;
+            border: 2px solid #27c39f;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: 0.5s ease;
+        ">
+            Back
+        </button>
+    </div>
+    <button id="creditsButton" onclick="openMenu('creditsMenu')">
+        C R E D I T S
+        <div id="clip">
+            <div id="leftTop" class="corner"></div>
+            <div id="rightBottom" class="corner"></div>
+            <div id="rightTop" class="corner"></div>
+            <div id="leftBottom" class="corner"></div>
+        </div>
+        <span id="rightArrow" class="arrow"></span>
+        <span id="leftArrow" class="arrow"></span>
+    </button>
+    <div id="creditsMenu" style="
+        display: none;
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        padding: 2em;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 25px;
+        text-align: center;
+        max-width: 90%;
+        width: 600px;
+        z-index: 100;
+        flex-direction: column;
+        justify-content: space-between;
+    ">
+        <h2>Credits</h2>
+        <ul style="list-style: none;">
+        <li>⠀</li>
+        </ul>
+        <h3>Joshua Harding</h3>
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li>⠀</li>
+        </ul>
+        <ul style="text-align: left;">
+            <li>I made the levels</li>
+            <li>Made the movement</li>
+            <li>Made Buttons and ui</li>
+            <li>Coded freecam</li>
+            <li>Added all different types of boxes</li>
+            <li>Fixed and coded editor</li>
+            <li>If you couldn't tell, I run the website</li>
+            <li>Tell me if theres a bug, i'll fix it</li>
+            </li>
+        </ul>  
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li>⠀</li>
+        </ul>  
+        <h3>Ben Messer</h3>
+        <ul style="list-style: none; padding: 0; text-align: left;">
+            <li>⠀</li>
+        </ul>
+        <ul style="text-align: left;">
+            <li>He inspired the project</li>
+            <li>Made the .json level idea</li>
+            <li>Came up with editor and started coding it</li>
+            <li>I took the freecam movement from one of his projects and altered it</li>
+            <li>Advertising</li>
+            <li>Working on global speedruns</li>
+            </li>
+        </ul>           
+        <button onclick="closeMenu('creditsMenu')" style="
+            margin-top: 1.5em;
+            padding: 0.4em 1em;
+            background-color: transparent;
+            color: #27c39f;
+            border: 2px solid #27c39f;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: 0.5s ease;
+        ">
+            Back
+        </button>
+    </div>
+    <button id = "campaign1" type ="button" class="btn" onclick="showCampaign('1')">
+        <strong>CAMPAIGN 1</strong>
+        <div id="container-stars">
+            <div id="stars"></div>
+        </div>
+        <div id="glow">
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </button>
+    <button id = "campaign2" type ="button" class="btn">
+        <strong>COMMING SOON</strong>
+        <div id="container-stars">
+            <div id="stars"></div>
+        </div>
+        <div id="glow">
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </button>
+    <button id = "campaign3" type ="button" class="btn">
+        <strong>COMMING SOON</strong>
+        <div id="container-stars">
+            <div id="stars"></div>
+        </div>
+        <div id="glow">
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </button>
+    <button id = "loadLevel" type ="button" class="btn" onclick="startGame('loadLevel')">
+        <strong>LOAD CUSTOM LEVEL</strong>
+        <div id="container-stars">
+            <div id="stars"></div>
+        </div>
+        <div id="glow">
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </button>
+    <div id="campaign1Levels">
+        <div class="campaignRow">
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 1, startGame()"><span>Labyrinth 01</span></button>
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 2, startGame()"><span>Labyrinth 02</span></button>
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 3, startGame()"><span>Labyrinth 03</span></button>
+        </div>
+        <div class="campaignRow">
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 4, startGame()"><span>KillLevel 01</span></button>
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 5, startGame()"><span>KillLevel 02</span></button>
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 6, startGame()"><span>KillLevel 03</span></button>
+        </div>
+        <div class="campaignRow">
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 7, startGame()"><span>CheckpointLevel 01</span></button>
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 8, startGame()"><span>CheckpointLevel 02</span></button>
+            <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 9, startGame()"><span>CheckpointLevel 03</span></button>
+        </div>
+    </div>
+    <input type="file" id="fileInput" style="display: none;" accept=".json">
+    <script>
+        // THREE.js setup
+        let scene, camera, renderer;
+        let cameraRig;
+        let velocity = new THREE.Vector3(0, 0, 0);
+        let collidableObjects = [];
+        let objectsInScene = [];
+        // UI elements
+        let fpsCounter = document.getElementById('fpsCounter');
+        let versionDisplay = document.getElementById('versionDisplay');
+        let freecamReporter= document.getElementById('freecamReporter');
+        let speedrunTimes = document.getElementById('speedrunTimes');
+        // THREE.js movement
+        let keys = { w: false, a: false, s: false, d: false, space: false, e: false, q: false, ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, Shift: false };
+        let speed = 0.5;
+        let gravity = -0.01;
+        let jumpPower = 0.25;
+        let isJumping = false;
+        let isGrounded = false;
+        let strafeDirection = 0;
+        let strafeSpeed = 0.08; // (radians per frame)
+        // Storing camera and pos data
+        let startPosition = new THREE.Vector3(0, 1, 3.9);
+        let radians = 0; // radians refers to the yaw of the cameraRig stored in checkpoint and teleport box data in level files
+        // These are used exclusively for freecam - returning player to original state before freecam was activated after it was deactivated
+        let storedPosition = new THREE.Vector3(0, 1, 3.9);
+        let storedYaw = 0;
+        let storedPitch = 0;
+        // fps stuff
+        let fps;
+        let lastTeleportTime = 0;
+        let lastFrameTime = performance.now();
+        let fpsUpdateInterval = 500; // Update every 500ms
+        let fpsTimeAccumulator = 0;
+        let frameCount = 0;
+        let IGT = 0;
+        let finishedIGT = 0;
+        let deltaTime = 0;
+        // special boxes stuff
+        let checkpoints = null; // Number of checkpoints
+        let checkpoint = null; // Current checkpoint (out of number of checkpoints)
+        let lastTeleportedBox = null;
+        // timer stuff
+        let timer = false;
+        let startTime = null;
+        let timerInterval = null;
+        let campaignNumber = null;
+        let campaignLevel = null;
+        let bestTime = Infinity;
+        let worldRecordTime = null;
+        let authorTime = null;
+        let goldTime = null;
+        let silverTime = null;
+        let bronzeTime = null;
+        // game states
+        let playing = false;
+        let freecam = false;
+        function startTimer() {
+            if (startTime === null) {
+                startTime = performance.now();
+                timerInterval = setInterval(updateTimer, 10);
+            }
+        }
+        let elapsedTime = 0;  // Declare a variable to store elapsed time
+        function updateTimer() {
+            if (startTime !== null) {
+                elapsedTime = (performance.now() - startTime) / 1000; // Calculate elapsed time in seconds
+                document.getElementById("timer").innerText = `Time: ${elapsedTime.toFixed(2)}s`; // Update the displayed timer
+            }
+        }
+        function resetTimer() {
+            clearInterval(timerInterval);
+            startTime = null;
+            document.getElementById("timer").innerText = "Time: 0.00s";
+            document.getElementById("timer").style.color = "white"; // Change timer color to white
+            document.querySelector('.IGT').style.color = "white";
+            if (bestTime <= authorTime) {
+                document.querySelector('.bestTime').style.color = "green";
+            } else if (bestTime <= goldTime) {
+                document.querySelector('.bestTime').style.color = "gold";
+            } else if (bestTime <= silverTime) {
+                document.querySelector(".bestTime").style.color = "silver";
+            } else if (bestTime <= bronzeTime) {
+                document.querySelector(".bestTime").style.color = "#cd7f32"; // bronze color
+            } else {
+                document.querySelector('.bestTime').style.color = "white";
+            }
+            finishedIGT = 0;
+            IGT = 0;
+            elapsedTime = 0;
+        }
+        function hideMenuButtons() {
+            document.getElementById("startButton").style.display = "none";
+            document.getElementById("createButton").style.display = "none";
+            document.getElementById("controlsButton").style.display = "none";
+            document.getElementById("updatesButton").style.display = "none";
+            document.getElementById("creditsButton").style.display = "none";
+        }
+        function showMenuButtons() {
+            document.getElementById("startButton").style.display = "block";
+            document.getElementById("createButton").style.display = "block";
+            document.getElementById("controlsButton").style.display = "block";
+            document.getElementById("updatesButton").style.display = "block";
+            document.getElementById("creditsButton").style.display = "block";
+        }
+        function showPlayOptions() {
+            document.getElementById("campaign1").style.display = "block";
+            document.getElementById("campaign2").style.display = "block";
+            document.getElementById("campaign3").style.display = "block";
+            document.getElementById("loadLevel").style.display = "block";
+        }
+        function hidePlayOptions() {
+            document.getElementById("campaign1").style.display = "none";
+            document.getElementById("campaign2").style.display = "none";
+            document.getElementById("campaign3").style.display = "none";
+            document.getElementById("loadLevel").style.display = "none";
+        }
+        function openMenu(menuName) {
+            hideMenuButtons();
+            document.querySelector('.title').style.display = "none";
+            const menu = document.getElementById(menuName);
+            menu.style.display = "block";
+            requestAnimationFrame(() => menu.classList.add("show"));
+        }
+        function closeMenu(menuName) {
+            const menu = document.getElementById(menuName);
+            menu.classList.remove("show");
+            setTimeout(() => {
+                menu.style.display = "none";
+                showMenuButtons();
+                document.querySelector('.title').style.display = "block";
+            }, 300); // matches the CSS transition duration
+        }
+        function playClicked() {
+            hideMenuButtons();
+            showPlayOptions();
+        }
+        function showCampaign(campaignNumber) {
+            hidePlayOptions();
+            const levelsContainer = document.getElementById("campaign" + campaignNumber + "Levels");
+            levelsContainer.style.display = "block";
+            const levelButtons = levelsContainer.querySelectorAll(".levelButton");
+            levelButtons.forEach(btn => {
+                btn.style.display = "flex";
+            });
+        }
+        function hideCampaign(campaignNumber) {
+            hidePlayOptions();
+            const levelsContainer = document.getElementById("campaign" + campaignNumber + "Levels");
+            levelsContainer.style.display = "none";
+            const levelButtons = levelsContainer.querySelectorAll(".levelButton");
+            levelButtons.forEach(btn => {
+                btn.style.display = "none";
+            });
+        }
+        function startGame(initCommand) {
+            document.querySelector('.title').style.display = "none";
+            hideMenuButtons();
+            hidePlayOptions();
+            document.body.style.backgroundColor = "transparent"; // Change background to transparent
+            fpsCounter.style.display = "block";
+            if (initCommand === "loadLevel") {
+                init("loadLevel")
+            } else {
+                hideCampaign(campaignNumber)
+                speedrunTimes.style.display = "block";
+                const times = speedrunTimes.querySelectorAll(".times");
+                times.forEach(div => {
+                    div.style.display = "flex";
+                });
+                init();
+            }
+        }
+        function handleFileImport(event) {
+            if (playing === false) {
+                startGame();
+            }
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const levelData = JSON.parse(e.target.result);
+                clearScene();
+                loadLevel(levelData);
+            };
+            reader.readAsText(file);
+        }
+        function init(initCommand) {
+            if (initCommand === "loadLevel") {
+                document.getElementById('fileInput').click();
+            }
+            if (campaignNumber !== null & campaignLevel !== null) {
+                loadLevelFromFile("campaign"+campaignNumber+"."+campaignLevel)
+            }
+            playing = true;
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 0, 0); // camera stays at origin within the rig
+            cameraRig = new THREE.Object3D();
+            cameraRig.position.copy(startPosition);
+            cameraRig.add(camera);
+            scene.add(cameraRig);                                                                               
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            window.addEventListener("resize", () => {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+            });
+            let hideCursorTimeout;
+            // Hide cursor immediately after keypress
+            document.addEventListener('keydown', () => {
+                document.body.style.cursor = 'none';
+            });
+            document.addEventListener('mousemove', () => {
+                document.body.style.cursor = 'default';
+            });
+            window.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    if (playing) {
+                        // Pause 
+                    }
+                }
+                if (event.key in keys) keys[event.key] = true;
+                if (event.key === ' ') keys.space = true;
+                if (event.key === 'p') document.getElementById('fileInput').click();
+                if (event.key === 'r') {
+                    resetPlayer();
+                    if (checkpoint === 0 && !freecam) resetTimer();
+                }
+                if (event.key === 'm') {
+                    freecam = false;
+                    startPosition = new THREE.Vector3(0, 1, 3.9);
+                    radians = 0;
+                    resetPlayer();
+                    resetTimer();
+                    checkpoint = 0;
+                    collidableObjects.forEach(obj => {
+                        if (obj.mesh.isCheckpointBox) {
+                            obj.mesh.visible = true;
+                        }
+                    }); 
+                }
+                if(event.key === 'f') {
+                    if(!freecam) {
+                        storedPosition = startPosition;
+                        startPosition = new THREE.Vector3(cameraRig.position.x, cameraRig.position.y, cameraRig.position.z);
+                        storedYaw = cameraRig.rotation.y;
+                        storedPitch = camera.rotation.x;
+                        freecam = true;
+                    } else {
+                        isGrounded = false;
+                        cameraRig.position.copy(startPosition);
+                        velocity.set(0, 0, 0);
+                        camera.rotation.set(0, 0, 0);
+                        cameraRig.rotation.y = storedYaw;
+                        camera.rotation.x = storedPitch;
+                        startPosition = storedPosition;
+                        freecam = false;
+                    }
+                }
+            });
+            window.addEventListener("keyup", (event) => {
+                if (event.key in keys) keys[event.key] = false;
+                if (event.key === ' ') keys.space = false;
+            });
+            window.addEventListener("blur", () => {
+                // Clear keys when window loses focus
+                for (let key in keys) keys[key] = false;
+            });
+            document.getElementById('fileInput').addEventListener('change', handleFileImport);
+            animate(performance.now());
+        }
+        function clearScene() {
+            objectsInScene.forEach(obj => scene.remove(obj));
+            objectsInScene = [];
+            collidableObjects = [];
+        }
+        function loadLevelFromFile(filename) {
+            const baseUrl = window.location.origin; // Get the base URL (e.g., https://joshuaharding2.codehs.me)
+            const absoluteUrl = `${baseUrl}/${filename}.json`; // Construct the full URL
+            fetch(absoluteUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to load level file: ${absoluteUrl} (Status: ${response.status})`);
+                    }
+                    return response.text(); // Get text first
+                })
+                .then(text => {
+                    try {
+                        const levelData = JSON.parse(text); // Parse JSON data
+                        clearScene();
+                        loadLevel(levelData); // Load the level
+                    } catch (e) {
+                        throw e; // Rethrow error for logging
+                    }
+                })
+                .catch(error => {
+                });
+        }
+        function loadLevel(levelData) {
+            timer = false;
+            bestTime = Infinity;
+            document.querySelector('.bestTime').innerText = `Best Time: --.--s`;
+            checkpoints = 0;
+            checkpoint = 0;
+            // Handle optional editorData and medal times
+            if (levelData[0]?.editorData) {
+                const meta = levelData[0];
+                // Safe extraction of medal times
+                authorTime = meta.authorTime ?? null;
+                goldTime = meta.goldTime ?? null;
+                silverTime = meta.silverTime ?? null;
+                bronzeTime = meta.bronzeTime ?? null;
+                if (authorTime !== null) {
+                    document.getElementById("authorTime").innerText = `Author Record: ${authorTime.toFixed(2)}`;
+                }
+                if (goldTime !== null) {
+                    document.getElementById("goldTime").innerText = `Gold: ${goldTime.toFixed(2)}`;
+                }
+                if (silverTime !== null) {
+                    document.getElementById("silverTime").innerText = `Silver: ${silverTime.toFixed(2)}`;
+                }
+                if (bronzeTime !== null) {
+                    document.getElementById("bronzeTime").innerText = `Bronze: ${bronzeTime.toFixed(2)}`;
+                }
+            }
+            // Load box data (starting from index 1 if editorData was present)
+            const startIndex = (levelData[0]?.editorData) ? 1 : 0;
+            for (let i = startIndex; i < levelData.length; i++) {
+                const box = levelData[i];
+                // existing loading logic...
+                let width = Math.abs(box.end.x - box.start.x) || 1;
+                let height = Math.abs(box.end.y - box.start.y) || 1;
+                let depth = Math.abs(box.end.z - box.start.z) || 1;
+                let material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+                if (box.type === "end") {
+                    material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+                } else if (box.type === "kill") {
+                    material = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true });
+                } else if (box.type === "checkpoint") {
+                    material = new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe: true });
+                } else if (box.type === "teleport") {
+                    material = new THREE.MeshBasicMaterial({ color: 0xA020F0, wireframe: true });
+                } else if (box.type === "ice") {
+                    material = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true });
+                }
+                let geometry = new THREE.BoxGeometry(width, height, depth);
+                let mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(
+                    (box.start.x + box.end.x) / 2,
+                    (box.start.y + box.end.y) / 2,
+                    (box.start.z + box.end.z) / 2
+                );
+                if (box.type === "end") {
+                    mesh.isEndBox = true;
+                    timer = true;
+                }
+                if (box.type === "kill") {
+                    mesh.isKillBox = true;
+                }
+                if (box.type === "checkpoint") {
+                    mesh.isCheckpointBox = true;
+                    checkpoints++;
+                    mesh.degrees = box.degrees ?? 0;
+                }
+                if (box.type === "teleport") {
+                    mesh.isTeleportBox = true;
+                    mesh.degrees = box.degrees ?? 0;
+                    mesh.teleportId = box.teleportId;
+                }
+                if (box.type === "ice") {
+                    mesh.isIceBox = true;
+                }
+                scene.add(mesh);
+                objectsInScene.push(mesh);
+                const boundingBox = new THREE.Box3().setFromObject(mesh);
+                collidableObjects.push({ mesh: mesh, box: boundingBox });
+            }
+            freecam = false;
+            startPosition = new THREE.Vector3(0, 1, 3.9);
+            radians = 0;
+            resetPlayer();
+            resetTimer();
+            checkpoint = 0;
+            collidableObjects.forEach(obj => {
+                if (obj.mesh.isCheckpointBox) {
+                    obj.mesh.visible = true;
+                }
+            }); 
+        }
+        function checkCollisions(prevPosition, nextPosition) {
+            const playerSize = new THREE.Vector3(1, 2, 1);
+            // Swept box for detecting fast movement collisions
+            let sweptMin = prevPosition.clone().min(nextPosition).sub(playerSize.clone().multiplyScalar(0.5));
+            let sweptMax = prevPosition.clone().max(nextPosition).add(playerSize.clone().multiplyScalar(0.5));
+            let sweptBox = new THREE.Box3(sweptMin, sweptMax);
+            // Box at current and next positions
+            let currentBox = new THREE.Box3().setFromCenterAndSize(prevPosition, playerSize);
+            let nextBox = new THREE.Box3().setFromCenterAndSize(nextPosition, playerSize);
+            let collisionDetected = false; // default: no collision
+            collidableObjects.forEach(obj => {
+                if (!obj.mesh.isEndBox && !obj.mesh.isCheckpointBox && !obj.mesh.isKillBox && !obj.mesh.isTeleportBox && !obj.mesh.isIceBox) {
+                    if (sweptBox.intersectsBox(obj.box)) {
+                        collisionDetected = true; // normal solid collision
+                    }
+                } else if (obj.mesh.isKillBox) {
+                    if (currentBox.intersectsBox(obj.box)) {
+                        collisionDetected = true;
+                        resetPlayer();
+                        if (checkpoint === 0) resetTimer();
+                    }
+                } else if (obj.mesh.isIceBox) {
+                    if (sweptBox.intersectsBox(obj.box)) {
+                        collisionDetected = "ice"; // ice collision
+                    }
+                }
+            });
+            // Check for touching the end box using current position
+            collidableObjects.forEach(obj => {
+                if (obj.mesh.isEndBox && currentBox.intersectsBox(obj.box)) {
+                    if (checkpoint === checkpoints) {
+                        clearInterval(timerInterval);
+                        document.getElementById("timer").style.color = "lime";
+                        document.querySelector('.IGT').style.color = "lime";
+                        if (!isNaN(IGT) && !isNaN(elapsedTime)) {
+                            finishedIGT = Math.min(IGT, elapsedTime);
+                        }
+                        if (elapsedTime < bestTime) {
+                            bestTime = elapsedTime;
+                            document.querySelector('.bestTime').innerText = `Best Time: ${bestTime.toFixed(2)}s`;
+                            document.querySelector('.bestTime').style.color = "lime";
+                            if (bestTime <= authorTime) {
+                                document.getElementById("bronzeTime").style.color = "lime";
+                                document.getElementById("silverTime").style.color = "lime";
+                                document.getElementById("goldTime").style.color = "lime";
+                                document.getElementById("authorTime").style.color = "lime";
+                            } else if (bestTime <= goldTime) {
+                                document.getElementById("bronzeTime").style.color = "lime";
+                                document.getElementById("silverTime").style.color = "lime";
+                                document.getElementById("goldTime").style.color = "lime";
+                            } else if (bestTime <= silverTime) {
+                                document.getElementById("bronzeTime").style.color = "lime";
+                                document.getElementById("silverTime").style.color = "lime";
+                            } else if (bestTime <= bronzeTime) {
+                                document.getElementById("bronzeTime").style.color = "lime";
+                            }
+                        }
+                    } else {
+                        document.querySelector('.checkpoint').style.color = "red";
+                    }
+                } else {
+                    if (checkpoint === checkpoints) {
+                        document.querySelector('.checkpoint').style.color = "lime";
+                    } else {
+                        document.querySelector('.checkpoint').style.color = "white";
+                    }
+                }
+            });
+            // Checkpoint boxes using current position
+            collidableObjects.forEach(obj => {
+                if (obj.mesh.isCheckpointBox && obj.mesh.visible && currentBox.intersectsBox(obj.box)) {
+                    checkpoint++;
+                    obj.mesh.visible = false;
+                    startPosition = obj.mesh.position;
+                    if (obj.mesh.degrees !== undefined) radians = obj.mesh.degrees * Math.PI / 180;
+                }
+            });
+            // Teleport boxes using current position
+            collidableObjects.forEach(obj => {
+                if (obj.mesh.isTeleportBox && currentBox.intersectsBox(obj.box)) {
+                    if (obj === lastTeleportedBox) {
+                        return; // skip if re-touching the same teleport
+                    }
+                    collisionDetected = null;
+                    handleTeleportCollision(obj, currentBox);
+                }
+            });
+            return collisionDetected;
+        }
+        function handleTeleportCollision(enteredBox, currentBox) {
+            const now = performance.now();
+            const delta = now - lastTeleportTime;
+            if (delta < 100) {
+                return;
+            }
+            if (lastTeleportedBox === enteredBox) {
+                return;
+            }
+            lastTeleportTime = now;
+            const enteredId = enteredBox.mesh.teleportId;
+            const destinations = collidableObjects.filter(obj =>
+                obj.mesh.isTeleportBox &&
+                obj.mesh.teleportId == enteredId &&
+                obj !== enteredBox
+            );
+            if (destinations.length > 0) {
+                const destination = destinations[0];
+                const targetPos = destination.box.getCenter(new THREE.Vector3());
+                const targetRotDeg = destination.mesh.degrees ?? 0;
+                const targetRotRad = THREE.MathUtils.degToRad(targetRotDeg);
+                // Move player to center of teleport destination
+                isGrounded = false;
+                cameraRig.position.copy(targetPos);
+                cameraRig.rotation.y += targetRotRad;
+                // 🌟 NEW: Push the player slightly in the "forward" direction
+                const forward = new THREE.Vector3(
+                    -Math.sin(targetRotRad),
+                    0,
+                    -Math.cos(targetRotRad)
+                );
+                forward.normalize();
+                cameraRig.position.addScaledVector(forward, 1); // Push by 1 unit forward
+                // ✅ Track the entered box
+                lastTeleportedBox = enteredBox;
+                setTimeout(() => {
+                    lastTeleportedBox = null;
+                }, 300);
+            }
+        }
+        function resetPlayer() {
+            isGrounded = false;
+            cameraRig.position.copy(startPosition);
+            velocity.set(0, 0, 0);
+            camera.rotation.set(0, 0, 0);
+            cameraRig.rotation.y = radians;
+        }
+        function jump() {
+            if (isGrounded) {
+                velocity.y = jumpPower; 
+                isGrounded = false;
+                velocity.x = 0;
+                velocity.z = 0;
+            }
+        }
+        function updateFPS(currentTime) {
+            frameCount++;
+            const delta = currentTime - lastFrameTime;
+            deltaTime = delta / 1000 * 60;
+            fpsTimeAccumulator += delta;
+            if (finishedIGT > 0) {
+                IGT = finishedIGT;
+            } else if (elapsedTime > 0) IGT += delta / 1000;
+            document.querySelector('.IGT').innerText = `In Game Time: ${IGT.toFixed(2)}s`;
+            if (fpsTimeAccumulator >= fpsUpdateInterval) {
+                fps = Math.round((frameCount * 1000) / fpsTimeAccumulator);
+                fpsCounter.innerText = `FPS: ${fps}`;
+                fpsTimeAccumulator = 0;
+            frameCount = 0;
+            }
+            lastFrameTime = currentTime;
+        }
+        function step(event) {
+            let forward = new THREE.Vector3();
+            camera.getWorldDirection(forward);
+            forward.y = 0;
+            forward.normalize(); // normalize AFTER zeroing y
+            let worldDown = new THREE.Vector3(0, -1, 0);
+            if (keys.a || keys.d) {
+                nextPosition.addScaledVector(forward, speed * deltaTime);
+                if (!isGrounded) {
+                    velocity.x = forward.x * speed;
+                    velocity.z = forward.z * speed;
+                }
+                if (elapsedTime === 0) startTimer();
+            } else if (!isGrounded) {
+                velocity.x = 0;
+                velocity.z = 0;
+            }
+            if (keys.a) strafeDirection = strafeSpeed;
+            else if (keys.d) strafeDirection = -strafeSpeed;
+            else strafeDirection = 0;
+            if (keys.space) jump();
+            const pitchLimit = Math.PI / 2 - 0.05;
+            if (keys.e) camera.rotation.x = Math.min(camera.rotation.x + 0.04, pitchLimit);
+            if (keys.q) camera.rotation.x = Math.max(camera.rotation.x - 0.04, -pitchLimit);
+            velocity.y += gravity * deltaTime;
+            nextPosition.y += velocity.y * deltaTime;
+            cameraRig.rotation.y += strafeDirection * deltaTime;
+            const teleportCooldownTime = 100; // ms
+            const collision = checkCollisions(cameraRig.position, nextPosition);
+            if (collision === false) {
+                cameraRig.position.copy(nextPosition);
+            } else if (collision === true) {
+                if (velocity.y < 0) {
+                    if (performance.now() - lastTeleportTime > teleportCooldownTime) {
+                        velocity.y = 0;
+                        isGrounded = true;
+                    }
+                }
+            } else if (collision === "ice") {
+                // SPECIAL SMART ICE COLLISION
+                // Try moving slightly from current position
+                let testDown = cameraRig.position.clone();
+                let testLeft = cameraRig.position.clone();
+                let testForward = cameraRig.position.clone();
+                testDown.y -= 0.2; // small downward move
+                testLeft.x -= 0.2; // small leftward move
+                testDown.z += 0.2; // small forward move
+                if (checkCollisions(testDown, testDown) === "ice") {
+                    // If after moving down we're still touching ice floor -> it's floor ice
+                    velocity.y = 0;
+                    if (checkCollisions(testLeft, testLeft) !== "ice") {
+                        cameraRig.position.x += velocity.x;
+                    }
+                    if (checkCollisions(testForward, testForward) !== "ice") {
+                        cameraRig.position.z += velocity.z;
+                    }
+                    isGrounded = true;
+                } else {
+                    // Otherwise it's a wall -> fall down, but allow y movement (slide down)
+                    cameraRig.position.y = nextPosition.y;
+                    isGrounded = false;
+                    /* if (collision === "leftIceWall") {
+                        velocity.x = 0; // cancel sideways into wall
+                    }
+                    if (collision === "topIceWall") {
+                        velocity.z = 0; // cancel forward into wall
+                    } */
+                }
+            }
+        }
+        function animate(currentTime) {
+            requestAnimationFrame(animate);
+            updateFPS(currentTime);
+            let direction = new THREE.Vector3();
+            camera.getWorldDirection(direction);
+            let previousPosition = cameraRig.position.clone();
+            let nextPosition = cameraRig.position.clone();
+            if(!freecam) {
+                freecamReporter.style.display = "none";
+                addEventListener("keydown", step);
+            } else {
+                // Fly-style camera movement
+                freecamReporter.style.display = "block";
+                let direction = new THREE.Vector3();
+                camera.getWorldDirection(direction);
+                if (keys.w) velocity.addScaledVector(direction, 0.2 * deltaTime);
+                if (keys.s) velocity.addScaledVector(direction, -0.2 * deltaTime);
+                if (keys.a) cameraRig.rotation.y += 0.06;
+                if (keys.d) cameraRig.rotation.y -= 0.06;
+                const pitchLimit = Math.PI / 2 - 0.05;
+                if (keys.e) camera.rotation.x = Math.min(camera.rotation.x + 0.04, pitchLimit);
+                if (keys.q) camera.rotation.x = Math.max(camera.rotation.x - 0.04, -pitchLimit);
+                let left = new THREE.Vector3();
+                left.crossVectors(camera.up, direction).normalize();
+                if (keys.ArrowLeft) velocity.addScaledVector(left, 0.2);
+                let right = new THREE.Vector3();
+                right.crossVectors(direction, camera.up).normalize();
+                if (keys.ArrowRight) velocity.addScaledVector(right, 0.2);
+                let upDown = new THREE.Vector3();
+                camera.getWorldDirection(direction);
+                upDown.crossVectors(left, direction).normalize();
+                if (keys.ArrowDown) velocity.addScaledVector(upDown, 0.2);
+                if (keys.ArrowUp) velocity.addScaledVector(upDown.clone().negate(), 0.2);
+                cameraRig.position.add(velocity);
+                velocity.multiplyScalar(0.9);
+                if (keys.Shift) velocity.y -= 0.2;
+                if (keys.space) velocity.y += 0.2;
+            }
+            if (elapsedTime > bestTime && document.getElementById("timer").style.color === "white") document.getElementById("timer").style.color = "red";
+            if (timer) {
+                document.getElementById("timer").style.display = "block"; // Show the timer
+                document.querySelector('.bestTime').style.display = 'block'; // Show the timer
+                // document.querySelector('.IGT').style.display = 'block'; // This timer is kinda usless lol
+            } else {
+                document.getElementById("timer").style.display = "none"; // Show the timer
+                document.querySelector('.bestTime').style.display = 'none'; // Show the timer
+                document.querySelector('.IGT').style.display = 'none'; // Show the timer
+            };
+            if (checkpoints > 0 && timer) {
+                document.querySelector('.checkpoint').style.display = 'block';
+            } else {
+                document.querySelector('.checkpoint').style.display = 'none';
+            };
+            document.querySelector('.checkpoint').innerText = `Checkpoint: ${checkpoint.toFixed(0)}/${checkpoints.toFixed(0)}`;
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

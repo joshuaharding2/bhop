@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic JSON Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 100%; height: 200px; }
+        input { margin: 5px; width: 100px; }
+        button { margin-top: 10px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Generate JSON Dynamically</h2>
+
+    <h3>Start Values:</h3>
+    <label>Start X: <input type="number" id="startX" value="2.5"></label>
+    <label>Start Y: <input type="number" id="startY" value="-2.5"></label>
+    <label>Start Z: <input type="number" id="startZ" value="7.5"></label>
+
+    <h3>Step Sizes:</h3>
+    <label>Step X: <input type="number" id="stepX" value="0"></label>
+    <label>Step Y: <input type="number" id="stepY" value="0"></label>
+    <label>Step Z: <input type="number" id="stepZ" value="-22.5"></label>
+
+    <h3>End Offsets:</h3>
+    <label>End Offset X: <input type="number" id="offsetX" value="-5"></label>
+    <label>End Offset Y: <input type="number" id="offsetY" value="0.5"></label>
+    <label>End Offset Z: <input type="number" id="offsetZ" value="-5"></label>
+
+    <h3>Other Settings:</h3>
+    <label>Number of Entries: <input type="number" id="numEntries" value="5"></label>
+
+    <br>
+    <button onclick="generateJSON()">Generate JSON</button>
+    <button onclick="continueJSON()">Continue JSON</button>
+    <button onclick="clearJSON()">Clear JSON</button>
+    <button onclick="downloadJSON()">Download JSON</button>
+
+    <h3>Generated JSON:</h3>
+    <textarea id="jsonOutput" readonly></textarea>
+
+    <script>
+        let lines = [];
+
+        function generateJSON() {
+            let startX = parseFloat(document.getElementById("startX").value);
+            let startY = parseFloat(document.getElementById("startY").value);
+            let startZ = parseFloat(document.getElementById("startZ").value);
+
+            let stepX = parseFloat(document.getElementById("stepX").value);
+            let stepY = parseFloat(document.getElementById("stepY").value);
+            let stepZ = parseFloat(document.getElementById("stepZ").value);
+
+            let offsetX = parseFloat(document.getElementById("offsetX").value);
+            let offsetY = parseFloat(document.getElementById("offsetY").value);
+            let offsetZ = parseFloat(document.getElementById("offsetZ").value);
+
+            let numEntries = parseInt(document.getElementById("numEntries").value);
+
+            for (let i = 0; i < numEntries; i++) {
+                let currentStartX = startX + (i * stepX);
+                let currentStartY = startY + (i * stepY);
+                let currentStartZ = startZ + (i * stepZ);
+
+                lines.push({
+                    "start": { "x": currentStartX, "y": currentStartY, "z": currentStartZ },
+                    "end": { 
+                        "x": currentStartX + offsetX, 
+                        "y": currentStartY + offsetY, 
+                        "z": currentStartZ + offsetZ 
+                    }
+                });
+            }
+
+            updateJSONOutput();
+        }
+
+        function continueJSON() {
+            if (lines.length === 0) {
+                alert("No existing data! Use 'Generate JSON' first.");
+                return;
+            }
+
+            let lastStart = lines[lines.length - 1].start;
+
+            let startX = lastStart.x;
+            let startY = lastStart.y;
+            let startZ = lastStart.z;
+
+            let stepX = parseFloat(document.getElementById("stepX").value);
+            let stepY = parseFloat(document.getElementById("stepY").value);
+            let stepZ = parseFloat(document.getElementById("stepZ").value);
+
+            let offsetX = parseFloat(document.getElementById("offsetX").value);
+            let offsetY = parseFloat(document.getElementById("offsetY").value);
+            let offsetZ = parseFloat(document.getElementById("offsetZ").value);
+
+            let numEntries = parseInt(document.getElementById("numEntries").value);
+
+            for (let i = 0; i < numEntries; i++) {
+                let currentStartX = startX + (i * stepX);
+                let currentStartY = startY + (i * stepY);
+                let currentStartZ = startZ + (i * stepZ);
+
+                lines.push({
+                    "start": { "x": currentStartX, "y": currentStartY, "z": currentStartZ },
+                    "end": { 
+                        "x": currentStartX + offsetX, 
+                        "y": currentStartY + offsetY, 
+                        "z": currentStartZ + offsetZ 
+                    }
+                });
+            }
+
+            updateJSONOutput();
+        }
+
+        function clearJSON() {
+            lines = [];
+            updateJSONOutput();
+        }
+
+        function updateJSONOutput() {
+            document.getElementById("jsonOutput").value = JSON.stringify(lines, null, 4);
+        }
+
+        function downloadJSON() {
+            let jsonContent = document.getElementById("jsonOutput").value;
+            let blob = new Blob([jsonContent], { type: "application/json" });
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "generated.json";
+            a.click();
+        }
+    </script>
+</body>
+</html>
