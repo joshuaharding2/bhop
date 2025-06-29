@@ -81,7 +81,7 @@
                 const msg = document.getElementById("message");
                 if (json.status === "login_success") {
                     msg.textContent = "Login successful!";
-                    setCookie("session", json.session, 7);
+                    setCookie("session", json.session, 30);
                     window.location.href = "bhop";
                 } else if (json.status === "signup_success") {
                     msg.textContent = "Signup successful! You may now log in.";
