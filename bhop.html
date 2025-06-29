@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bhop</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
     <style>
@@ -71,7 +72,7 @@
         .times { display: none; justify-content: flex-end; font-size: 1.4em; color: white; background: rgba(0, 0, 0, 0); padding: 5px 10px; border-radius: 5px; font-family: Arial, sans-serif; }
         #debugInfoContainer { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 4px; pointer-events: none; z-index: 9999; }
         .debugInfo { font-size: 1.4em; color: white; background: rgba(0, 0, 0, 0); padding: 5px 10px; border-radius: 5px; font-family: Arial, sans-serif; display: none; }
-        #versionDisplay { position: fixed; bottom: 2px; left: 0px; font-size: 1em; color: white; padding: 5px 10px; border-radius: 5px; font-family: Arial, sans-serif; display: block; }
+        #versionDisplay { position: absolute; bottom: 2px; left: 0px; font-size: 1em; color: white; padding: 5px 10px; border-radius: 5px; font-family: Arial, sans-serif; display: block; }
         #controlsMenu { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(20, 20, 20, 0.95); color: white; padding: 2em; border-radius: 10px; font-family: Arial, sans-serif; font-size: 25px; text-align: center; max-width: 90%; width: 600px; z-index: 100; flex-direction: column; justify-content: space-between; }
         #updatesMenu { display: none; position: absolute; top: 0px; left: 50%; transform: translateX(-50%); color: white; padding: 2em; border-radius: 10px; font-family: Arial, sans-serif; font-size: 24px; text-align: center; max-width: 90%; width: 600px; z-index: 100; flex-direction: column; justify-content: space-between; }
         .embedButton { display: block; position: relative; font-size: 1.2em; color: white; background: rgba(0, 0, 0, 0.5); height: 1.5em; width: 7em; border-radius: 5px; outline: 2px solid white; font-family: Arial, sans-serif; cursor: pointer; }
@@ -98,7 +99,7 @@
             <div id="noclipReporter" class="debugInfo">Noclip</div>
             <div id="playerHitboxReporter" class="debugInfo">Player hitbox</div>
         </div>
-        <div id="versionDisplay">v1.4.3.0-alpha</div>
+        <div id="versionDisplay">v1.4.3.0-beta</div>
         <div id="mapInfo">
             <div id="mapName" class="times">Map: - by -</div>
             <div id="worldRecord" class="times">World Record: --.-- by -</div>
@@ -116,25 +117,12 @@
             <div id="bronzeTime" class="times">Bronze: --.--</div>
         </div>
         <div id="mobileButtonWrapper">
-            <svg id="mobileButtonLeft" class="mobileButton" style="display: none;" width="170" height="120" viewBox="0 0 170 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g filter="url(#filter0_d_0_1)">
-                <rect x="10" width="150" height="100" rx="10" fill="#212121"/>
-                <rect x="11" y="1" width="148" height="98" rx="9" stroke="white" stroke-width="2"/>
-                </g>
-                <path d="M78.4853 82L46.6671 50.1818L78.4853 18.3636L83.954 23.7614L61.4398 46.2756H119.749V54.0881H61.4398L83.954 76.5312L78.4853 82Z" fill="white"/>
-                <defs>
-                <filter id="filter0_d_0_1" x="0" y="0" width="170" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                <feOffset dy="10"/>
-                <feGaussianBlur stdDeviation="5"/>
-                <feComposite in2="hardAlpha" operator="out"/>
-                <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/>
-                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/>
-                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/>
-                </filter>
-                </defs>
-            </svg>
+            <svg id="mobileButtonLeft" class="mobileButton" data-key="a" style="display: none; position: absolute; left: 10px; bottom: 50px; pointer-events: auto;" width="340" height="240" viewBox="0 0 170 120" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="51" y="46" width="71" height="8" fill="white"/> <rect x="47" y="50" width="45" height="8" transform="rotate(-45 47 50)" fill="white"/> <rect x="47" y="50" width="8" height="45" transform="rotate(-45 47 50)" fill="white"/> <g filter="url(#filter0_d_25_37)"> <rect x="11" y="1" width="148" height="98" rx="9" stroke="white" stroke-width="2" shape-rendering="crispEdges"/> </g> <defs> <filter id="filter0_d_25_37" x="0" y="0" width="170" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="10"/> <feGaussianBlur stdDeviation="5"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_25_37"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_25_37" result="shape"/> </filter> </defs> </svg>
+            <svg id="mobileButtonRight" class="mobileButton" data-key="d" style="display: none; position: absolute; left: 310px; bottom: 50px; pointer-events: auto;" width="340" height="240" viewBox="0 0 170 120" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="71" height="8" transform="matrix(-1 0 0 1 118 46)" fill="white"/> <rect width="45" height="8" transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 122 50)" fill="white"/> <rect width="8" height="45" transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 122 50)" fill="white"/> <g filter="url(#filter0_d_25_38)"> <rect x="11" y="1" width="148" height="98" rx="9" stroke="white" stroke-width="2" shape-rendering="crispEdges"/> </g> <defs> <filter id="filter0_d_25_38" x="0" y="0" width="170" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="10"/> <feGaussianBlur stdDeviation="5"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_25_38"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_25_38" result="shape"/> </filter> </defs> </svg>
+            <svg id="mobileButtonJump" class="mobileButton" data-key="space" style="display: none; position: absolute; right: 110px; bottom: 70px; pointer-events: auto;" width="340" height="340" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="8" height="71" transform="matrix(1 0 0 -1 81 108)" fill="white"/> <path d="M85 33L79.3431 38.6569L114.698 74.0122L120.355 68.3553L85 33Z" fill="white"/> <path d="M85 33L49.6447 68.3553L55.3015 74.0122L90.6569 38.6569L85 33Z" fill="white"/> <rect x="81.0002" y="113" width="8" height="3" fill="white"/> <g filter="url(#filter0_d_26_16)"> <circle cx="85" cy="75" r="74" stroke="white" stroke-width="2" shape-rendering="crispEdges"/> </g> <defs> <filter id="filter0_d_26_16" x="0" y="0" width="170" height="170" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="10"/> <feGaussianBlur stdDeviation="5"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_26_16"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_26_16" result="shape"/> </filter> </defs> </svg>
+            <svg id="mobileButtonDown" class="mobileButton" data-key="q" style="display: none; position: absolute; left: 10px; bottom: 260px; pointer-events: auto;" width="240" height="240" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="56" y="12" width="8" height="71" fill="white"/> <path d="M60 87L54.3432 81.3431L86.163 49.5233L91.8198 55.1802L60 87Z" fill="white"/> <path d="M60 87L28.1802 55.1802L33.8371 49.5233L65.6569 81.3431L60 87Z" fill="white"/> <g filter="url(#filter0_d_26_4)"> <rect x="11" y="1" width="98" height="98" rx="9" stroke="white" stroke-width="2" shape-rendering="crispEdges"/> </g> <defs> <filter id="filter0_d_26_4" x="0" y="0" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="10"/> <feGaussianBlur stdDeviation="5"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_26_4"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_26_4" result="shape"/> </filter> </defs> </svg>
+            <svg id="mobileButtonReset" class="mobileButton" onclick="rPressed();" style="display: none; position: absolute; left: 210px; bottom: 260px; pointer-events: auto;" width="240" height="240" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="42.4088" y="49.021" width="25" height="8" transform="rotate(-105 42.4088 49.021)" fill="white"/> <rect x="19.5176" y="29.2727" width="25" height="8" transform="rotate(-15 19.5176 29.2727)" fill="white"/> <path d="M50.9449 22.9224C56.6564 21.392 62.7059 21.709 68.2261 23.8281C73.7464 25.9471 78.4541 29.7594 81.6746 34.7184C84.8951 39.6775 86.4629 45.5288 86.1535 51.4337C85.844 57.3386 83.6731 62.994 79.9519 67.5893" stroke="white" stroke-width="8"/> <path d="M68.3365 76.2378C62.625 77.7682 56.5756 77.4511 51.0553 75.3321C45.535 73.2131 40.8273 69.4008 37.6068 64.4417C34.3864 59.4827 32.8185 53.6313 33.128 47.7264C33.4375 41.8215 35.6083 36.1661 39.3295 31.5709" stroke="white" stroke-width="8"/> <rect x="76.8726" y="50.1392" width="25" height="8" transform="rotate(75 76.8726 50.1392)" fill="white"/> <rect x="99.7638" y="69.8874" width="25" height="8" transform="rotate(165 99.7638 69.8874)" fill="white"/> <g filter="url(#filter0_d_28_54)"> <rect x="11" y="1.00003" width="98" height="98" rx="9" stroke="white" stroke-width="2" shape-rendering="crispEdges"/> </g> <defs> <filter id="filter0_d_28_54" x="0" y="3.05176e-05" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="10"/> <feGaussianBlur stdDeviation="5"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_28_54"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_28_54" result="shape"/> </filter> </defs> </svg>
+            <svg id="mobileButtonUp" class="mobileButton" data-key="e" style="display: none; position: absolute; left: 410px; bottom: 260px; pointer-events: auto;" width="240" height="240" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="8" height="71" transform="matrix(1 0 0 -1 56 87)" fill="white"/> <path d="M60 12L54.3431 17.6569L86.163 49.4767L91.8198 43.8198L60 12Z" fill="white"/> <path d="M60 12L28.1802 43.8198L33.837 49.4767L65.6569 17.6569L60 12Z" fill="white"/> <g filter="url(#filter0_d_26_5)"> <rect x="11" y="1" width="98" height="98" rx="9" stroke="white" stroke-width="2" shape-rendering="crispEdges"/> </g> <defs> <filter id="filter0_d_26_5" x="0" y="0" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="10"/> <feGaussianBlur stdDeviation="5"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_26_5"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_26_5" result="shape"/> </filter> </defs> </svg>
         </div>
         <button id="startButton" onclick="playClicked('startButton')">P L A Y<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
         <button id="createButton" onclick="window.location.href=window.location.origin + '/editor'">C R E A T E<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
@@ -481,6 +469,11 @@
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
     <input type="file" id="fileInput" style="display: none;" accept=".json">
     <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+            .then(() => console.log("Service Worker registered"))
+            .catch(err => console.error("Service Worker registration failed", err));
+        }
         // Campaign levels
         let campaignLevels = {
             "0.1": [{"editorData":{},"mapName": "Open World", "mapAuthor": "Liam R", "authorTime": 1.88 }, {"start":{"x":-5,"y":-2.5,"z":0},"end":{"x":5,"y":-2,"z":10},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":0},"end":{"x":-5,"y":-2,"z":10},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":10},"end":{"x":-5,"y":-2,"z":20},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":10},"end":{"x":5,"y":-2,"z":20},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":10},"end":{"x":15,"y":-2,"z":20},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":0},"end":{"x":15,"y":-2,"z":10},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":-10},"end":{"x":15,"y":-2,"z":0},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":-10},"end":{"x":-5,"y":-2,"z":0},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":-10},"end":{"x":5,"y":-2,"z":0},"type":"regular"},{"start":{"x":-25,"y":-2.5,"z":-30},"end":{"x":-15,"y":-2,"z":-20},"type":"regular"},{"start":{"x":-25,"y":-2.5,"z":-20},"end":{"x":-15,"y":-2,"z":-10},"type":"regular"},{"start":{"x":-25,"y":-2.5,"z":-10},"end":{"x":-15,"y":-2,"z":0},"type":"regular"},{"start":{"x":-25,"y":-2.5,"z":0},"end":{"x":-15,"y":-2,"z":10},"type":"regular"},{"start":{"x":-25,"y":-2.5,"z":10},"end":{"x":-15,"y":-2,"z":20},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":-30},"end":{"x":-5,"y":-2,"z":-20},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":-20},"end":{"x":-5,"y":-2,"z":-10},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":-30},"end":{"x":5,"y":-2,"z":-20},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":-20},"end":{"x":5,"y":-2,"z":-10},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":-30},"end":{"x":15,"y":-2,"z":-20},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":-20},"end":{"x":15,"y":-2,"z":-10},"type":"regular"},{"start":{"x":15,"y":-2.5,"z":-30},"end":{"x":25,"y":-2,"z":-20},"type":"regular"},{"start":{"x":15,"y":-2.5,"z":-20},"end":{"x":25,"y":-2,"z":-10},"type":"regular"},{"start":{"x":15,"y":-2.5,"z":-10},"end":{"x":25,"y":-2,"z":0},"type":"regular"},{"start":{"x":15,"y":-2.5,"z":0},"end":{"x":25,"y":-2,"z":10},"type":"regular"},{"start":{"x":15,"y":-2.5,"z":10},"end":{"x":25,"y":-2,"z":20},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":-70},"end":{"x":-5,"y":-2,"z":-60},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":-60},"end":{"x":-5,"y":-2,"z":-50},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":-50},"end":{"x":-5,"y":-2,"z":-40},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":-40},"end":{"x":-5,"y":-2,"z":-30},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":-70},"end":{"x":5,"y":-2,"z":-60},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":-60},"end":{"x":5,"y":-2,"z":-50},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":-50},"end":{"x":5,"y":-2,"z":-40},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":-40},"end":{"x":5,"y":-2,"z":-30},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":-70},"end":{"x":15,"y":-2,"z":-60},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":-60},"end":{"x":15,"y":-2,"z":-50},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":-50},"end":{"x":15,"y":-2,"z":-40},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":-40},"end":{"x":15,"y":-2,"z":-30},"type":"regular"},{"start":{"x":-25,"y":-2.5,"z":-40},"end":{"x":-15,"y":-2,"z":-30},"type":"regular"},{"start":{"x":15,"y":-2.5,"z":-40},"end":{"x":25,"y":-2,"z":-30},"type":"regular"},{"start":{"x":-25,"y":-2.5,"z":20},"end":{"x":-15,"y":-2,"z":30},"type":"regular"},{"start":{"x":-15,"y":-2.5,"z":20},"end":{"x":-5,"y":-2,"z":30},"type":"regular"},{"start":{"x":-5,"y":-2.5,"z":20},"end":{"x":5,"y":-2,"z":30},"type":"regular"},{"start":{"x":5,"y":-2.5,"z":20},"end":{"x":15,"y":-2,"z":30},"type":"regular"},{"start":{"x":15,"y":-2.5,"z":20},"end":{"x":25,"y":-2,"z":30},"type":"regular"},{"start":{"x":-45,"y":-2.5,"z":-40},"end":{"x":-35,"y":-2,"z":-30},"type":"regular"},{"start":{"x":-45,"y":-2.5,"z":-30},"end":{"x":-35,"y":-2,"z":-20},"type":"regular"},{"start":{"x":-45,"y":-2.5,"z":-20},"end":{"x":-35,"y":-2,"z":-10},"type":"regular"},{"start":{"x":-45,"y":-2.5,"z":-10},"end":{"x":-35,"y":-2,"z":0},"type":"regular"},{"start":{"x":-45,"y":-2.5,"z":0},"end":{"x":-35,"y":-2,"z":10},"type":"regular"},{"start":{"x":-45,"y":-2.5,"z":10},"end":{"x":-35,"y":-2,"z":20},"type":"regular"},{"start":{"x":-45,"y":-2.5,"z":20},"end":{"x":-35,"y":-2,"z":30},"type":"regular"},{"start":{"x":-35,"y":-2.5,"z":-40},"end":{"x":-25,"y":-2,"z":-30},"type":"regular"},{"start":{"x":-35,"y":-2.5,"z":-30},"end":{"x":-25,"y":-2,"z":-20},"type":"regular"},{"start":{"x":-35,"y":-2.5,"z":-20},"end":{"x":-25,"y":-2,"z":-10},"type":"regular"},{"start":{"x":-35,"y":-2.5,"z":-10},"end":{"x":-25,"y":-2,"z":0},"type":"regular"},{"start":{"x":-35,"y":-2.5,"z":0},"end":{"x":-25,"y":-2,"z":10},"type":"regular"},{"start":{"x":-35,"y":-2.5,"z":10},"end":{"x":-25,"y":-2,"z":20},"type":"regular"},{"start":{"x":-35,"y":-2.5,"z":20},"end":{"x":-25,"y":-2,"z":30},"type":"regular"},{"start":{"x":25,"y":-2.5,"z":-40},"end":{"x":35,"y":-2,"z":-30},"type":"regular"},{"start":{"x":25,"y":-2.5,"z":-30},"end":{"x":35,"y":-2,"z":-20},"type":"regular"},{"start":{"x":25,"y":-2.5,"z":-20},"end":{"x":35,"y":-2,"z":-10},"type":"regular"},{"start":{"x":25,"y":-2.5,"z":-10},"end":{"x":35,"y":-2,"z":0},"type":"regular"},{"start":{"x":25,"y":-2.5,"z":0},"end":{"x":35,"y":-2,"z":10},"type":"regular"},{"start":{"x":25,"y":-2.5,"z":10},"end":{"x":35,"y":-2,"z":20},"type":"regular"},{"start":{"x":25,"y":-2.5,"z":20},"end":{"x":35,"y":-2,"z":30},"type":"regular"},{"start":{"x":35,"y":-2.5,"z":-40},"end":{"x":45,"y":-2,"z":-30},"type":"regular"},{"start":{"x":35,"y":-2.5,"z":-30},"end":{"x":45,"y":-2,"z":-20},"type":"regular"},{"start":{"x":35,"y":-2.5,"z":-20},"end":{"x":45,"y":-2,"z":-10},"type":"regular"},{"start":{"x":35,"y":-2.5,"z":-10},"end":{"x":45,"y":-2,"z":0},"type":"regular"},{"start":{"x":35,"y":-2.5,"z":0},"end":{"x":45,"y":-2,"z":10},"type":"regular"},{"start":{"x":35,"y":-2.5,"z":10},"end":{"x":45,"y":-2,"z":20},"type":"regular"},{"start":{"x":35,"y":-2.5,"z":20},"end":{"x":45,"y":-2,"z":30},"type":"regular"},{"start":{"x":-5,"y":-2,"z":-50},"end":{"x":5,"y":5,"z":-50.5},"type":"end"},{"start":{"x":-5,"y":-2,"z":-60},"end":{"x":5,"y":5,"z":-60.5},"type":"end"},{"start":{"x":-15,"y":-2,"z":-70},"end":{"x":-14.5,"y":5,"z":-60},"type":"regular"},{"start":{"x":-15,"y":-2,"z":-60},"end":{"x":-14.5,"y":5,"z":-50},"type":"regular"},{"start":{"x":-15,"y":-2,"z":-50},"end":{"x":-14.5,"y":5,"z":-40},"type":"regular"},{"start":{"x":-15,"y":-2,"z":-70},"end":{"x":-5,"y":5,"z":-70.5},"type":"regular"},{"start":{"x":-5,"y":-2,"z":-70},"end":{"x":5,"y":5,"z":-70.5},"type":"regular"},{"start":{"x":5,"y":-2,"z":-70},"end":{"x":15,"y":5,"z":-70.5},"type":"regular"},{"start":{"x":15,"y":-2,"z":-70},"end":{"x":15.5,"y":5,"z":-60},"type":"regular"},{"start":{"x":15,"y":-2,"z":-60},"end":{"x":15.5,"y":5,"z":-50},"type":"regular"},{"start":{"x":15,"y":-2,"z":-50},"end":{"x":15.5,"y":5,"z":-40},"type":"regular"},{"start":{"x":-5,"y":-2,"z":-60},"end":{"x":-4.5,"y":5,"z":-50},"type":"end"},{"start":{"x":5,"y":-2,"z":-60},"end":{"x":5.5,"y":5,"z":-50},"type":"end"}],
@@ -535,8 +528,12 @@
         let charCounter = document.getElementById("charCounter");
         let pauseMenu = document.getElementById("pauseMenu");
         let mobileButtonWrapper = document.getElementById("mobileButtonWrapper");
+        let mobileButtonLeft = document.getElementById("mobileButtonLeft");
+        let mobileButtonRight = document.getElementById("mobileButtonRight");
+        let mobileButtonJump = document.getElementById("mobileButtonJump");
         // THREE.js movement
         let keys = { w: false, a: false, s: false, d: false, space: false, e: false, q: false, ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, Shift: false };
+        let touchKeyMap = {}; // mobile touch key mapping
         let speed = 0.5;
         let freecamSpeed = 0.05;
         let gravity = -0.01;
@@ -707,10 +704,56 @@
                 embedButtonRows.forEach(button => {
                     // button.style.display = "flex";
                 });
-                // if(device === "mobile") {
+                if (isMobileDevice()) {
                     const mobileButtons = mobileButtonWrapper.querySelectorAll(".mobileButton");
-                // }
+                    mobileButtons.forEach(svg => {
+                        svg.style.display = "block";
+                    });
+                    document.addEventListener("touchstart", handleTouch, { passive: false });
+                    document.addEventListener("touchmove", handleTouch, { passive: false });
+                    document.addEventListener("touchend", handleTouchEnd);
+                    document.addEventListener("touchcancel", handleTouchEnd);
+                    document.getElementById("mobileButtonReset").addEventListener("touchend", (e) => {
+                        e.preventDefault(); // prevent double firing / scroll
+                        rPressed(); // your existing function
+                    }, { passive: false });
+                }
                 init();
+            }
+        }
+        function isMobileDevice() {
+            return (
+                'ontouchstart' in window || // most touch devices
+                navigator.maxTouchPoints > 0 || // some newer laptops
+                navigator.userAgent.toLowerCase().includes("mobi") // fallback
+            );
+        }
+        function handleTouch(e) {
+            e.preventDefault();
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                const elem = document.elementFromPoint(touch.clientX, touch.clientY);
+                const key = elem?.closest(".mobileButton")?.dataset?.key;
+                const prevKey = touchKeyMap[touch.identifier];
+                // If finger moved to a different button
+                if (prevKey && prevKey !== key) {
+                    keys[prevKey] = false;
+                    delete touchKeyMap[touch.identifier];
+                }
+                if (key && !touchKeyMap[touch.identifier]) {
+                    keys[key] = true;
+                    touchKeyMap[touch.identifier] = key;
+                }
+            }
+        }
+        function handleTouchEnd(e) {
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const touch = e.changedTouches[i];
+                const key = touchKeyMap[touch.identifier];
+                if (key) {
+                    keys[key] = false;
+                    delete touchKeyMap[touch.identifier];
+                }
             }
         }
         function handleFileImport(event) {
@@ -847,9 +890,7 @@
                         }
                     }
                     if (event.key === "r") {
-                        queuedKeyPresses.r = true;
-                        resetPlayer();
-                        if (checkpoint === 0 && checkpointHelpers.length === 0 && !freecam) resetTimer();
+                        rPressed();
                     }
                     if (event.key === "m") {
                         resetMap();
@@ -1219,6 +1260,11 @@
                     lastTeleportedBox = null;
                 }, 300);
             }
+        }
+        function rPressed() {
+            queuedKeyPresses.r = true;
+            resetPlayer();
+            if (checkpoint === 0 && checkpointHelpers.length === 0 && !freecam) resetTimer();
         }
         function resetPlayer() {
             isGrounded = false;
