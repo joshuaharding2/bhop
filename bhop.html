@@ -165,7 +165,7 @@
                 <li><b>Started developing gameplay replay system (also unfinished)</b></li>
                 <li><b>Added a new campaign (player pack 1) with a couple of levels</b>
                     <ul style="margin-left: 1.5em; list-style-type: disc;">
-                        <li>Challenge 01 (hopefully 02 and 03 comming soon)</li>
+                        <li>Challenge 01 (hopefully 02 and 03 coming soon)</li>
                         <li>Tower 01 and Tower 02 (Tower 03?)</li>
                     </ul></li>
                 <li><b>Added practice mode:</b>
@@ -279,7 +279,7 @@
             </div>
         </button>
         <button id = "campaign2" type ="button" class="btn">
-            <strong>COMMING SOON</strong>
+            <strong>COMING SOON</strong>
             <div id="container-stars">
                 <div id="stars"></div>
             </div>
@@ -459,8 +459,8 @@
             <button class="simpleButton" style="margin-top: 1em; width: 500px;" onclick="playing = true, document.getElementById('pauseMenu').style.display = 'none'">
                 <span style="display: inline-block; transform: scale(1.5); transform-origin: center;">Resume</span>
             </button>
-            <button class="simpleButton" style="margin-top: -0.5em; width: 500px;" onclick="">
-                <span style="display: inline-block; transform: scale(1.5); transform-origin: center;">Coming Soon</span>
+            <button class="simpleButton" style="margin-top: -0.5em; width: 500px;" onclick="document.documentElement.requestFullscreen();">
+                <span style="display: inline-block; transform: scale(1.5); transform-origin: center;">Click for fullscreen</span>
             </button>
             <button class="simpleButton" style="margin-top: -0.5em; width: 500px;" onclick="">
                 <span style="display: inline-block; transform: scale(1.5); transform-origin: center;">Coming Soon</span>
@@ -835,8 +835,6 @@
                 camera.updateProjectionMatrix();
             });
             window.dispatchEvent(new Event("resize"));
-            let hideCursorTimeout;
-            // Hide cursor immediately after keypress
             document.addEventListener("keydown", () => {
                 const mobileButtons = mobileButtonWrapper.querySelectorAll(".mobileButton");
                 mobileButtons.forEach(svg => {
