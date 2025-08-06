@@ -66,6 +66,42 @@
         .levelButton:hover span { background: none; }
         .levelButton:active { transform: translateY(3em) scale(0.9); }
         .campaignRow { display: flex; flex-direction: row; gap: 2em; }
+        .campaignColumn { display: flex; flex-direction: column; align-items: center; }
+        .eventCountdown { margin-top: 0.5em; font-size: 0.9em; color: #ccc; font-family: monospace; transform: translateY(2em); }
+        .levelButtonDisabled {
+    display: none;
+    transform: translateY(3em);
+    align-items: center;
+    background-image: linear-gradient(144deg, #555, #444 50%, #333);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #999;
+    font-size: 1.8em;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    white-space: nowrap;
+    cursor: not-allowed;
+    opacity: 0.5;
+    position: relative;
+}
+/* Optional lock overlay */
+.levelButtonDisabled::after {
+    content: "🔒";
+    position: absolute;
+    font-size: 1.2em;
+    top: 8px;
+    right: 12px;
+    pointer-events: none;
+}
         #startButton { margin-top: 8em; }
         .simpleButton { margin-top: 1.5em; padding: 0.4em 1em; background-color: transparent; color: #27c39f; border: 2px solid #27c39f; border-radius: 8px; font-size: 0.9em; cursor: pointer; transition: 0.5s ease; }
         .timer { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 2.4em; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; display: none; }
@@ -108,7 +144,7 @@
             <div id="noclipReporter" class="debugInfo">Noclip</div>
             <div id="playerHitboxReporter" class="debugInfo">Player hitbox</div>
         </div>
-        <div id="versionDisplay">v1.5.01</div>
+        <div id="versionDisplay">v1.5.1</div>
         <div id="mapInfo">
             <div id="mapName" class="times">Map: - by -</div>
             <div id="worldRecord" class="times">World Record: --.-- by -</div>
@@ -135,6 +171,7 @@
         </div>
         <button id="startButton" onclick="playClicked('startButton')">P L A Y<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
         <button id="createButton" onclick="window.location.href=window.location.origin + '/editor'">C R E A T E<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
+        <button id="eventsButton" onclick="playClicked('eventsButton')">E V E N T S<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
         <button id="controlsButton" onclick="openMenu('controlsMenu')">C O N T R O L S<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
         <div id="controlsMenu">
             <h2>Controls</h2>
@@ -331,6 +368,16 @@
                 <div class="circle"></div>
             </div>
         </button>
+        <div id="campaign-1Levels">
+            <div class="campaignRow">
+                <div class="campaignColumn">
+                    <button id="campaign-1LevelButton" type="button" class="levelButtonDisabled">
+                        <span>Event 01</span>
+                    </button>
+                    <div id="event-1-countdown" class="eventCountdown"></div>
+                </div>
+            </div>
+        </div>              
         <div id="campaign0Levels">
             <div class="campaignRow">
                 <button id="campaign0LevelButton" type="button" class="levelButton" onclick="campaignNumber = 0, campaignLevel = 1, startGame()"><span>Open World</span></button>
@@ -689,6 +736,7 @@
         function hideMenuButtons() {
             document.getElementById("startButton").style.display = "none";
             document.getElementById("createButton").style.display = "none";
+            document.getElementById("eventsButton").style.display = "none";
             document.getElementById("controlsButton").style.display = "none";
             document.getElementById("tutorialButton").style.display = "none";
             document.getElementById("updatesButton").style.display = "none";
@@ -697,6 +745,7 @@
         function showMenuButtons() {
             document.getElementById("startButton").style.display = "block";
             document.getElementById("createButton").style.display = "block";
+            document.getElementById("eventsButton").style.display = "block";
             document.getElementById("controlsButton").style.display = "block";
             document.getElementById("tutorialButton").style.display = "block";
             document.getElementById("updatesButton").style.display = "block";
@@ -724,6 +773,9 @@
                 showPlayOptions();
             } else if (button === "tutorialButton") {
                 showCampaign(0);
+            } else if (button === "eventsButton") {
+                showCampaign(-1)
+                startCountdowns();
             }
         }
         function showPlayOptions() {
@@ -746,6 +798,10 @@
             levelButtons.forEach(btn => {
                 btn.style.display = "flex";
             });
+            const disabledLevelButtons = levelsContainer.querySelectorAll(".levelButtonDisabled");
+            disabledLevelButtons.forEach(btn => {
+                btn.style.display = "flex";
+            });
         }
         function hideCampaign(campaignNumber) {
             hidePlayOptions();
@@ -755,6 +811,38 @@
             levelButtons.forEach(btn => {
                 btn.style.display = "none";
             });
+            const disabledLevelButtons = levelsContainer.querySelectorAll(".levelButtonDisabled");
+            disabledLevelButtons.forEach(btn => {
+                btn.style.display = "none";
+            });
+        }
+        function startCountdowns() {
+            const eventStartTime = new Date("2025-08-07T17:00:00Z").getTime();
+            const countdownEl = document.getElementById("event-1-countdown");
+            const button = document.getElementById("campaign-1LevelButton");
+            function updateCountdown() {
+                const now = Date.now();
+                const diff = eventStartTime - now;
+                if (diff <= 0) {
+                    countdownEl.textContent = "Event has started!";
+                    clearInterval(interval);
+                    button.classList.remove("levelButtonDisabled");
+                    button.classList.add("levelButton");
+                    button.onclick = function() {
+                        campaignNumber = -1;
+                        campaignLevel = 1;
+                        startGame();
+                    };
+                    return;
+                }
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+                countdownEl.textContent = `Starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+            updateCountdown();
+            const interval = setInterval(updateCountdown, 1000);
         }
         function startGame(initCommand) {
             document.querySelector(".title").style.display = "none";
