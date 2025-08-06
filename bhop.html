@@ -14,6 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap"></noscript>
+    <script data-goatcounter="https://dream366.goatcounter.com/count"async src="//gc.zgo.at/count.js"></script>
     <style>
         * { padding: 0; margin: 0; box-sizing: border-box; }
         html, body { margin: 0; padding: 0; overflow: hidden; width: 100%; height: 100%; background: black; background-color: black; font-family: sans-serif; }
@@ -68,40 +69,8 @@
         .campaignRow { display: flex; flex-direction: row; gap: 2em; }
         .campaignColumn { display: flex; flex-direction: column; align-items: center; }
         .eventCountdown { margin-top: 0.5em; font-size: 0.9em; color: #ccc; font-family: monospace; transform: translateY(2em); }
-        .levelButtonDisabled {
-    display: none;
-    transform: translateY(3em);
-    align-items: center;
-    background-image: linear-gradient(144deg, #555, #444 50%, #333);
-    border: 0;
-    border-radius: 8px;
-    box-shadow: none;
-    box-sizing: border-box;
-    color: #999;
-    font-size: 1.8em;
-    justify-content: center;
-    line-height: 1em;
-    max-width: 100%;
-    min-width: 140px;
-    padding: 3px;
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: none;
-    white-space: nowrap;
-    cursor: not-allowed;
-    opacity: 0.5;
-    position: relative;
-}
-/* Optional lock overlay */
-.levelButtonDisabled::after {
-    content: "🔒";
-    position: absolute;
-    font-size: 1.2em;
-    top: 8px;
-    right: 12px;
-    pointer-events: none;
-}
+        .levelButtonDisabled { display: none; transform: translateY(3em); align-items: center; background-image: linear-gradient(144deg, #555, #444 50%, #333); border: 0; border-radius: 8px; box-shadow: none; box-sizing: border-box; color: #999; font-size: 1.8em; justify-content: center; line-height: 1em; max-width: 100%; min-width: 140px; padding: 3px; text-decoration: none; user-select: none; -webkit-user-select: none; touch-action: none; white-space: nowrap; cursor: not-allowed; opacity: 0.5; position: relative; }
+        .levelButtonDisabled::after { content: "🔒"; position: absolute; font-size: 1.2em; top: 8px; right: 12px; pointer-events: none; }
         #startButton { margin-top: 8em; }
         .simpleButton { margin-top: 1.5em; padding: 0.4em 1em; background-color: transparent; color: #27c39f; border: 2px solid #27c39f; border-radius: 8px; font-size: 0.9em; cursor: pointer; transition: 0.5s ease; }
         .timer { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 2.4em; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; display: none; }
