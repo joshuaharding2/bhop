@@ -36,12 +36,31 @@
             display: block;
             background: white;
         }
-        #saveButton,
-        #layerInfo {
+        #saveButton {
             position: absolute;
             top: 10px;
             padding: 10px 20px;
             background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #layerMenu {
+            display: flex;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            gap: 10px;
+            flex-direction: column;
+        }
+        #layerInfo {
+            padding: 10px 20px;
             color: white;
             border: none;
             border-radius: 5px;
@@ -81,12 +100,26 @@
             cursor: pointer;
             font-size: 16px;
             z-index: 11;
+            right: 10px;
         }
         #helpButton:hover {
             background-color: #555555;
         }
-        #helpButton {
-            right: 10px;
+        #homeButton {
+            position: absolute;
+            bottom: 10px;
+            padding: 10px 20px;
+            background-color: #666666;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 11;
+            left: 10px;
+        }
+        #homeButton:hover {
+            background-color: #555555;
         }
         #helpOverlay {
             display: none;
@@ -209,8 +242,14 @@
     <canvas id="gridCanvas"></canvas>
     <button id="saveButton">Save</button>
     <button id="loadButton">Load</button>
+    <button id="homeButton">Home</button>
     <button id="helpButton">Help</button>
-    <div id="layerInfo">Layer: 0</div>
+    <div>
+    <div id="layerMenu">
+        <button class="toolbar-button" onclick="increaseLayer()">Up</button>
+        <div id="layerInfo">Layer: 0</div>
+        <button class="toolbar-button" onclick="decreaseLayer()">Down</button>
+    </div>
     <div id="bottomToolbar">
         <button class="toolbar-button" onclick="toggleToolMenu()">Tools</button>
     </div>
@@ -252,6 +291,7 @@
         const ctx = canvas.getContext("2d");
         const saveButton = document.getElementById("saveButton");
         const loadButton = document.getElementById("loadButton");
+        const homeButton = document.getElementById("homeButton");
         const helpButton = document.getElementById("helpButton");
         const layerInfo = document.getElementById("layerInfo");
         let offsetX = 0;
@@ -285,6 +325,11 @@
         let mouseDownTime = 0;
         let mouseDownPos = null;
         let lastDragCellKey = null;
+        let isDragging = false;
+        let lastTouchX = 0;
+        let lastTouchY = 0;
+        let isPinching = false;
+        let lastTouchDist = 0;
         const helpPages = [
             `
                 <h2>Help</h2>
@@ -365,11 +410,17 @@
                 <li><b>Save Button:</b> Downloads a JSON file of your level</li>
                 <li><b>Load Button:</b> Opens downloaded .json file back into the editor</li>
                 <li><b>Playing Your Level: </b>
-                        Go to the actual <a href="https://joshuaharding2codehsme-12369080.codehs.me/bhop"
+                        Go to the actual <a href="https://bhop.site/bhop"
                         target="_blank">bhop</a> game and click play, then load custom level at the bottom, and open the downloaded file.</li>
                 </ul>
             `
         ];
+        function isMobileDevice() {
+            return (
+                "ontouchstart" in window || // most touch devices
+                navigator.userAgent.toLowerCase().includes("mobi") // fallback
+            );
+        }
         function centerOrigin(centerX, centerY) {
             offsetX = centerX * cellSize - canvas.width / 2 + cellSize / 2;
             offsetY = centerY * cellSize - canvas.height / 2 + cellSize / 2;
@@ -380,6 +431,18 @@
         let wallData = getWallData();
         function updateLayerInfo() {
             layerInfo.textContent = `Layer: ${currentLayer}`;
+        }
+        function increaseLayer() {
+            currentLayer++;
+            gridData = getGridData();
+            wallData = getWallData();
+            updateLayerInfo();
+        }
+        function decreaseLayer() {
+            currentLayer = Math.max(-999, currentLayer - 1);
+            gridData = getGridData();
+            wallData = getWallData();
+            updateLayerInfo();
         }
         function toggleToolMenu() {
             const menu = document.getElementById("toolMenu");
@@ -1075,6 +1138,12 @@
         helpButton.addEventListener("click", () => {
             toggleHelpMenu();
         });
+        homeButton.addEventListener("click", () => {
+            offsetX = 0;
+            offsetY = 0;
+            cellSize = 100;
+            centerOrigin(0, 0);
+        });
         function toggleHelpMenu() {
             helpMenu = !helpMenu;
             document.getElementById("helpOverlay").style.display = helpMenu ? "flex" : "none";
@@ -1249,16 +1318,10 @@
             }
             if (e.key === "r") { offsetX = 0; offsetY = 0; cellSize = 100; centerOrigin(0, 0); }
             if (e.key === "q") {
-                currentLayer = Math.max(-999, currentLayer - 1);
-                gridData = getGridData();
-                wallData = getWallData();
-                updateLayerInfo();
+                decreaseLayer();
             }
             if (e.key === "e") {
-                currentLayer++;
-                gridData = getGridData();
-                wallData = getWallData();
-                updateLayerInfo();
+                increaseLayer();
             }
             if (e.key === "Delete" || e.key === "Backspace") {
                 e.preventDefault(); // stop browser from navigating back
@@ -1370,6 +1433,64 @@
         window.addEventListener("keyup", (event) => {
             if (event.key in keys) keys[event.key] = false;
         });
+        if (isMobileDevice()) {
+            window.addEventListener("touchstart", (e) => {
+                if (e.touches.length === 1) {
+                    // One-finger drag
+                    isDragging = true;
+                    isPinching = false;
+                    lastTouchX = e.touches[0].clientX;
+                    lastTouchY = e.touches[0].clientY;
+                } else if (e.touches.length === 2) {
+                    // Two-finger pinch start
+                    isDragging = false;
+                    isPinching = true;
+                    lastTouchDist = getTouchDistance(e.touches[0], e.touches[1]);
+                }
+            });
+            window.addEventListener("touchmove", (e) => {
+                if (isDragging && e.touches.length === 1) {
+                    const touchX = e.touches[0].clientX;
+                    const touchY = e.touches[0].clientY;
+                    const dx = touchX - lastTouchX;
+                    const dy = touchY - lastTouchY;
+                    offsetX -= dx;
+                    offsetY -= dy;
+                    lastTouchX = touchX;
+                    lastTouchY = touchY;
+                    e.preventDefault(); // prevent page scroll
+                } else if (isPinching && e.touches.length === 2) {
+                    const newDist = getTouchDistance(e.touches[0], e.touches[1]);
+                    const distDiff = newDist - lastTouchDist;
+                    if (Math.abs(distDiff) > 2) { // small threshold to prevent jitter
+                        const prevSize = cellSize;
+                        // scale by distance change
+                        const zoomAmount = distDiff * 0.2; // tune this as needed
+                        cellSize = Math.max(10, cellSize + zoomAmount);
+                        const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                        const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                        // adjust offset to zoom toward center of pinch
+                        offsetX += (cellSize - prevSize) * (centerX / window.innerWidth);
+                        offsetY += (cellSize - prevSize) * (centerY / window.innerHeight);
+                        lastTouchDist = newDist;
+                    }
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            window.addEventListener("touchend", (e) => {
+                if (e.touches.length < 2) {
+                    isPinching = false;
+                }
+                if (e.touches.length === 0) {
+                    isDragging = false;
+                }
+            });
+        }
+        function getTouchDistance(t1, t2) {
+            const dx = t1.clientX - t2.clientX;
+            const dy = t1.clientY - t2.clientY;
+            return Math.hypot(dx, dy);
+        }
         function animate(timestamp) {
             requestAnimationFrame(animate);
             if (timestamp - lastMoveTime > moveInterval) {
