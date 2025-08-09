@@ -905,6 +905,20 @@
         function init(initCommand) {
             if (initCommand === "loadLevel") {
                 document.getElementById("fileInput").click();
+                if (isMobileDevice()) {
+                    const mobileButtons = mobileButtonWrapper.querySelectorAll(".mobileButton");
+                    mobileButtons.forEach(svg => {
+                        svg.style.display = "block";
+                    });
+                    document.addEventListener("touchstart", handleTouch, { passive: false });
+                    document.addEventListener("touchmove", handleTouch, { passive: false });
+                    document.addEventListener("touchend", handleTouchEnd);
+                    document.addEventListener("touchcancel", handleTouchEnd);
+                    document.getElementById("mobileButtonReset").addEventListener("touchend", (e) => {
+                        e.preventDefault();
+                        mobileRPressed();
+                    }, { passive: false });
+                }
             }
             playing = true;
             scene = new THREE.Scene();
