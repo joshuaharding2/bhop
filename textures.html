@@ -2011,15 +2011,11 @@
                     velocity.x = 0;
                     velocity.z = 0;
                 }
-                // Experimental strafe code that doesn't prioritize left but it's a big change I don't wanna add yet
                 if (lastStrafeKey !== "d" && keys.a) strafeDirection = strafeSpeed;
                 else if (lastStrafeKey !== "a" && keys.d) strafeDirection = -strafeSpeed;
-                //if (keys.a) strafeDirection = strafeSpeed;
-                //else if (keys.d) strafeDirection = -strafeSpeed;
-                // Code above is the old strafe code
                 else strafeDirection = 0;
                 if (keys.space) jump();
-                const pitchLimit = Math.PI / 2 - 0.05;
+                const pitchLimit = Math.PI / 2;
                 if (keys.e) camera.rotation.x = Math.min(camera.rotation.x + 0.04, pitchLimit);
                 if (keys.q) camera.rotation.x = Math.max(camera.rotation.x - 0.04, -pitchLimit);
                 velocity.y += gravity * deltaTime;
