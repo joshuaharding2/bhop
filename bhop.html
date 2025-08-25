@@ -102,6 +102,9 @@
         <div class="IGT">In Game Time: 0.00s</div>
         <div class="checkpoint">Checkpoint: -/-</div>
         <div id="debugInfoContainer">
+            <div id="mobilePauseButtonRow" class="embedButtonRow">
+                <button id="mobilePauseButton" class="embedButton" tabindex="-1" onpointerdown="togglePauseGame()">Watch replay</button>
+            </div>
             <div id="fpsCounter" class="debugInfo">FPS: --</div>
             <div id="positionReporter" class="debugInfo">Position: -, -, -</div>
             <div id="directionReporter" class="debugInfo">Direction: -, -</div>
@@ -851,6 +854,7 @@
                         e.preventDefault();
                         mobileRPressed();
                     }, { passive: false });
+                    document.getElementById("mobilePauseButtonRow").style.display = "flex";
                 }
                 init();
             }
@@ -990,16 +994,7 @@
             });
             window.addEventListener("keydown", (e) => {
                 if (e.key === "Escape") {
-                    if (pauseMenu.style.display === "none") {
-                        pauseMenu.style.display = "block";
-                        if (!freecam) storedVelocity = velocity.clone();
-                        velocity.set(0, 0, 0);
-                        playing = false;
-                    } else {
-                        pauseMenu.style.display = "none";
-                        velocity.copy(storedVelocity);
-                        if (worldRecordMenu.style.display === "none") playing = true;
-                    }
+                    togglePauseGame();
                 }
                 if (playing) {
                     if (e.key === "\\") {
@@ -1474,6 +1469,18 @@
                 resetMap();
             }
             mobileRLastPressed = performance.now();
+        }
+        function togglePauseGame() {
+            if (pauseMenu.style.display === "none") {
+                pauseMenu.style.display = "block";
+                if (!freecam) storedVelocity = velocity.clone();
+                velocity.set(0, 0, 0);
+                playing = false;
+            } else {
+                pauseMenu.style.display = "none";
+                velocity.copy(storedVelocity);
+                if (worldRecordMenu.style.display === "none") playing = true;
+            }
         }
         function resetPlayer() {
             isGrounded = false;
