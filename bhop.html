@@ -873,13 +873,16 @@
             );
         }
         function handleTouch(e) {
-            e.preventDefault();
+            // If the touch started on a UI button, don't block it
+            if (e.target.closest(".embedButton")) {
+                return; // let pointerdown/click work normally
+            }
+            e.preventDefault(); // only block touches for game controls
             for (let i = 0; i < e.touches.length; i++) {
                 const touch = e.touches[i];
                 const elem = document.elementFromPoint(touch.clientX, touch.clientY);
                 const key = elem?.closest(".mobileButton")?.dataset?.key;
                 const prevKey = touchKeyMap[touch.identifier];
-                // If finger moved to a different button
                 if (prevKey && prevKey !== key) {
                     keys[prevKey] = false;
                     delete touchKeyMap[touch.identifier];
