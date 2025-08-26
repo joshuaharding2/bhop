@@ -862,6 +862,9 @@
                         mobileRPressed();
                     }, { passive: false });
                     document.getElementById("mobilePauseButtonRow").style.display = "flex";
+                    let pauseBtn = document.getElementById("mobilePauseButton");
+                    pauseBtn.addEventListener("click", handlePause);
+                    pauseBtn.addEventListener("touchstart", handlePause);
                 }
                 init();
             }
