@@ -863,8 +863,12 @@
                     }, { passive: false });
                     document.getElementById("mobilePauseButtonRow").style.display = "flex";
                     let pauseBtn = document.getElementById("mobilePauseButton");
-                    pauseBtn.addEventListener("click", handlePause);
-                    pauseBtn.addEventListener("touchstart", handlePause);
+                    // Attach handlers properly
+                    pauseBtn.addEventListener("click", togglePauseGame);
+                    pauseBtn.addEventListener("touchstart", function (e) {
+                    e.preventDefault(); // avoid ghost double click
+                    togglePauseGame();
+                    });
                 }
                 init();
             }
