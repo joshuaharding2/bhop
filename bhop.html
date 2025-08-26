@@ -873,11 +873,11 @@
             );
         }
         function handleTouch(e) {
-            // If the touch started on a UI button, don't block it
+            // Ignore touches on UI buttons
             if (e.target.closest(".embedButton")) {
-                return; // let pointerdown/click work normally
+                return;
             }
-            e.preventDefault(); // only block touches for game controls
+            e.preventDefault(); // block only gameplay touches
             for (let i = 0; i < e.touches.length; i++) {
                 const touch = e.touches[i];
                 const elem = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -894,6 +894,10 @@
             }
         }
         function handleTouchEnd(e) {
+            // Ignore UI buttons as well
+            if (e.target.closest(".embedButton")) {
+                return;
+            }
             for (let i = 0; i < e.changedTouches.length; i++) {
                 const touch = e.changedTouches[i];
                 const key = touchKeyMap[touch.identifier];
