@@ -895,7 +895,7 @@
                 log("Touch ignored because it's a UI button");
                 return;
             }
-            //e.preventDefault(); // block only gameplay touches
+            e.preventDefault(); // block only gameplay touches
             for (let i = 0; i < e.touches.length; i++) {
                 const touch = e.touches[i];
                 const elem = document.elementFromPoint(touch.clientX, touch.clientY);
