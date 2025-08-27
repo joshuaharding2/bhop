@@ -111,9 +111,6 @@
         <div class="checkpoint">Checkpoint: -/-</div>
         <div id="mobileLog"></div>
         <div id="debugInfoContainer">
-            <div id="mobilePauseButtonRow" class="embedButtonRow" style="justify-content: left;">
-                <button id="mobilePauseButton" class="embedButton" onpointerdown="togglePauseGame()">Pause</button>
-            </div>
             <div id="fpsCounter" class="debugInfo">FPS: --</div>
             <div id="positionReporter" class="debugInfo">Position: -, -, -</div>
             <div id="directionReporter" class="debugInfo">Direction: -, -</div>
@@ -124,6 +121,9 @@
             <div id="freecamReporter" class="debugInfo">Freecam</div>
             <div id="noclipReporter" class="debugInfo">Noclip</div>
             <div id="playerHitboxReporter" class="debugInfo">Player hitbox</div>
+            <div id="mobilePauseButtonRow" class="embedButtonRow" style="justify-content: left;">
+                <button id="mobilePauseButton" class="embedButton" onpointerdown="togglePauseGame()">Pause</button>
+            </div>
         </div>
         <div id="versionDisplay">v1.5.1</div>
         <div id="mapInfo">
@@ -873,10 +873,6 @@
                     document.getElementById("mobilePauseButtonRow").style.display = "flex";
                     let pauseBtn = document.getElementById("mobilePauseButton");
                     log("Pause button ready? " + !!pauseBtn);
-                    pauseBtn.addEventListener("pointerdown", (e) => {
-                        log("Pause button pointerdown fired: " + e.pointerType);
-                        togglePauseGame();
-                    });
                 }
                 init();
             }
