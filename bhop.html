@@ -887,8 +887,8 @@
             const t = e.touches[0];
             const elem = document.elementFromPoint(t.clientX, t.clientY);
             log("handleTouch: touching " + (elem?.id || elem?.className || elem?.tagName));
-            if (e.target.closest(".embedButton")) {
-                log("Touch ignored because it's a UI button");
+            if (e.target.closest(".embedButton") || e.target.closest(".simpleButton")) {
+                log("Touch ignored because it's a UI button (" + (e.target.className || e.target.id) + ")");
                 return;
             }
             e.preventDefault(); // block only gameplay touches
