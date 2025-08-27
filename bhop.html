@@ -96,7 +96,7 @@
         .embedButtonRow { display: none; flex-direction: row; gap: 1em; margin-top: -1em; justify-content: right; }
         svg { width: auto; height: auto; max-width: 90vw; max-height: 80vh; display: block; }
         img { user-select: none; -webkit-user-drag: none; pointer-events: none; max-width: 100%; height: auto; }
-        #mobileLog { position: fixed; bottom: 0; left: 0; max-height: 40%; width: 100%; overflow-y: auto; font-size: 12px; font-family: monospace; background: rgba(0,0,0,0.7); color: #0f0; padding: 4px; z-index: 100000; pointer-events: none; }
+        #mobileLog { position: fixed; bottom: 0; left: 0; max-height: 40%; width: 100%; overflow-y: auto; font-size: 12px; font-family: monospace; background: rgba(0,0,0,0.7); color: #0f0; padding: 4px; z-index: 100000; pointer-events: none; display: none;}
     </style>
 </head>
 <body>
@@ -125,7 +125,7 @@
                 <button id="mobilePauseButton" class="embedButton" onpointerdown="togglePauseGame()">Pause</button>
             </div>
         </div>
-        <div id="versionDisplay">v1.5.1</div>
+        <div id="versionDisplay">v1.5.11</div>
         <div id="mapInfo">
             <div id="mapName" class="times">Map: - by -</div>
             <div id="worldRecord" class="times">World Record: --.-- by -</div>
@@ -181,9 +181,9 @@
         <button id="updatesButton" onclick="openMenu('updatesMenu')">U P D A T E S<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
         <div id="updatesMenu">
             <h2>What's New? Change log</h2>
-            <h3 style="margin-top: 1em;">Minor update v1.5.01: 7/19/2025</h3>
+            <h3 style="margin-top: 1em;">Minor update v1.5.11: 7/19/2025</h3>
             <ul style="text-align: left; margin-top: 1em;">
-                <li><b>Fixed WR replay buttons not appearing without an author replay, added author replays for all campaign 1 levels (previous update just had the first level), changed game title on menu screen to an image so it loads even on mobile and Safari, and updated manifest to force the game app into landscape mode on mobile.</b></li>
+                <li><b>Mobile: added pause button on mobile on the left, and fixed exit replay button not working on mobile.</b></li>
             </ul>
             <h3 style="margin-top: 1em;">Major update v1.5.0: 7/18/2025</h3>
             <ul style="text-align: left; margin-top: 1em;">
@@ -872,7 +872,6 @@
                     }, { passive: false });
                     document.getElementById("mobilePauseButtonRow").style.display = "flex";
                     let pauseBtn = document.getElementById("mobilePauseButton");
-                    log("Pause button ready? " + !!pauseBtn);
                 }
                 init();
             }
@@ -886,9 +885,7 @@
         function handleTouch(e) {
             const t = e.touches[0];
             const elem = document.elementFromPoint(t.clientX, t.clientY);
-            log("handleTouch: touching " + (elem?.id || elem?.className || elem?.tagName));
             if (e.target.closest(".embedButton") || e.target.closest(".simpleButton")) {
-                log("Touch ignored because it's a UI button (" + (e.target.className || e.target.id) + ")");
                 return;
             }
             e.preventDefault(); // block only gameplay touches
@@ -1498,23 +1495,18 @@
             }
             mobileRLastPressed = performance.now();
         }
-        function togglePauseGame() {
-            log("togglePauseGame called. Current pauseMenu display = " + pauseMenu.style.display);    
+        function togglePauseGame() {  
             if (pauseMenu.style.display === "none") {
-                log("Setting pauseMenu = block");
                 pauseMenu.style.display = "block";
                 if (!freecam) {
-                    log("Saving velocity");
                     storedVelocity = velocity.clone();
                 }
                 velocity.set(0, 0, 0);
                 playing = false;
             } else {
-                log("Setting pauseMenu = none");
                 pauseMenu.style.display = "none";
                 velocity.copy(storedVelocity);
                 if (worldRecordMenu.style.display === "none") {
-                    log("Resuming game");
                     playing = true;
                 }
             }
