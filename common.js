@@ -122,11 +122,8 @@ function scaleUI() {
 }
 
 window.addEventListener("resize", scaleUI);
-document.querySelector("header").style.display = "flex";
-document.querySelector("main").style.display = "flex";
-document.querySelector("footer").style.display = "flex";
-scaleUI();
 
+// ---- LOAD HEADER/FOOTER ----
 async function loadHTML(selector, file) {
     const el = document.querySelector(selector);
     if (!el) return;
@@ -139,8 +136,17 @@ async function loadHTML(selector, file) {
     }
 }
 
-// Load header and footer automatically
-document.addEventListener("DOMContentLoaded", () => {
-    loadHTML("header", "header.html");
-    loadHTML("footer", "footer.html");
-});  
+document.addEventListener("DOMContentLoaded", async () => {
+    await Promise.all([
+        loadHTML("header", "header.html"),
+        loadHTML("footer", "footer.html")
+    ]);
+
+    // Now that header/footer are loaded, continue setup
+    document.querySelector("header").style.display = "flex";
+    document.querySelector("main").style.display = "flex";
+    document.querySelector("footer").style.display = "flex";
+
+    scaleUI();
+    initParticles();
+});
