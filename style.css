@@ -65,7 +65,7 @@
     padding: 20px 40px;
     box-sizing: border-box;
     z-index: 1;
-    display: none;
+    display: flex;
   }
   
   /* ---- ACCOUNT ---- */
@@ -235,7 +235,7 @@
     width: 100%;
     background: var(--glass);
     backdrop-filter: blur(6px);
-    display: none;
+    display: flex;
   }
 
   .footer-text {
