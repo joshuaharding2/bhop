@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <title>Bhop - Updates</title>
+  <style>
+    .updates-container {
+      margin-top: 30px;
+      width: 70%;
+      max-width: 1000px;
+      height: 500px;
+      overflow-y: auto;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+      z-index: 2;
+    }
+
+    .update-entry {
+      border-bottom: 1px solid var(--border);
+      padding: 15px 0;
+    }
+
+    .update-entry:last-child {
+      border-bottom: none;
+    }
+
+    .update-date {
+      font-size: 1.35em;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+
+    .update-title {
+      font-weight: 600;
+      font-size: 1.8em;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .update-desc {
+      color: #ddd;
+      font-size: 1.425em;
+      line-height: 1.4em;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header></header>
+  
+  <main>
+    <h1 class="title">Update Log</h1>
+
+    <div class="updates-container">
+      <div class="update-entry">
+        <div class="update-date">Oct 18, 2025</div>
+        <div class="update-title">New Custom Level Browser</div>
+        <div class="update-desc">Added the ability to search and play community-made bhop levels! Levels can now be rated and sorted by popularity.</div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-date">Oct 10, 2025</div>
+        <div class="update-title">Performance Improvements</div>
+        <div class="update-desc">Optimized rendering for smoother gameplay on large maps. Added better lighting and shadow caching.</div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-date">Oct 3, 2025</div>
+        <div class="update-title">New Settings Menu</div>
+        <div class="update-desc">Introduced the new three-tab settings layout (General, Keybinds, Textures) for easier configuration.</div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-date">Sept 20, 2025</div>
+        <div class="update-title">Initial Launch</div>
+        <div class="update-desc">Welcome to the new version of the Bhop Editor and Game! This update introduces improved level editing, smoother movement, and enhanced visuals.</div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-date">Oct 18, 2025</div>
+        <div class="update-title">New Custom Level Browser</div>
+        <div class="update-desc">Added the ability to search and play community-made bhop levels! Levels can now be rated and sorted by popularity.</div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-date">Oct 10, 2025</div>
+        <div class="update-title">Performance Improvements</div>
+        <div class="update-desc">Optimized rendering for smoother gameplay on large maps. Added better lighting and shadow caching.</div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-date">Oct 3, 2025</div>
+        <div class="update-title">New Settings Menu</div>
+        <div class="update-desc">Introduced the new three-tab settings layout (General, Keybinds, Textures) for easier configuration.</div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-date">Sept 20, 2025</div>
+        <div class="update-title">Initial Launch</div>
+        <div class="update-desc">Welcome to the new version of the Bhop Editor and Game! This update introduces improved level editing, smoother movement, and enhanced visuals.</div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+  <script src="common.js"></script>
+</body>
+</html>

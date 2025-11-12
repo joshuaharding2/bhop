@@ -181,7 +181,7 @@
         <button id="updatesButton" onclick="openMenu('updatesMenu')">U P D A T E S<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
         <div id="updatesMenu">
             <h2>What's New? Change log</h2>
-            <h3 style="margin-top: 1em;">Minor update v1.5.11: 7/19/2025</h3>
+            <h3 style="margin-top: 1em;">Minor update v1.5.11: 8/26/2025</h3>
             <ul style="text-align: left; margin-top: 1em;">
                 <li><b>Mobile: added pause button on mobile on the left, and fixed exit replay button not working on mobile.</b></li>
             </ul>
@@ -1587,7 +1587,7 @@
                 worldEligable = true;
             }
             document.getElementById("timer").innerText = "Time: 0.00s";
-            document.getElementById("timer").style.color = "white"; // Change timer color to white
+            document.getElementById("timer").style.color = "white";
             document.querySelector(".IGT").style.color = "white";
             if (bestTime <= authorTime) {
                 document.querySelector(".bestTime").style.color = "green";
@@ -1596,7 +1596,7 @@
             } else if (bestTime <= silverTime) {
                 document.querySelector(".bestTime").style.color = "silver";
             } else if (bestTime <= bronzeTime) {
-                document.querySelector(".bestTime").style.color = "#cd7f32"; // bronze color
+                document.querySelector(".bestTime").style.color = "#cd7f32";
             } else {
                 document.querySelector(".bestTime").style.color = "white";
             }

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <title>Bhop - Settings</title>
+  <style>
+    
+    .tabs {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 30px;
+      font-size: 30px;
+    }
+
+    .tab {
+      background: var(--panel);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: #000;
+      box-shadow: 0 0 15px var(--accent);
+    }
+
+    .tab:hover {
+      transform: scale(1.05);
+    }
+
+    .settings-panel {
+      background: var(--panel);
+      border: 1px solid #333;
+      border-radius: 12px;
+      width: 70%;
+      max-width: 1000px;
+      padding: 24px;
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .settings-panel.active {
+      display: flex;
+    }
+
+    .option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .option label {
+      font-size: 30px;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(2);
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    input[type="range"] {
+      transform: scale(1.5);
+      width: 200px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      margin-right: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-btn">← Back</button>
+    <div class="account">
+      <img src="img/unknown.png" alt="pfp">
+      <span class="username">Guest</span>
+      <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="240 -720 480 480" width="18px" fill="#FFFFFF"><path d="M480-360 280-560h400L480-360Z"/></svg>
+      <div class="account-dropdown">
+        <div class="dropdown-item">View Profile</div>
+        <div class="dropdown-item">Change Username</div>
+        <div class="dropdown-item logout">Log Out</div>
+      </div>
+    </div>
+  </header>  
+  
+  <main>
+    <h1 class="title">Settings</h1>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="general">General</div>
+      <div class="tab" data-tab="keybinds">Keybinds</div>
+      <div class="tab" data-tab="textures">Textures</div>
+    </div>
+
+    <div class="settings-panel active" id="general">
+      <div class="option"><label>Show FPS Counter</label> <input type="checkbox" checked></div>
+      <div class="option"><label>Enable Sound</label> <input type="checkbox"></div>
+      <div class="option"><label>Master Volume</label> <input type="range" value="80"></div>
+      <div class="option"><label>Field of View</label> <input type="range" value="90"></div>
+    </div>
+
+    <div class="settings-panel" id="keybinds">
+      <div class="option"><label>Jump</label><span>Space</span></div>
+      <div class="option"><label>Crouch</label><span>Shift</span></div>
+      <div class="option"><label>Restart Level</label><span>R</span></div>
+      <div class="option"><label>Toggle Freecam</label><span>F</span></div>
+    </div>
+
+    <div class="settings-panel" id="textures">
+      <div class="option"><label>Enable HD Textures</label><input type="checkbox" checked></div>
+      <div class="option"><label>Texture Quality</label><input type="range" value="70"></div>
+      <div class="option"><label>Show Texture Previews</label><input type="checkbox"></div>
+      <div class="option"><label>Current Pack</label><span>Default</span></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <button class="footer-btn" onclick="location.href='updates.html'">Update Log</button>
+      <button class="footer-btn discord" onclick="window.open('https://discord.gg/TcTvmwxgJb', '_blank')">
+        <img src="img/discord.png" alt="Discord" class="discord-icon">
+        Join Discord
+      </button>
+    </div>
+    <p class="footer-text">© 2025 Joshua Harding — All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Tab switching
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.settings-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.dataset.tab;
+        panels.forEach(p => {
+          p.classList.toggle('active', p.id === target);
+        });
+      });
+    });
+  </script>
+  <script src="common.js"></script>
+</body>
+</html>
