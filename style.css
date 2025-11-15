@@ -78,7 +78,7 @@
     background: var(--panel);
     border: 1px solid #333;
     border-radius: 12px;
-    padding: 8px 10px;
+    padding: 7.27px 10px;
     gap: 10px;
     cursor: pointer;
     --div-tx: 0px;
@@ -196,7 +196,7 @@
     backdrop-filter: blur(2px);
     border: 2px solid var(--accent);
     border-radius: 20px;
-    padding: 16px 30px;
+    padding: 10px 30px;
     color: var(--accent);
     font-weight: 600;
     cursor: pointer;
@@ -213,6 +213,22 @@
     color: #000;
     box-shadow: 0 0 20px var(--accent);
     transform: translate(var(--btn-tx), var(--btn-ty)) scale(calc(var(--btn-scale) * 1.05));
+  }
+
+  .back-btn-text {
+    vertical-align: middle;
+  }
+
+  .back-btn-svg {
+    margin-right: 8px;
+    vertical-align: middle;
+    transition: 0.2s;
+    margin-left: -10px;
+    margin-right: 0px;
+  }
+
+  .back-btn:hover .back-btn-svg {
+    fill: #000;
   }
   
   /* ---- MENUS ---- */
