@@ -27,19 +27,98 @@ function initParticles() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const path = window.location.pathname;
+    const page = path.substring(path.lastIndexOf("/") + 1);
+
+    // ---------- HEADER ----------
+    let headerHTML = `
+      <div class="account">
+        <img src="img/unknown.png" alt="pfp">
+        <span class="username">Guest</span>
+        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="240 -720 480 480" width="18px" fill="#FFFFFF">
+          <path d="M480-360 280-560h400L480-360Z" />
+        </svg>
+        <div class="account-dropdown">
+          <div class="dropdown-item">View Profile</div>
+          <div class="dropdown-item">Change Username</div>
+          <div class="dropdown-item logout">Log Out</div>
+        </div>
+      </div>
+    `;
+
+    // Add special buttons or variants depending on the page
+    if (page !== "home.html") {
+        headerHTML = `
+        <button class="back-btn" onclick="window.history.back()">
+        <svg class="back-btn-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#00ffa6"><path d="m315-433 232 232-67 66-345-345 345-346 67 67-232 232h511v94H315Z"/></svg>
+        <span class="back-btn-text">Back</span>
+        </button>
+        ${headerHTML}
+      `;
+    }
+
+    // ---------- FOOTER ----------
+    const footerHTML = `
+      <div class="footer-links">
+        <button class="footer-btn" onclick="location.href='updates.html'">Update Log</button>
+        <button class="footer-btn discord" onclick="window.open('https://discord.gg/TcTvmwxgJb', '_blank')">
+          <img src="img/discord.png" alt="Discord" class="discord-icon">
+          Join Discord
+        </button>
+      </div>
+      <p class="footer-text">© 2025 Joshua Harding — All rights reserved.</p>
+    `;
+
+    // Inject them
+    const header = document.querySelector("header");
+    const footer = document.querySelector("footer");
+
+    if (header) {
+        header.innerHTML = headerHTML;
+        header.style.display = "flex";
+    }
+
+    if (footer) {
+        footer.innerHTML = footerHTML;
+        footer.style.display = "flex";
+    }
+
+    // ---------- Username handling ----------
+    const usernameSpan = document.querySelector(".username");
+    const username = localStorage.getItem("username") || "Guest";
+    if (usernameSpan) usernameSpan.textContent = username;
+
+    // ---------- Dropdown + log out ----------
+    const account = document.querySelector(".account");
+    const dropdown = document.querySelector(".account-dropdown");
+    if (account && dropdown) {
+        account.addEventListener("click", (e) => {
+            console.log("test");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!account.contains(e.target)) {
+                account.classList.remove("show-dropdown");
+            }
+        });
+
+        const logout = dropdown.querySelector(".logout");
+        if (logout) {
+            logout.addEventListener("click", () => {
+                localStorage.removeItem("username");
+                alert("You’ve been logged out.");
+                location.reload();
+            });
+        }
+    }
+});
+
 // ---- USERNAME DISPLAY ----
 document.addEventListener("DOMContentLoaded", () => {
     const usernameSpan = document.querySelector(".username");
     const username = localStorage.getItem("username") || "Guest";
     if (usernameSpan) usernameSpan.textContent = username;
-});
-
-// ---- BACK BUTTON LOGIC ----
-document.addEventListener("DOMContentLoaded", () => {
-    const backBtn = document.querySelector(".back-btn");
-    if (backBtn) {
-        backBtn.addEventListener("click", () => window.history.back());
-    }
 });
 
 // ---- ACCOUNT DROPDOWN ----
@@ -122,31 +201,5 @@ function scaleUI() {
 }
 
 window.addEventListener("resize", scaleUI);
-
-// ---- LOAD HEADER/FOOTER ----
-async function loadHTML(selector, file) {
-    const el = document.querySelector(selector);
-    if (!el) return;
-    try {
-        const response = await fetch(file);
-        if (!response.ok) throw new Error(`Failed to load ${file}`);
-        el.innerHTML = await response.text();
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", async () => {
-    await Promise.all([
-        loadHTML("header", "header.html"),
-        loadHTML("footer", "footer.html")
-    ]);
-
-    // Now that header/footer are loaded, continue setup
-    document.querySelector("header").style.display = "flex";
-    document.querySelector("main").style.display = "flex";
-    document.querySelector("footer").style.display = "flex";
-
-    scaleUI();
-    initParticles();
-});
+document.querySelector("main").style.display = "flex";
+scaleUI();
