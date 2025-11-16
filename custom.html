@@ -3,252 +3,375 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bhop Game - Custom Levels</title>
+  <link rel="stylesheet" href="style.css" />
+  <title>Bhop – Custom Levels</title>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-    body {
-      margin: 0;
-      height: 100vh;
-      background: radial-gradient(circle at top left, #111, #000);
-      font-family: 'Inter', sans-serif;
-      color: #fff;
+    .search-section {
+      margin-top: 20px;
+      width: 70%;
+      max-width: 900px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 70px;
-      overflow: hidden;
-    }
-
-    h1 {
-      font-size: 2.4em;
-      letter-spacing: 1px;
-      margin-bottom: 25px;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    }
-
-    .back-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: #fff;
-      padding: 8px 16px;
-      font-size: 0.9em;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .back-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-1px);
+      justify-content: center;
     }
 
     .search-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      width: 80%;
-      max-width: 700px;
-    }
-
-    .search-bar input {
-      flex: 1;
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: none;
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 1.4em;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      color: white;
+      backdrop-filter: blur(6px);
       outline: none;
-      background: rgba(255, 255, 255, 0.07);
-      color: #fff;
-      font-size: 1em;
-      transition: 0.2s;
     }
 
-    .search-bar input:focus {
-      background: rgba(255, 255, 255, 0.12);
+    .featured-title {
+      font-size: 2.2em;
+      margin-top: 40px;
+      margin-bottom: 16px;
     }
 
-    .search-bar button {
-      padding: 12px 20px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: #fff;
-      cursor: pointer;
-      transition: 0.2s;
-      backdrop-filter: blur(10px);
-    }
-
-    .search-bar button:hover {
-      background: rgba(255, 255, 255, 0.18);
-    }
-
-    .filters {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .filter-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 8px 16px;
-      color: #fff;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 0.9em;
-      backdrop-filter: blur(8px);
-    }
-
-    .filter-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .levels-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+    /* Scrollable featured container */
+    .featured-scroll {
       width: 80%;
-      max-width: 1000px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
+      max-width: 1100px;
+      max-height: 550px;     /* Scroll height */
       overflow-y: auto;
-      max-height: 60vh;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-      animation: fadeIn 0.6s ease-out;
+      padding-right: 10px;
+      scrollbar-gutter: stable;
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      width: 100%;
     }
 
     .level-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 15px;
-      transition: transform 0.2s ease, background 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .level-card:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-4px);
-    }
-
-    .level-title {
-      font-weight: 600;
-      font-size: 1.1em;
-      margin-bottom: 5px;
-    }
-
-    .creator {
-      font-size: 0.9em;
-      color: #aaa;
-      margin-bottom: 10px;
-    }
-
-    .rating {
-      color: gold;
-      font-size: 0.9em;
-      margin-bottom: 10px;
-    }
-
-    .play-btn {
-      align-self: flex-start;
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      font-size: 0.9em;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      backdrop-filter: blur(8px);
       cursor: pointer;
       transition: 0.2s;
     }
 
-    .play-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
+    .level-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 25px rgba(0,0,0,0.35);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .level-name {
+      font-size: 1.6em;
+      color: var(--accent);
+      margin-bottom: 6px;
     }
 
+    .level-author {
+      font-size: 1.15em;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+
+    /* Difficulty icons */
+    .difficulty {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .diff-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .easy   { background: #6fdc6f; }
+    .medium { background: #f7d06a; }
+    .hard   { background: #f57b63; }
+    .insane { background: #ff3c3c; }
+
+    .difficulty span {
+      font-size: 1.2em;
+      color: #eee;
+    }
+
+    /* Tags */
+    .tags {
+      margin-top: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 0.95em;
+      color: #ddd;
+      backdrop-filter: blur(4px);
+    }
+
+    .level-desc {
+      font-size: 1.25em;
+      color: #ddd;
+      line-height: 1.35em;
+    }
+
+    /* Scrollbar styling */
     ::-webkit-scrollbar {
       width: 8px;
     }
+    
     ::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.15);
       border-radius: 8px;
     }
   </style>
 </head>
+
 <body>
-  <button class="back-btn" onclick="goBack()">← Back</button>
-  <h1>Custom Levels</h1>
+  <header></header>
 
-  <div class="search-bar">
-    <input type="text" placeholder="Search for a level..." id="searchInput" />
-    <button onclick="searchLevels()">Search</button>
-  </div>
+  <main>
+    <h1 class="title">Custom Levels</h1>
 
-  <div class="filters">
-    <button class="filter-btn">Most Popular</button>
-    <button class="filter-btn">Newest</button>
-    <button class="filter-btn">Top Rated</button>
-  </div>
-
-  <div class="levels-container" id="levelsContainer">
-    <div class="level-card">
-      <div>
-        <div class="level-title">Speed Tower</div>
-        <div class="creator">by JumpKing</div>
-        <div class="rating">⭐⭐⭐⭐☆</div>
-      </div>
-      <button class="play-btn">Play</button>
+    <!-- Search -->
+    <div class="search-section">
+      <input id="searchInput" class="search-bar" type="text" placeholder="Search levels…">
     </div>
 
-    <div class="level-card">
-      <div>
-        <div class="level-title">Bhop Arena</div>
-        <div class="creator">by Flow</div>
-        <div class="rating">⭐⭐⭐⭐⭐</div>
+    <div class="featured-title">⭐ Featured Levels</div>
+
+    <!-- Scrollable Featured List -->
+    <div class="featured-scroll">
+      <div class="featured-grid" id="featuredGrid">
+
+        <!-- Example Level 1 -->
+        <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
+          <div class="level-name">Skyline Sprint</div>
+          <div class="level-author">by Aurora</div>
+
+          <div class="difficulty">
+            <div class="diff-icon easy"></div>
+            <span>Easy</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Beginner</div>
+            <div class="tag">Flow</div>
+            <div class="tag">Rooftops</div>
+          </div>
+
+          <div class="level-desc">
+            A smooth flow map across floating rooftops. Perfect for new players.
+          </div>
+        </div>
+
+        <!-- Example Level 2 -->
+        <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
+          <div class="level-name">Fractal Control</div>
+          <div class="level-author">by Nex</div>
+
+          <div class="difficulty">
+            <div class="diff-icon hard"></div>
+            <span>Hard</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Tech</div>
+            <div class="tag">Strafing</div>
+            <div class="tag">Speed</div>
+          </div>
+
+          <div class="level-desc">
+            A technical challenge featuring sharp corners and tight movement control.
+          </div>
+        </div>
+
+        <!-- Example Level 3 -->
+        <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
+          <div class="level-name">Glacier Run</div>
+          <div class="level-author">by Frostbyte</div>
+
+          <div class="difficulty">
+            <div class="diff-icon medium"></div>
+            <span>Medium</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Ice</div>
+            <div class="tag">Scenic</div>
+            <div class="tag">Long Jumps</div>
+          </div>
+
+          <div class="level-desc">
+            A beautiful ice-themed map with smooth jumps and chill vibes.
+          </div>
+        </div>
+        
+        <!-- Example Level 1 -->
+        <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
+          <div class="level-name">Skyline Sprint</div>
+          <div class="level-author">by Aurora</div>
+
+          <div class="difficulty">
+            <div class="diff-icon easy"></div>
+            <span>Easy</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Beginner</div>
+            <div class="tag">Flow</div>
+            <div class="tag">Rooftops</div>
+          </div>
+
+          <div class="level-desc">
+            A smooth flow map across floating rooftops. Perfect for new players.
+          </div>
+        </div>
+
+        <!-- Example Level 2 -->
+        <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
+          <div class="level-name">Fractal Control</div>
+          <div class="level-author">by Nex</div>
+
+          <div class="difficulty">
+            <div class="diff-icon hard"></div>
+            <span>Hard</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Tech</div>
+            <div class="tag">Strafing</div>
+            <div class="tag">Speed</div>
+          </div>
+
+          <div class="level-desc">
+            A technical challenge featuring sharp corners and tight movement control.
+          </div>
+        </div>
+
+        <!-- Example Level 3 -->
+        <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
+          <div class="level-name">Glacier Run</div>
+          <div class="level-author">by Frostbyte</div>
+
+          <div class="difficulty">
+            <div class="diff-icon medium"></div>
+            <span>Medium</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Ice</div>
+            <div class="tag">Scenic</div>
+            <div class="tag">Long Jumps</div>
+          </div>
+
+          <div class="level-desc">
+            A beautiful ice-themed map with smooth jumps and chill vibes.
+          </div>
+        </div>
+
+        <!-- Example Level 1 -->
+        <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
+          <div class="level-name">Skyline Sprint</div>
+          <div class="level-author">by Aurora</div>
+
+          <div class="difficulty">
+            <div class="diff-icon easy"></div>
+            <span>Easy</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Beginner</div>
+            <div class="tag">Flow</div>
+            <div class="tag">Rooftops</div>
+          </div>
+
+          <div class="level-desc">
+            A smooth flow map across floating rooftops. Perfect for new players.
+          </div>
+        </div>
+
+        <!-- Example Level 2 -->
+        <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
+          <div class="level-name">Fractal Control</div>
+          <div class="level-author">by Nex</div>
+
+          <div class="difficulty">
+            <div class="diff-icon hard"></div>
+            <span>Hard</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Tech</div>
+            <div class="tag">Strafing</div>
+            <div class="tag">Speed</div>
+          </div>
+
+          <div class="level-desc">
+            A technical challenge featuring sharp corners and tight movement control.
+          </div>
+        </div>
+
+        <!-- Example Level 3 -->
+        <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
+          <div class="level-name">Glacier Run</div>
+          <div class="level-author">by Frostbyte</div>
+
+          <div class="difficulty">
+            <div class="diff-icon medium"></div>
+            <span>Medium</span>
+          </div>
+
+          <div class="tags">
+            <div class="tag">Ice</div>
+            <div class="tag">Scenic</div>
+            <div class="tag">Long Jumps</div>
+          </div>
+
+          <div class="level-desc">
+            A beautiful ice-themed map with smooth jumps and chill vibes.
+          </div>
+        </div>
+
       </div>
-      <button class="play-btn">Play</button>
     </div>
 
-    <div class="level-card">
-      <div>
-        <div class="level-title">Sky Platforms</div>
-        <div class="creator">by Vortex</div>
-        <div class="rating">⭐⭐⭐☆☆</div>
-      </div>
-      <button class="play-btn">Play</button>
-    </div>
-  </div>
+  </main>
+
+  <footer></footer>
+  <script src="common.js"></script>
 
   <script>
-    function goBack() {
-      window.location.href = "home.html"; // Change to actual home file
-    }
+    // Search filtering by name, author, tags
+    const searchInput = document.getElementById("searchInput");
+    const cards = Array.from(document.querySelectorAll(".level-card"));
 
-    function searchLevels() {
-      const query = document.getElementById("searchInput").value.trim().toLowerCase();
-      const cards = document.querySelectorAll(".level-card");
+    searchInput.addEventListener("input", () => {
+      const q = searchInput.value.toLowerCase();
+      if (q === "") {
+        document.querySelector(".featured-title").innerText = "⭐ Featured Levels";
+      } else {
+        document.querySelector(".featured-title").innerText = `🔍 Search Results for "${searchInput.value}"`;
+      }
       cards.forEach(card => {
-        const title = card.querySelector(".level-title").textContent.toLowerCase();
-        const creator = card.querySelector(".creator").textContent.toLowerCase();
-        card.style.display = (title.includes(query) || creator.includes(query)) ? "flex" : "none";
+        const text = card.innerText.toLowerCase();
+        const tags = card.dataset.tags;
+        card.style.display = (text.includes(q) || tags.includes(q)) ? "" : "none";
       });
-    }
+    });
   </script>
+
 </body>
 </html>
