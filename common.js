@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     // Add special buttons or variants depending on the page
-    if (page !== "home.html") {
+    if (page !== "home.html" && page !== "home") {
         headerHTML = `
         <button class="back-btn" onclick="window.history.back()">
         <svg class="back-btn-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#00ffa6"><path d="m315-433 232 232-67 66-345-345 345-346 67 67-232 232h511v94H315Z"/></svg>
