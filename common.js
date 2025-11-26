@@ -57,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ${headerHTML}
       `;
     }
+    if (page === "login.html" || page === "login") {
+        headerHTML = ``;
+    }
 
     // ---------- FOOTER ----------
     const footerHTML = `

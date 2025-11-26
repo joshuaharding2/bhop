@@ -12,18 +12,17 @@
       justify-content: center;
       align-items: center;
       height: 100%;
+      zoom: 150%
     }
 
-    /* --- The Login Container (Scrollable Frame) --- */
+    /* --- The Login Container --- */
     .login-panel {
       background: var(--panel);
       border: 1px solid var(--border, #333);
       border-radius: 16px;
       width: 400px;
       max-width: 90%;
-      /* Ensures the box scrolls internally if the screen is too small */
-      max-height: 80vh; 
-      overflow-y: auto;
+      max-height: 80%; 
       
       padding: 40px;
       display: flex;
@@ -36,20 +35,11 @@
       transition: transform 0.3s ease;
     }
 
-    /* Scrollbar styling for the panel */
-    .login-panel::-webkit-scrollbar {
-      width: 6px;
-    }
-    .login-panel::-webkit-scrollbar-thumb {
-      background: var(--accent);
-      border-radius: 4px;
-    }
-
     .form-title {
       font-size: 2.5rem;
       font-weight: bold;
       color: #fff;
-      margin-bottom: 10px;
+      margin-bottom: -10px;
       text-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
 
@@ -205,7 +195,7 @@
       <div class="btn-container">
         <button type="submit" class="action-btn btn-primary" id="submitBtn">Login</button>
         <button type="button" class="action-btn btn-secondary" onclick="toggleMode()" id="toggleBtn">Sign Up Instead</button>
-        <button type="button" class="action-btn btn-text" onclick="location.href='play.html'">Play as Guest</button>
+        <button type="button" class="action-btn btn-text" onclick="location.href='home.html'">Play as Guest</button>
       </div>
     </form>
   </main>
@@ -284,8 +274,8 @@
           msg.style.color = "var(--accent)"; // Success color
           msg.textContent = "Login successful!";
           setCookie("session", json.session, 30);
-          // Redirecting to Home.html (or play.html) instead of 'bhop'
-          window.location.href = "Home.html"; 
+          // Redirecting to home.html (or play.html) instead of 'bhop'
+          window.location.href = "home.html"; 
         } else if (json.status === "signup_success") {
           msg.style.color = "var(--accent)";
           msg.textContent = "Signup successful! You may now log in.";
@@ -304,7 +294,7 @@
 
     window.onload = () => {
       if (getCookie("loggedIn") === "true") {
-        window.location.href = "Home.html";
+        window.location.href = "home.html";
       }
     };
   </script>
