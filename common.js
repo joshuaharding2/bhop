@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ---------- FOOTER ----------
     const footerHTML = `
       <div class="footer-links">
-        <button class="footer-btn" onclick="location.href='updates.html'">Update Log</button>
+        <button class="footer-btn" onclick="location.href='updates.html'"><p class="update-text">Update Log</p></button>
         <button class="footer-btn discord" onclick="window.open('https://discord.gg/TcTvmwxgJb', '_blank')">
           <img src="img/discord.png" alt="Discord" class="discord-icon">
           Join Discord
