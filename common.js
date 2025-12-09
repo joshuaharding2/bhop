@@ -1,6 +1,68 @@
 // ===========================
 // common.js — BHOP UI Shared Logic
 // ===========================
+// -----------------------------
+// Supabase client bootstrap (robust)
+// -----------------------------
+
+const SUPABASE_URL = "https://xzygrzrfbqlnobjwadtx.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6eWdyenJmYnFsbm9iandhZHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyNjA4MDUsImV4cCI6MjA3OTgzNjgwNX0.pDXh2ClwIcNI9ToOU4NlkvCPgtKm6LLiB-GktKiH_58";
+
+let __client_init_promise = null;
+
+function createClientOnce() {
+  // If client already exists on window, reuse it
+  if (window.client) return window.client;
+
+  // If supabase global is present and has createClient, create immediately
+  if (typeof window.supabase !== "undefined" && typeof window.supabase.createClient === "function") {
+    window.client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return window.client;
+  }
+
+  // Otherwise, return null — caller should await ensureClient()
+  return null;
+}
+
+/**
+ * ensureClient waits for the supabase CDN global to become available,
+ * then creates and attaches the client to window.client. Returns the client.
+ * It only creates one promise, so multiple callers share the same waiter.
+ */
+function ensureClient({ timeout = 3000, interval = 50 } = {}) {
+  if (window.client) return Promise.resolve(window.client);
+  if (__client_init_promise) return __client_init_promise;
+
+  __client_init_promise = new Promise((resolve, reject) => {
+    // try immediate creation first
+    const immediate = createClientOnce();
+    if (immediate) {
+      resolve(immediate);
+      return;
+    }
+
+    // poll until timeout
+    const start = Date.now();
+    const tick = () => {
+      const c = createClientOnce();
+      if (c) {
+        resolve(c);
+        return;
+      }
+      if (Date.now() - start >= timeout) {
+        reject(new Error("Supabase global not available within timeout. Ensure the CDN script is loaded before common.js or import supabase as a module."));
+        return;
+      }
+      setTimeout(tick, interval);
+    };
+    tick();
+  });
+
+  return __client_init_promise;
+}
+
+// attempt a best-effort immediate create (for the common case where CDN was loaded before)
+try { createClientOnce(); } catch (e) { /* ignore */ }
 
 // ---- PARTICLE BACKGROUND ----
 const particleContainer = document.createElement("div");
@@ -41,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
         </svg>
         <div class="account-dropdown">
           <div class="dropdown-item">View Profile</div>
-          <div class="dropdown-item">Change Username</div>
           <div class="dropdown-item logout">Log Out</div>
         </div>
       </div>
@@ -87,41 +148,64 @@ document.addEventListener("DOMContentLoaded", () => {
         footer.style.display = "flex";
     }
 
-    // ---------- Username handling ----------
-    const usernameSpan = document.querySelector(".username");
-    const username = localStorage.getItem("username") || "Guest";
-    if (usernameSpan) usernameSpan.textContent = username;
-
     // ---------- Dropdown + log out ----------
     const account = document.querySelector(".account");
     const dropdown = document.querySelector(".account-dropdown");
     if (account && dropdown) {
-        account.addEventListener("click", (e) => {
-            console.log("test");
-        });
-
         document.addEventListener("click", (e) => {
             if (!account.contains(e.target)) {
                 account.classList.remove("show-dropdown");
             }
         });
 
-        const logout = dropdown.querySelector(".logout");
+        // Attach logout handler
+        const logout = document.querySelector(".logout");
+
         if (logout) {
-            logout.addEventListener("click", () => {
+            logout.addEventListener("click", async () => {
+                // Supabase logout (server-side session destroy)
+                const client = await ensureClient();
+                const { error } = await client.auth.signOut();
+                if (error) {
+                    console.error("Error logging out:", error);
+                    alert("Logout failed. Check console.");
+                    return;
+                }
+
+                // Remove any local stuff you used
                 localStorage.removeItem("username");
-                alert("You’ve been logged out.");
-                location.reload();
+                localStorage.removeItem("user_id");
+                localStorage.removeItem("session");
+
+                // Full reload or redirect to login
+                window.location.href = "/login.html"; // or: location.reload();
             });
         }
     }
 });
 
 // ---- USERNAME DISPLAY ----
-document.addEventListener("DOMContentLoaded", () => {
+async function getDisplayName() {
+    const client = await ensureClient();
+    const { data: { user } } = await client.auth.getUser();
+    return user?.user_metadata?.display_name || "Guest";
+}
+document.addEventListener("DOMContentLoaded", async () => {
     const usernameSpan = document.querySelector(".username");
-    const username = localStorage.getItem("username") || "Guest";
+    const username = await getDisplayName();
     if (usernameSpan) usernameSpan.textContent = username;
+    if (username === "Guest") {
+        const div = document.querySelector(".account-dropdown");
+        div.innerHTML = `<div class="dropdown-item" onclick="location.href='login.html'">Log In</div>`;
+    }
+    // Set account div right
+    const accountDiv = document.querySelector(".account");
+    if (accountDiv) {
+        const rect = usernameSpan.getBoundingClientRect();
+        accountDiv.style.transition = "none";
+        accountDiv.style.right = `${80 + ((rect.width - 68.73748779296875) / 3.97059)}px`;
+        accountDiv.style.transtion = "0.2s";
+    }
 });
 
 // ---- ACCOUNT DROPDOWN ----
@@ -139,12 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!account.contains(e.target)) {
             account.classList.remove("show-dropdown");
         }
-    });
-
-    dropdown.querySelector(".logout").addEventListener("click", () => {
-        localStorage.removeItem("username");
-        alert("You’ve been logged out.");
-        location.reload();
     });
 });
 
