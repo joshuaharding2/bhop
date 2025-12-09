@@ -82,6 +82,15 @@
       font-family: sans-serif;
     }
 
+    #disclaimer {
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+      margin-top: -10px;
+      margin-bottom: -10px;
+      display: none;
+    }
+
     /* --- Buttons --- */
     .btn-container {
       width: 100%;
@@ -191,7 +200,7 @@
         </svg>
         <input placeholder="Password" class="input-field" id="password" type="password" required>
       </div>
-
+      <p id="disclaimer">Do not forget your username or password! You will not be able to recover your account. Sorry, I tried to add email authentication.</p>
       <div class="btn-container">
         <button type="submit" class="action-btn btn-primary" id="submitBtn">Login</button>
         <button type="button" class="action-btn btn-secondary" onclick="toggleMode()" id="toggleBtn">Sign Up Instead</button>
@@ -216,9 +225,16 @@
     </div>
     <p style="color:white; margin-top: 20px; font-size: 1.2rem;">Connecting...</p>
   </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="common.js"></script>
   <script>
+    const { createClient } = supabase; // Extract the createClient function
+
+    const client = createClient(
+      "https://xzygrzrfbqlnobjwadtx.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6eWdyenJmYnFsbm9iandhZHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyNjA4MDUsImV4cCI6MjA3OTgzNjgwNX0.pDXh2ClwIcNI9ToOU4NlkvCPgtKm6LLiB-GktKiH_58"
+    );
+
     let mode = "login";
 
     function setCookie(name, value, days) {
@@ -245,58 +261,79 @@
       document.getElementById("heading").textContent = mode === "login" ? "Login" : "Sign Up";
       document.getElementById("submitBtn").textContent = mode === "login" ? "Login" : "Register";
       document.getElementById("toggleBtn").textContent = mode === "login" ? "Sign Up Instead" : "Switch to Login";
+      document.getElementById("disclaimer").style.display = mode === "login" ? "none" : "block";
       
       // Clear error messages
       document.getElementById("message").textContent = "";
     }
 
-    document.getElementById('authForm').addEventListener('submit', function (e) {
+    async function signup(username, password) {
+      const email = username + "@bhop.fake";
+      return await client.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            //idk which field is the one i'm looking for lol
+            username: username,
+            full_name: username,   
+            display_name: username
+          }
+        }
+      });
+    }
+
+    async function login(username, password) {
+      const email = username + "@bhop.fake";
+
+      return await client.auth.signInWithPassword({
+        email,
+        password
+      });
+    }
+
+    document.getElementById('authForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const loader = document.getElementById("loader");
       loader.style.display = "flex";
-      
-      const formData = new FormData();
-      formData.append("name", document.getElementById("name").value);
-      formData.append("password", document.getElementById("password").value);
-      formData.append("mode", mode);
 
-      fetch('https://script.google.com/macros/s/AKfycbyr1hlV2mV7Kblth9pwRZzWkKIALE3aqD8ilto6wMc1pNUVAx-TgeGO3HxaJ56N4N2zcw/exec', {
-        method: 'POST',
-        body: formData
-      })
-      .then(res => res.json())
-      .then(json => {
-        loader.style.display = "none";
-        const msg = document.getElementById("message");
-        msg.style.color = "#ff5555"; // Default error red
+      const username = document.getElementById("name").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const msg = document.getElementById("message");
 
-        if (json.status === "login_success") {
-          msg.style.color = "var(--accent)"; // Success color
-          msg.textContent = "Login successful!";
-          setCookie("session", json.session, 30);
-          // Redirecting to home.html (or play.html) instead of 'bhop'
-          window.location.href = "home.html"; 
-        } else if (json.status === "signup_success") {
-          msg.style.color = "var(--accent)";
-          msg.textContent = "Signup successful! You may now log in.";
-          toggleMode();
-        } else if (json.status === "user_exists") {
-          msg.textContent = "User already exists. Try logging in.";
-        } else {
-          msg.textContent = "Wrong username or password.";
-        }
-      })
-      .catch(error => {
-        loader.style.display = "none";
-        document.getElementById("message").textContent = "An error occurred: " + error;
-      });
-    });
+      let result;
 
-    window.onload = () => {
-      if (getCookie("loggedIn") === "true") {
+      if (mode === "signup") {
+        result = await signup(username, password);
+      } else {
+        result = await login(username, password);
+      }
+
+      loader.style.display = "none";
+
+      if (result.error) {
+        msg.style.color = "#ff5555";
+        msg.textContent = result.error.message;
+        return;
+      }
+
+      msg.style.color = "var(--accent)";
+
+      if (mode === "signup") {
+        msg.textContent = "Signup successful! Log in now.";
+        toggleMode();
+      } else {
+        msg.textContent = "Login successful!";
+        setCookie("session", result.data.session.access_token, 30);
         window.location.href = "home.html";
       }
-    };
+    });
+    // Auto-redirect if already logged in
+    client.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        window.location.href = "home.html";
+      }
+    });
   </script>
 </body>
 </html>
