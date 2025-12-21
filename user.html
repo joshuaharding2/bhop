@@ -252,6 +252,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="common.js"></script>
   <script>
+    const { createClient } = supabase; // Extract the createClient function
+
+    const client = createClient(
+      "https://xzygrzrfbqlnobjwadtx.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6eWdyenJmYnFsbm9iandhZHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyNjA4MDUsImV4cCI6MjA3OTgzNjgwNX0.pDXh2ClwIcNI9ToOU4NlkvCPgtKm6LLiB-GktKiH_58"
+    );
+    
     // --- TAB LOGIC ---
     function switchTab(tabId) {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
