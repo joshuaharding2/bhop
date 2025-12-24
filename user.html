@@ -259,7 +259,7 @@
       "https://xzygrzrfbqlnobjwadtx.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6eWdyenJmYnFsbm9iandhZHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyNjA4MDUsImV4cCI6MjA3OTgzNjgwNX0.pDXh2ClwIcNI9ToOU4NlkvCPgtKm6LLiB-GktKiH_58"
     );
-    
+
     // --- TAB LOGIC ---
     function switchTab(tabId) {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -289,11 +289,12 @@
         const { data, error } = await client
           .from("profiles")
           .select(`
-          user_id,
-          username,
-          role,
-          created_at
-        `)
+            user_id,
+            username,
+            role,
+            verified,
+            created_at
+          `)
           .eq("user_id", userId)
           .single();
 
