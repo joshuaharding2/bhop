@@ -192,6 +192,14 @@
     .list-item span {
       color: #888;
     }
+
+    .verified-badge-img {
+      width: 50px;
+      height: 50px;
+      margin-left: 0px;
+      margin-bottom: 10px;
+      vertical-align: middle;
+    }
   </style>
 </head>
 
@@ -312,7 +320,20 @@
 
     // --- RENDER USER ---
     function renderUser(user) {
-      document.getElementById("displayUsername").textContent = user.username;
+      const nameEl = document.getElementById("displayUsername");
+      nameEl.innerHTML = user.username;
+
+      if (user.verified) {
+        nameEl.innerHTML += `
+          <img
+            src="/img/verified-badge.png"
+            alt="Verified"
+            title="Verified account"
+            class="verified-badge-img"
+          />
+        `;
+      }
+
       document.getElementById("displayRole").textContent = user.role || "Member";
       document.getElementById("displayUserId").textContent = `ID: ${user.user_id}`;
 
