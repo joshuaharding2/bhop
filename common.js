@@ -93,10 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const path = window.location.pathname;
     const page = path.substring(path.lastIndexOf("/") + 1);
 
-    // ---------- HEADER ----------
-    let headerHTML = `
+    const newLocal = `
       <div class="account">
-        <img src="img/unknown.png" alt="pfp">
+        <img id="pfp" src="img/unknown.png" alt="pfp">
         <span class="username">Guest</span>
         <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="240 -720 480 480" width="18px" fill="#FFFFFF">
           <path d="M480-360 280-560h400L480-360Z" />
@@ -107,6 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     `;
+    // ---------- HEADER ----------
+    let headerHTML = newLocal;
 
     // Add special buttons or variants depending on the page
     if (page !== "home.html" && page !== "home") {
@@ -233,6 +234,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (username === "Guest") {
         const div = document.querySelector(".account-dropdown");
         div.innerHTML = `<div class="dropdown-item" onclick="location.href='login.html'">Log In</div>`;
+    } else {
+        const pfp = document.getElementById("pfp");
+        if (pfp) {
+            pfp.src = `https://api.dicebear.com/9.x/identicon/svg?seed=${username}&backgroundColor=000000`;
+        }
     }
     // Set account div right
     const accountDiv = document.querySelector(".account");
