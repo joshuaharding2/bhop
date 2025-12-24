@@ -11,17 +11,17 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 let __client_init_promise = null;
 
 function createClientOnce() {
-  // If client already exists on window, reuse it
-  if (window.client) return window.client;
+    // If client already exists on window, reuse it
+    if (window.client) return window.client;
 
-  // If supabase global is present and has createClient, create immediately
-  if (typeof window.supabase !== "undefined" && typeof window.supabase.createClient === "function") {
-    window.client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    return window.client;
-  }
+    // If supabase global is present and has createClient, create immediately
+    if (typeof window.supabase !== "undefined" && typeof window.supabase.createClient === "function") {
+        window.client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        return window.client;
+    }
 
-  // Otherwise, return null — caller should await ensureClient()
-  return null;
+    // Otherwise, return null — caller should await ensureClient()
+    return null;
 }
 
 /**
@@ -30,35 +30,35 @@ function createClientOnce() {
  * It only creates one promise, so multiple callers share the same waiter.
  */
 function ensureClient({ timeout = 3000, interval = 50 } = {}) {
-  if (window.client) return Promise.resolve(window.client);
-  if (__client_init_promise) return __client_init_promise;
+    if (window.client) return Promise.resolve(window.client);
+    if (__client_init_promise) return __client_init_promise;
 
-  __client_init_promise = new Promise((resolve, reject) => {
-    // try immediate creation first
-    const immediate = createClientOnce();
-    if (immediate) {
-      resolve(immediate);
-      return;
-    }
+    __client_init_promise = new Promise((resolve, reject) => {
+        // try immediate creation first
+        const immediate = createClientOnce();
+        if (immediate) {
+            resolve(immediate);
+            return;
+        }
 
-    // poll until timeout
-    const start = Date.now();
-    const tick = () => {
-      const c = createClientOnce();
-      if (c) {
-        resolve(c);
-        return;
-      }
-      if (Date.now() - start >= timeout) {
-        reject(new Error("Supabase global not available within timeout. Ensure the CDN script is loaded before common.js or import supabase as a module."));
-        return;
-      }
-      setTimeout(tick, interval);
-    };
-    tick();
-  });
+        // poll until timeout
+        const start = Date.now();
+        const tick = () => {
+            const c = createClientOnce();
+            if (c) {
+                resolve(c);
+                return;
+            }
+            if (Date.now() - start >= timeout) {
+                reject(new Error("Supabase global not available within timeout. Ensure the CDN script is loaded before common.js or import supabase as a module."));
+                return;
+            }
+            setTimeout(tick, interval);
+        };
+        tick();
+    });
 
-  return __client_init_promise;
+    return __client_init_promise;
 }
 
 // attempt a best-effort immediate create (for the common case where CDN was loaded before)
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <path d="M480-360 280-560h400L480-360Z" />
         </svg>
         <div class="account-dropdown">
-          <div class="dropdown-item">View Profile</div>
+          <div class="dropdown-item view-profile">View Profile</div>
           <div class="dropdown-item logout">Log Out</div>
         </div>
       </div>
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
         footer.style.display = "flex";
     }
 
-    // ---------- Dropdown + log out ----------
+    // ---------- Dropdown Logic ----------
     const account = document.querySelector(".account");
     const dropdown = document.querySelector(".account-dropdown");
     if (account && dropdown) {
@@ -179,6 +179,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Full reload or redirect to login
                 window.location.href = "/login.html"; // or: location.reload();
+            });
+        }
+        // View Profile handler
+        const viewProfile = document.querySelector(".view-profile");
+
+        if (viewProfile) {
+            viewProfile.addEventListener("click", async () => {
+                try {
+                    const client = await ensureClient();
+
+                    // Get logged-in user (UUID)
+                    const { data: { user } } = await client.auth.getUser();
+                    if (!user) {
+                        window.location.href = "/login.html";
+                        return;
+                    }
+
+                    // Get numeric user_id from profiles
+                    const { data, error } = await client
+                        .from("profiles")
+                        .select("user_id")
+                        .eq("id", user.id)
+                        .single();
+
+                    if (error || !data) {
+                        console.error("Profile lookup failed:", error);
+                        alert("Profile not found.");
+                        return;
+                    }
+
+                    // Redirect to public profile page
+                    window.location.href = `/user.html?id=${data.user_id}`;
+
+                } catch (err) {
+                    console.error("View profile error:", err);
+                }
             });
         }
     }
