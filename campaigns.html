@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhop - Campaigns</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* --- Main Layout --- */
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .campaign-wrapper {
+      width: 85%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      height: 60%;
+    }
+
+    /* --- Scrollable Frame --- */
+    .campaign-scroll-frame {
+      flex-grow: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(5px);
+      padding: 20px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .campaign-scroll-frame::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .campaign-scroll-frame::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    .campaign-scroll-frame::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    /* --- Campaign Card --- */
+    .campaign-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .card-header {
+      height: 180px;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 25px;
+      background-color: #222;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .campaign-card:hover {
+      transform: scale(1.01);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .campaign-info h2 {
+      margin: 0;
+      font-size: 2.2rem;
+      color: white;
+      text-transform: uppercase;
+      font-style: italic;
+      text-shadow: 2px 2px 4px black;
+    }
+
+    .campaign-desc {
+      color: #ddd;
+      margin: 5px 0 0 0;
+      font-size: 1.1rem;
+      text-shadow: 1px 1px 2px black;
+    }
+
+    /* Shared Difficulty Colors */
+    .diff-easy {
+      background: #2ecc71;
+      color: #000;
+    }
+
+    .diff-medium {
+      background: #f1c40f;
+      color: #000;
+    }
+
+    .diff-hard {
+      background: #e74c3c;
+      color: #fff;
+    }
+
+    .diff-extreme {
+      background: #8e44ad;
+      color: #fff;
+    }
+
+    .diff-mixed {
+      background: #aaa;
+      color: #000;
+    }
+
+    /* Campaign Badge (Larger) */
+    .campaign-badge {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .progress-bar-bg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    /* --- Accordion Level List --- */
+    .level-list {
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.4);
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .campaign-card.active .level-list {
+      max-height: 800px;
+      border-top: 1px solid var(--border);
+    }
+
+    .level-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .level-row:last-child {
+      border-bottom: none;
+    }
+
+    .level-row:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Left side: Number + Name + Difficulty Badge */
+    .level-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      min-width: 280px;
+      /* Slightly wider to accommodate badge */
+    }
+
+    .level-name {
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    .level-number {
+      color: #666;
+      font-weight: bold;
+      width: 30px;
+    }
+
+    /* Level Specific Difficulty Badge */
+    .level-diff {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: bold;
+      opacity: 0.9;
+      letter-spacing: 0.5px;
+    }
+
+    /* Center: Stats (Time + Medals) */
+    .level-stats {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 40px;
+      margin-right: 40px;
+    }
+
+    .best-time {
+      font-family: monospace;
+      font-size: 1.1rem;
+      color: #aaa;
+    }
+
+    .best-time.set {
+      color: #fff;
+    }
+
+    .medals-container {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mini-medal {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #333;
+      border: 1px solid #555;
+      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .mini-medal:hover::after {
+      content: attr(title);
+      position: absolute;
+      bottom: 150%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Earned States */
+    .mini-medal.earned {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 5px currentColor;
+    }
+
+    .m-bronze.earned {
+      background: #cd7f32;
+      color: #cd7f32;
+    }
+
+    .m-silver.earned {
+      background: #c0c0c0;
+      color: #c0c0c0;
+    }
+
+    .m-gold.earned {
+      background: #ffd700;
+      color: #ffd700;
+    }
+
+    .m-author.earned {
+      background: #00ff00;
+      color: #00ff00;
+    }
+
+    .m-wr.earned {
+      background: #ff00ff;
+      color: #ff00ff;
+    }
+
+    .play-btn {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 8px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .play-btn:hover {
+      background: var(--accent);
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <header></header>
+
+  <main>
+    <h1 class="title">Campaigns</h1>
+    <div class="campaign-wrapper">
+      <div class="campaign-scroll-frame">
+
+        <div class="campaign-card active">
+          <div class="card-header"
+            style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), linear-gradient(45deg, #444, #222);"
+            onclick="toggleCampaign(this)">
+            <div class="header-content">
+              <div class="campaign-info">
+                <h2>Bootcamp</h2>
+                <p class="campaign-desc">Learn the fundamentals of movement.</p>
+              </div>
+              <div class="campaign-badge diff-easy">Easy</div>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: 66%"></div>
+            </div>
+          </div>
+
+          <div class="level-list">
+            <div class="level-row">
+              <div class="level-info">
+                <span class="level-number">01</span>
+                <span class="level-name">Basics</span>
+                <span class="level-diff diff-easy">Easy</span>
+              </div>
+              <div class="level-stats">
+                <div class="best-time set">0:42.500</div>
+                <div class="medals-container">
+                  <div class="mini-medal m-bronze earned" title="Bronze"></div>
+                  <div class="mini-medal m-silver earned" title="Silver"></div>
+                  <div class="mini-medal m-gold earned" title="Gold"></div>
+                  <div class="mini-medal m-author earned" title="Author Time"></div>
+                  <div class="mini-medal m-wr" title="World Record"></div>
+                </div>
+              </div>
+              <button class="play-btn" onclick="playLevel('bootcamp_1')">Play</button>
+            </div>
+
+            <div class="level-row">
+              <div class="level-info">
+                <span class="level-number">02</span>
+                <span class="level-name">Air Control</span>
+                <span class="level-diff diff-easy">Easy</span>
+              </div>
+              <div class="level-stats">
+                <div class="best-time set">1:15.000</div>
+                <div class="medals-container">
+                  <div class="mini-medal m-bronze earned" title="Bronze"></div>
+                  <div class="mini-medal m-silver earned" title="Silver"></div>
+                  <div class="mini-medal m-gold" title="Gold"></div>
+                  <div class="mini-medal m-author" title="Author Time"></div>
+                  <div class="mini-medal m-wr" title="World Record"></div>
+                </div>
+              </div>
+              <button class="play-btn" onclick="playLevel('bootcamp_2')">Play</button>
+            </div>
+
+            <div class="level-row">
+              <div class="level-info">
+                <span class="level-number">03</span>
+                <span class="level-name">Bunny Hop</span>
+                <span class="level-diff diff-medium">Medium</span>
+              </div>
+              <div class="level-stats">
+                <div class="best-time">--:--.---</div>
+                <div class="medals-container">
+                  <div class="mini-medal m-bronze" title="Bronze"></div>
+                  <div class="mini-medal m-silver" title="Silver"></div>
+                  <div class="mini-medal m-gold" title="Gold"></div>
+                  <div class="mini-medal m-author" title="Author Time"></div>
+                  <div class="mini-medal m-wr" title="World Record"></div>
+                </div>
+              </div>
+              <button class="play-btn" onclick="playLevel('bootcamp_3')">Play</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="campaign-card">
+          <div class="card-header"
+            style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), linear-gradient(45deg, #001a33, #003366);"
+            onclick="toggleCampaign(this)">
+            <div class="header-content">
+              <div class="campaign-info">
+                <h2>Neon City</h2>
+                <p class="campaign-desc">Fast-paced jumps through a cyberpunk skyline.</p>
+              </div>
+              <div class="campaign-badge diff-medium">Medium</div>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="level-list">
+            <div class="level-row">
+              <div class="level-info">
+                <span class="level-number">01</span>
+                <span class="level-name">Rooftops</span>
+                <span class="level-diff diff-medium">Medium</span>
+              </div>
+              <div class="level-stats">
+                <div class="best-time">--:--.---</div>
+                <div class="medals-container">
+                  <div class="mini-medal m-bronze" title="Bronze"></div>
+                  <div class="mini-medal m-silver" title="Silver"></div>
+                  <div class="mini-medal m-gold" title="Gold"></div>
+                  <div class="mini-medal m-author" title="Author Time"></div>
+                  <div class="mini-medal m-wr" title="World Record"></div>
+                </div>
+              </div>
+              <button class="play-btn" onclick="playLevel('neon_1')">Play</button>
+            </div>
+            <div class="level-row">
+              <div class="level-info">
+                <span class="level-number">02</span>
+                <span class="level-name">Subway</span>
+                <span class="level-diff diff-hard">Hard</span>
+              </div>
+              <div class="level-stats">
+                <div class="best-time">--:--.---</div>
+                <div class="medals-container">
+                  <div class="mini-medal m-bronze" title="Bronze"></div>
+                  <div class="mini-medal m-silver" title="Silver"></div>
+                  <div class="mini-medal m-gold" title="Gold"></div>
+                  <div class="mini-medal m-author" title="Author Time"></div>
+                  <div class="mini-medal m-wr" title="World Record"></div>
+                </div>
+              </div>
+              <button class="play-btn" onclick="playLevel('neon_2')">Play</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="campaign-card">
+          <div class="card-header"
+            style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), linear-gradient(45deg, #330000, #550000);"
+            onclick="toggleCampaign(this)">
+            <div class="header-content">
+              <div class="campaign-info">
+                <h2>The Void</h2>
+                <p class="campaign-desc">Precise jumps. No forgiveness.</p>
+              </div>
+              <div class="campaign-badge diff-hard">Hard</div>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="level-list">
+            <div class="level-row">
+              <div class="level-info">
+                <span class="level-number">01</span>
+                <span class="level-name">Abyss</span>
+                <span class="level-diff diff-extreme">Extreme</span>
+              </div>
+              <div class="level-stats">
+                <div class="best-time">--:--.---</div>
+                <div class="medals-container">
+                  <div class="mini-medal m-bronze" title="Bronze"></div>
+                  <div class="mini-medal m-silver" title="Silver"></div>
+                  <div class="mini-medal m-gold" title="Gold"></div>
+                  <div class="mini-medal m-author" title="Author Time"></div>
+                  <div class="mini-medal m-wr" title="World Record"></div>
+                </div>
+              </div>
+              <button class="play-btn" onclick="playLevel('void_1')">Play</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+
+  <script src="common.js"></script>
+  <script>
+    function toggleCampaign(headerElement) {
+      const card = headerElement.parentElement;
+      card.classList.toggle('active');
+    }
+
+    function playLevel(levelId) {
+      alert("Starting Level: " + levelId);
+    }
+  </script>
+</body>
+
+</html>

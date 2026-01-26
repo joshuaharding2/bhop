@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
           Join Discord
         </button>
       </div>
-      <p class="footer-text">© 2025 Joshua Harding — All rights reserved.</p>
+      <p class="footer-text">© 2026 Joshua Harding — All rights reserved.</p>
     `;
 
     // Inject them
