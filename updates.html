@@ -1,204 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css" />
-  <title>Bhop - Updates</title>
-  <style>
-    .updates-container {
-      margin-top: 30px;
-      width: 70%;
-      max-width: 1000px;
-      height: 500px;
-      overflow-y: auto;
-      overflow-x: clip;
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-      z-index: 2;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>Bhop - Updates</title>
+    <style>
+        .updates-container {
+            margin-top: 30px;
+            width: 70%;
+            max-width: 1000px;
+            height: 500px;
+            overflow-y: auto;
+            overflow-x: clip;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+            z-index: 2;
+        }
 
+        .update-entry {
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+        }
 
-    .update-entry {
-      border-bottom: 1px solid var(--border);
-      padding: 15px 0;
-    }
+        .update-entry:last-child {
+            border-bottom: none;
+        }
 
-    .update-entry:last-child {
-      border-bottom: none;
-    }
+        .update-date {
+            font-size: 1.35em;
+            color: #aaa;
+            margin-bottom: 6px;
+        }
 
-    .update-date {
-      font-size: 1.35em;
-      color: #aaa;
-      margin-bottom: 6px;
-    }
+        .update-title {
+            font-weight: 600;
+            font-size: 1.8em;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
 
-    .update-title {
-      font-weight: 600;
-      font-size: 1.8em;
-      color: var(--accent);
-      margin-bottom: 4px;
-    }
+        .update-desc {
+            color: #ddd;
+            font-size: 1.425em;
+            line-height: 1.4em;
+        }
 
-    .update-desc {
-      color: #ddd;
-      font-size: 1.425em;
-      line-height: 1.4em;
-    }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-    }
-  </style>
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+        }
+    </style>
 </head>
-
 <body>
-  <header></header>
-
-  <main>
-    <h1 class="title">Update Log</h1>
-
-    <div class="updates-container">
-
-      <div class="update-entry">
-        <div class="update-date">Aug 26, 2025</div>
-        <div class="update-title">v1.5.11</div>
-        <div class="update-desc">Mobile changes:<br>-Added a pause button on mobile on the left<br>-Fixed exit replay
-          button not working on mobile
+    <header></header>
+    <main>
+        <h1 class="title">Update Log</h1>
+        <div class="updates-container">
+            <div class="update-entry">
+                <div class="update-date">Aug 26, 2025</div>
+                <div class="update-title">v1.5.11</div>
+                <div class="update-desc">
+                    Mobile changes:
+                    <br>-Added a pause button on mobile on the left
+                    <br>-Fixed exit replay button not working on mobile
+                </div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">Aug 10, 2025</div>
+                <div class="update-title">v2.0.0-indev</div>
+                <div class="update-desc">Only on: https://joshuaharding2.github.io/bhop/textures<br>I added basic
+                    textures to
+                    the game<br>I made it in like 5 minutes, and I'm not sure if it's good<br>Additionally, I adjusted
+                    the strafe
+                    keys (a and d) to be slightly fairer. Previously, if both keys were pressed, it would always favor
+                    going left.
+                    Now it will favor whichever direction was pressed last. This should not change anything except
+                    perhaps start
+                    turning right a few frames earlier than previously.<br>Play this version if you want to test core
+                    gameplay
+                    changes I'm not sure about yet.
+                </div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">Aug 6, 2025</div>
+                <div class="update-title">v1.5.1</div>
+                <div class="update-desc">Added event levels (levels only availible during certain time periods)</div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">July 19, 2025</div>
+                <div class="update-title">v1.5.01</div>
+                <div class="update-desc">Fixed WR replay buttons not appearing without an author replay, added author
+                    replays
+                    for all campaign 1 levels (previous update just had the first level), changed game title on menu
+                    screen to an
+                    image so it loads even on mobile and Safari, and updated manifest to force the game app into
+                    landscape mode on
+                    mobile.</div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">July 18, 2025</div>
+                <div class="update-title">v1.5.0</div>
+                <div class="update-desc">It's been a while! I decided to make this a major update since how many things
+                    I
+                    changed and we got a new domain and stuff (it's https://bhop.site use it if you can and aren't
+                    already because
+                    the codehs one is sometimes really slow to load for some reason)<br>You should still join the
+                    discord server:
+                    <a href="https://discord.gg/TcTvmwxgJb" target="_blank">https://discord.gg/TcTvmwxgJb</a><br>And
+                    also I do not
+                    think this list covers everything i've changed because there's so many little changes I probably
+                    forgot about
+                    or can't remember right now. Here we go<br>Added fullscreen option in pause menu becuase I made a
+                    pwa desktop
+                    app and I didn't like the visible bar at the top<br>Finished input recording system and replay
+                    system (used
+                    for checking authenticity of runs and TAS runs)<br>Fully Created another recording system that just
+                    stores
+                    your position, direction, and total time each frame (used for watching replays and making ghosts on
+                    frontend)<br>Used this 2nd replay system to make replays and ghosts accessable in game through
+                    buttons on the
+                    top right: These work for world record and author record (but the buttons only show up if there is a
+                    valid
+                    replay code and all the world records at the time of release are old and don't have one :/)<br>I
+                    made the
+                    entire game have a forced aspect ratio<br>This makes all UI the same size no matter what screen
+                    resolution
+                    you're using (black bars on the sides if it doesn't fit)<br>I also resized the ui to be bigger
+                    because this
+                    shrinked it a little and it was smaller than intended already. This was because I developed the game
+                    on a
+                    crappy school computer (don't worry I'm using my home computer now that it's summer) and the screen
+                    was small
+                    so I liked to change the screen resolution so things were bigger and I could see but didn't realize
+                    that for
+                    everyone else the UI would be smaller.<br>I am planning on adding customization to aspect ratio and
+                    resolution
+                    later (including UI size)<br>You may also have noticed that the base bhop.site page is an account
+                    creation
+                    page (you can make one, but it doesn't do anything yet.) I am planning on making this save times and
+                    stuff and
+                    maybe even be able to upload levels on your account? It has a lot of potential I need to get working
+                    on
+                    that<br>Added mobile support:<br>If you're on mobile and start the game you'll see some buttons that
+                    control
+                    the game (unless my mobile device detection code is wrong let me know if it is)<br>In case you want
+                    to use a
+                    keyboard and the mobile buttons are in the way the mobile buttons will dissapear if the website
+                    detects any
+                    key input (assumes you don't need them)<br>The reset button resets the player unless you press it
+                    twice within
+                    1 second then it will fully reset you<br>I also made a manifest.json and service worker so it runs
+                    offline if
+                    you add the website to homescreen (and it launches in fullscreen too!)<br>Oh also I added favicons
+                    to the
+                    website and app (icons next to the tab name, app icons, stuff like that)<br>Minor
+                    changes:<br>Direction
+                    reporter in top left actually makes sense now (I was using the wrong vector3 lol)<br>Version numbers
+                    now only
+                    have 3 numbers and have a v before it<br>When you submit a record now it stores the current version
+                    number<br>Campaign level data is now stored in the main html file instead of other files (no loading
+                    time,
+                    works offline, no fetching errors)<br>Key inputs are no longer case sensitive<br>I made this menu
+                    way wider so
+                    it could fit all this text on one screen since now with the aspect ratio you can't scroll anymore (I
+                    also made
+                    the text smaller)<br>Removed outdated info on credits page<br>Fixed typo on 3rd button of 2nd row of
+                    3rd
+                    campaign<br>Added warning when you open the console on the website<br>As a sideproduct of storing
+                    level data
+                    in the main file now the loadLevelFromFile(); function is useless<br>I'm probably gonna think of
+                    more
+                    things to add to this list later but that's all I can remember for now
+                </div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">June 8, 2025</div>
+                <div class="update-title">1.4.2.0</div>
+                <div class="update-desc">You should still join the discord server: <a
+                        href="https://discord.gg/TcTvmwxgJb"
+                        target="_blank">https://discord.gg/TcTvmwxgJb</a><br>Started making pause menu
+                    (unfinished)<br>Started
+                    developing gameplay replay system (also unfinished)<br>Added a new campaign (player pack 1) with a
+                    couple of
+                    levels<br>Challenge 01 (hopefully 02 and 03 comming soon)<br>Tower 01 and Tower 02 (Tower
+                    03?)<br>Added
+                    practice mode:<br>Freecam replaced with noclip in practice that doesn't teleport you back when
+                    exiting
+                    noclip<br>Can set checkpoints manually by pressing c<br>I did add practice mode reporter and stuff
+                    in the top
+                    left</div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">May 20, 2025</div>
+                <div class="update-title">1.4.1.2</div>
+                <div class="update-desc">
+                    Fixed controls menu (idk why it was broken)
+                    <br>World Record Names now can only use
+                    letters, numbers, and underscores</div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">May 17, 2025</div>
+                <div class="update-title">1.4.1.1</div>
+                <div class="update-desc">
+                    Fixed killbox floor collisions (much more lenient), now won't kill you if you
+                    overlap on normal and kill boxes (as intended)</div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">May 17, 2025</div>
+                <div class="update-title">1.4.1.0</div>
+                <div class="update-desc">I MADE A DISCORD SERVER GO JOIN: <a href="https://discord.gg/TcTvmwxgJb"
+                        target="_blank">https://discord.gg/TcTvmwxgJb</a><br>Added teleporters (editor does have
+                    them)<br>3
+                    teleporter levels to showcase them in campaign 1<br>Added map name and creator on top right above
+                    leaderboard<br>Added game states:<br>Display on top left of position and direction<br>Player hitbox
+                    (used for
+                    debugging, press \ to toggle)<br>Test mode (frame by frame, press t three times with less than 1
+                    second
+                    inbetween each press) also for debugging<br>Also I fixed container placement on campaign buttons
+                </div>
+            </div>
+            <div class="update-entry">
+                <div class="update-date">May 6, 2025</div>
+                <div class="update-title">1.4.0.0</div>
+                <div class="update-desc">WORLD RECORDS WORK GO GET EM (at least they should work)<br>I will not be
+                    putting
+                    myself on the world record leaderboard (I think it would make it less fun for people since i'm
+                    really good,
+                    and you can already see my best times in the author time section)<br>I've got a lot more content
+                    planned and
+                    even mostly finished, just unreleased</div>
+            </div>
         </div>
-
-      </div>
-      <div class="update-entry">
-        <div class="update-date">Aug 10, 2025</div>
-        <div class="update-title">v2.0.0-indev</div>
-        <div class="update-desc">Only on: https://joshuaharding2.github.io/bhop/textures<br>I added basic textures to
-          the game<br>I made it in like 5 minutes, and I'm not sure if it's good<br>Additionally, I adjusted the strafe
-          keys (a and d) to be slightly fairer. Previously, if both keys were pressed, it would always favor going left.
-          Now it will favor whichever direction was pressed last. This should not change anything except perhaps start
-          turning right a few frames earlier than previously.<br>Play this version if you want to test core gameplay
-          changes I'm not sure about yet.</div>
-      </div>
-
-      <div class="update-entry">
-        <div class="update-date">Aug 6, 2025</div>
-        <div class="update-title">v1.5.1</div>
-        <div class="update-desc">Added event levels (levels only availible during certain time periods)</div>
-      </div>
-
-      <div class="update-entry">
-        <div class="update-date">July 19, 2025</div>
-        <div class="update-title">v1.5.01</div>
-        <div class="update-desc">Fixed WR replay buttons not appearing without an author replay, added author replays
-          for all campaign 1 levels (previous update just had the first level), changed game title on menu screen to an
-          image so it loads even on mobile and Safari, and updated manifest to force the game app into landscape mode on
-          mobile.</div>
-      </div>
-
-      <div class="update-entry">
-        <div class="update-date">July 18, 2025</div>
-        <div class="update-title">v1.5.0</div>
-        <div class="update-desc">It's been a while! I decided to make this a major update since how many things I
-          changed and we got a new domain and stuff (it's https://bhop.site use it if you can and aren't already because
-          the codehs one is sometimes really slow to load for some reason)<br>You should still join the discord server:
-          <a href="https://discord.gg/TcTvmwxgJb" target="_blank">https://discord.gg/TcTvmwxgJb</a><br>And also I do not
-          think this list covers everything i've changed because there's so many little changes I probably forgot about
-          or can't remember right now. Here we go<br>Added fullscreen option in pause menu becuase I made a pwa desktop
-          app and I didn't like the visible bar at the top<br>Finished input recording system and replay system (used
-          for checking authenticity of runs and TAS runs)<br>Fully Created another recording system that just stores
-          your position, direction, and total time each frame (used for watching replays and making ghosts on
-          frontend)<br>Used this 2nd replay system to make replays and ghosts accessable in game through buttons on the
-          top right: These work for world record and author record (but the buttons only show up if there is a valid
-          replay code and all the world records at the time of release are old and don't have one :/)<br>I made the
-          entire game have a forced aspect ratio<br>This makes all UI the same size no matter what screen resolution
-          you're using (black bars on the sides if it doesn't fit)<br>I also resized the ui to be bigger because this
-          shrinked it a little and it was smaller than intended already. This was because I developed the game on a
-          crappy school computer (don't worry I'm using my home computer now that it's summer) and the screen was small
-          so I liked to change the screen resolution so things were bigger and I could see but didn't realize that for
-          everyone else the UI would be smaller.<br>I am planning on adding customization to aspect ratio and resolution
-          later (including UI size)<br>You may also have noticed that the base bhop.site page is an account creation
-          page (you can make one, but it doesn't do anything yet.) I am planning on making this save times and stuff and
-          maybe even be able to upload levels on your account? It has a lot of potential I need to get working on
-          that<br>Added mobile support:<br>If you're on mobile and start the game you'll see some buttons that control
-          the game (unless my mobile device detection code is wrong let me know if it is)<br>In case you want to use a
-          keyboard and the mobile buttons are in the way the mobile buttons will dissapear if the website detects any
-          key input (assumes you don't need them)<br>The reset button resets the player unless you press it twice within
-          1 second then it will fully reset you<br>I also made a manifest.json and service worker so it runs offline if
-          you add the website to homescreen (and it launches in fullscreen too!)<br>Oh also I added favicons to the
-          website and app (icons next to the tab name, app icons, stuff like that)<br>Minor changes:<br>Direction
-          reporter in top left actually makes sense now (I was using the wrong vector3 lol)<br>Version numbers now only
-          have 3 numbers and have a v before it<br>When you submit a record now it stores the current version
-          number<br>Campaign level data is now stored in the main html file instead of other files (no loading time,
-          works offline, no fetching errors)<br>Key inputs are no longer case sensitive<br>I made this menu way wider so
-          it could fit all this text on one screen since now with the aspect ratio you can't scroll anymore (I also made
-          the text smaller)<br>Removed outdated info on credits page<br>Fixed typo on 3rd button of 2nd row of 3rd
-          campaign<br>Added warning when you open the console on the website<br>As a sideproduct of storing level data
-          in the main file now the loadLevelFromFile(); function is useless<br>I'm probably gonna think of more
-          things to add to this list later but that's all I can remember for now
-        </div>
-      </div>
-
-      <div class="update-entry">
-        <div class="update-date">June 8, 2025</div>
-        <div class="update-title">1.4.2.0</div>
-        <div class="update-desc">You should still join the discord server: <a href="https://discord.gg/TcTvmwxgJb"
-            target="_blank">https://discord.gg/TcTvmwxgJb</a><br>Started making pause menu (unfinished)<br>Started
-          developing gameplay replay system (also unfinished)<br>Added a new campaign (player pack 1) with a couple of
-          levels<br>Challenge 01 (hopefully 02 and 03 comming soon)<br>Tower 01 and Tower 02 (Tower 03?)<br>Added
-          practice mode:<br>Freecam replaced with noclip in practice that doesn't teleport you back when exiting
-          noclip<br>Can set checkpoints manually by pressing c<br>I did add practice mode reporter and stuff in the top
-          left</div>
-      </div>
-
-      <div class="update-entry">
-        <div class="update-date">May 20, 2025</div>
-        <div class="update-title">1.4.1.2</div>
-        <div class="update-desc">Fixed controls menu (idk why it was broken)<br>World Record Names now can only use
-          letters, numbers, and underscores</div>
-      </div>
-
-      <div class="update-entry">
-        <div class="update-date">May 17, 2025</div>
-        <div class="update-title">1.4.1.1</div>
-        <div class="update-desc">Fixed killbox floor collisions (much more lenient), now won't kill you if you overlap
-          on normal and kill boxes (as intended)</div>
-      </div>
-
-      <div class="update-entry">
-        <div class="update-date">May 17, 2025</div>
-        <div class="update-title">1.4.1.0</div>
-        <div class="update-desc">I MADE A DISCORD SERVER GO JOIN: <a href="https://discord.gg/TcTvmwxgJb"
-            target="_blank">https://discord.gg/TcTvmwxgJb</a><br>Added teleporters (editor does have them)<br>3
-          teleporter levels to showcase them in campaign 1<br>Added map name and creator on top right above
-          leaderboard<br>Added game states:<br>Display on top left of position and direction<br>Player hitbox (used for
-          debugging, press \ to toggle)<br>Test mode (frame by frame, press t three times with less than 1 second
-          inbetween each press) also for debugging<br>Also I fixed container placement on campaign buttons</div>
-      </div>
-
-      <div class="update-entry">
-        <div class="update-date">May 6, 2025</div>
-        <div class="update-title">1.4.0.0</div>
-        <div class="update-desc">WORLD RECORDS WORK GO GET EM (at least they should work)<br>I will not be putting
-          myself on the world record leaderboard (I think it would make it less fun for people since i'm really good,
-          and you can already see my best times in the author time section)<br>I've got a lot more content planned and
-          even mostly finished, just unreleased</div>
-      </div>
-
-    </div>
-  </main>
-  <footer></footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="common.js"></script>
+    </main>
+    <footer></footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="common.js"></script>
 </body>
-
 </html>
