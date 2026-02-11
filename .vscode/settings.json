@@ -1,8 +1,0 @@
-{
-    "[yaml]": {
-        "editor.tabSize": 4
-    },
-    "[markdown]": {
-        "editor.wordWrap": "off"
-    }
-}

@@ -1,372 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bhop - User Profile</title>
-  <link rel="stylesheet" href="style.css" />
-
-  <style>
-    /* --- Layout --- */
-    .profile-container {
-      width: 80%;
-      max-width: 1100px;
-      margin: 40px auto;
-      margin-top: 100px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      padding-bottom: 50px;
-      /* Space for footer */
-    }
-
-    /* --- Header Section (Avatar + Info) --- */
-    .profile-header {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 30px;
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .avatar-frame {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 4px solid var(--accent);
-      overflow: hidden;
-      background: #000;
-      flex-shrink: 0;
-    }
-
-    .avatar-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .user-info {
-      flex-grow: 1;
-    }
-
-    .displayName {
-      font-size: 3rem;
-      font-weight: 700;
-      color: #fff;
-      margin: 0;
-      line-height: 1;
-    }
-
-    .user-badge {
-      display: inline-block;
-      background: var(--accent);
-      color: #000;
-      font-weight: bold;
-      font-size: 0.8rem;
-      padding: 4px 8px;
-      border-radius: 4px;
-      margin-top: 10px;
-      text-transform: uppercase;
-    }
-
-    .user-meta {
-      color: #aaa;
-      font-size: 1.1rem;
-      margin-top: 10px;
-      display: flex;
-      gap: 20px;
-    }
-
-    /* --- Stats Grid --- */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
-
-    .stat-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.2s;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-    }
-
-    .stat-value {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: var(--accent);
-    }
-
-    .stat-label {
-      color: #ccc;
-      font-size: 1rem;
-      margin-top: 5px;
-    }
-
-    /* --- Content Tabs --- */
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .tab {
-      padding: 10px 20px;
-      font-size: 1.2rem;
-      color: #aaa;
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: 0.2s;
-    }
-
-    .tab:hover {
-      color: #fff;
-    }
-
-    .tab.active {
-      color: var(--accent);
-      border-bottom: 3px solid var(--accent);
-    }
-
-    /* --- Tab Content Area --- */
-    .content-area {
-      min-height: 300px;
-      display: none;
-      /* Hidden by default */
-      animation: fadeIn 0.3s ease;
-    }
-
-    .content-area.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* List for Maps/Activity */
-    .item-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .list-item {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--border);
-      padding: 15px 20px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .list-item h3 {
-      margin: 0;
-      font-size: 1.4rem;
-      color: #fff;
-    }
-
-    .list-item span {
-      color: #888;
-    }
-
-    .verified-badge-img {
-      width: 50px;
-      height: 50px;
-      margin-left: 0px;
-      margin-bottom: 10px;
-      vertical-align: middle;
-    }
-  </style>
-</head>
-
-<body>
-  <header></header>
-
-  <main>
-    <div class="profile-container">
-
-      <div class="profile-header">
-        <div class="avatar-frame">
-          <img id="userAvatar" src="https://api.dicebear.com/9.x/identicon/svg?seed=Bhop" alt="Avatar">
-        </div>
-        <div class="user-info">
-          <h1 class="displayName" id="displayUsername">Loading...</h1>
-          <div class="user-badge" id="displayRole">Member</div>
-          <div class="user-meta">
-            <span id="displayJoinDate">Joined: ...</span>
-            <span id="displayUserId">ID: ...</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value" id="statLevels">0</div>
-          <div class="stat-label">Levels Created</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="statJumps">0</div>
-          <div class="stat-label">Total Jumps</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="statTime">0h</div>
-          <div class="stat-label">Playtime</div>
-        </div>
-      </div>
-
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab('overview')">Recent Activity</div>
-        <div class="tab" onclick="switchTab('levels')">Created Levels</div>
-      </div>
-
-      <div id="overview" class="content-area active">
-        <div class="item-list" id="activityList">
-          <div style="text-align:center; color:#666; padding: 20px;">No recent activity found.</div>
-        </div>
-      </div>
-
-      <div id="levels" class="content-area">
-        <div class="item-list" id="levelsList">
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <footer></footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="common.js"></script>
-  <script>
-    const { createClient } = supabase; // Extract the createClient function
-
-    const client = createClient(
-      "https://xzygrzrfbqlnobjwadtx.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6eWdyenJmYnFsbm9iandhZHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyNjA4MDUsImV4cCI6MjA3OTgzNjgwNX0.pDXh2ClwIcNI9ToOU4NlkvCPgtKm6LLiB-GktKiH_58"
-    );
-
-    // --- TAB LOGIC ---
-    function switchTab(tabId) {
-      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-      document.querySelectorAll(".content-area").forEach(c => c.classList.remove("active"));
-
-      event.target.classList.add("active");
-      document.getElementById(tabId).classList.add("active");
-    }
-
-    // --- GET USER ID FROM URL ---
-    function getUserIdFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
-      return id ? Number(id) : null;
-    }
-
-    // --- LOAD USER ---
-    async function loadUser() {
-      const userId = getUserIdFromUrl();
-
-      if (!userId) {
-        renderError("No user ID provided");
-        return;
-      }
-
-      try {
-        const { data, error } = await client
-          .from("profiles")
-          .select(`
-            user_id,
-            username,
-            role,
-            verified,
-            created_at
-          `)
-          .eq("user_id", userId)
-          .single();
-
-        if (error || !data) {
-          renderError("User not found");
-          return;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhop - User Profile</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* --- Layout --- */
+        .profile-container {
+            width: 80%;
+            max-width: 1100px;
+            margin: 40px auto;
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-bottom: 50px;
+            /* Space for footer */
         }
 
-        renderUser(data);
-      } catch (err) {
-        console.error(err);
-        renderError("Failed to load user");
-      }
-    }
+        /* --- Header Section (Avatar + Info) --- */
+        .profile-header {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
 
-    // --- RENDER USER ---
-    function renderUser(user) {
-      const nameEl = document.getElementById("displayUsername");
-      nameEl.innerHTML = user.username;
+        .avatar-frame {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            overflow: hidden;
+            background: #000;
+            flex-shrink: 0;
+        }
 
-      if (user.verified) {
-        nameEl.innerHTML += `
-          <img
-            src="/img/verified-badge.png"
-            alt="Verified"
-            title="Verified account"
-            class="verified-badge-img"
-          />
-        `;
-      }
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-      document.getElementById("displayRole").textContent = user.role || "Member";
-      document.getElementById("displayUserId").textContent = `ID: ${user.user_id}`;
+        .user-info {
+            flex-grow: 1;
+        }
 
-      const joined = new Date(user.created_at);
-      document.getElementById("displayJoinDate").textContent =
-        `Joined: ${joined.toLocaleDateString()}`;
+        .displayName {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            line-height: 1;
+        }
 
-      document.getElementById("userAvatar").src =
-        `https://api.dicebear.com/9.x/identicon/svg?seed=${user.username}`;
+        .user-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
 
-      // Placeholder stats (replace later)
-      document.getElementById("statLevels").textContent = "0";
-      document.getElementById("statJumps").textContent = "0";
-      document.getElementById("statTime").textContent = "0h";
+        .user-meta {
+            color: #aaa;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            display: flex;
+            gap: 20px;
+        }
 
-      document.getElementById("activityList").innerHTML =
-        `<div style="text-align:center; color:#666; padding:20px;">
-        No recent activity found.
-      </div>`;
-    }
+        /* --- Stats Grid --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
 
-    // --- ERROR STATE ---
-    function renderError(message) {
-      document.getElementById("displayUsername").textContent = message;
-      document.getElementById("displayRole").style.display = "none";
-      document.getElementById("displayJoinDate").style.display = "none";
-      document.getElementById("displayUserId").style.display = "none";
-    }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
 
-    // --- INIT ---
-    window.addEventListener("DOMContentLoaded", loadUser);
-  </script>
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
 
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: #ccc;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        /* --- Content Tabs --- */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: #aaa;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        .tab:hover {
+            color: #fff;
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        /* --- Tab Content Area --- */
+        .content-area {
+            min-height: 300px;
+            display: none;
+            /* Hidden by default */
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* List for Maps/Activity */
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .list-item {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list-item h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .list-item span {
+            color: #888;
+        }
+
+        .verified-badge-img {
+            width: 50px;
+            height: 50px;
+            margin-left: 0px;
+            margin-bottom: 10px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <main>
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="avatar-frame">
+                    <img id="userAvatar" src="https://api.dicebear.com/9.x/identicon/svg?seed=Bhop" alt="Avatar">
+                </div>
+                <div class="user-info">
+                    <h1 class="displayName" id="displayUsername">Loading...</h1>
+                    <div class="user-badge" id="displayRole">Member</div>
+                    <div class="user-meta">
+                        <span id="displayJoinDate">Joined: ...</span>
+                        <span id="displayUserId">ID: ...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statLevels">0</div>
+                    <div class="stat-label">Levels Created</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statJumps">0</div>
+                    <div class="stat-label">Total Jumps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statTime">0h</div>
+                    <div class="stat-label">Playtime</div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div id="overview-tab" class="tab active">Recent Activity</div>
+                <div id="levels-tab" class="tab">Created Levels</div>
+            </div>
+
+            <div id="overview" class="content-area active">
+                <div class="item-list" id="activityList">
+                    <div style="text-align:center; color:#666; padding: 20px;">No recent activity found.</div>
+                </div>
+            </div>
+
+            <div id="levels" class="content-area">
+                <div class="item-list" id="levelsList">
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="common.js"></script>
+    <script>
+        const { createClient } = supabase; // Extract the createClient function
+
+        const client = createClient(
+            "https://xzygrzrfbqlnobjwadtx.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6eWdyenJmYnFsbm9iandhZHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyNjA4MDUsImV4cCI6MjA3OTgzNjgwNX0.pDXh2ClwIcNI9ToOU4NlkvCPgtKm6LLiB-GktKiH_58"
+        );
+
+        // --- TAB LOGIC ---
+        function switchTab(tabId) {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".content-area").forEach(c => c.classList.remove("active"));
+
+            event.target.classList.add("active");
+            document.getElementById(tabId).classList.add("active");
+        }
+
+        // --- GET USER ID FROM URL ---
+        function getUserIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+            return id ? Number(id) : null;
+        }
+
+        // --- LOAD USER ---
+        async function loadUser() {
+            const userId = getUserIdFromUrl();
+
+            if (!userId) {
+                renderError("No user ID provided");
+                return;
+            }
+
+            try {
+                const { data, error } = await client
+                    .from("profiles")
+                    .select(`
+                        user_id,
+                        username,
+                        role,
+                        verified,
+                        created_at
+                    `)
+                    .eq("user_id", userId)
+                    .single();
+
+                if (error || !data) {
+                    renderError("User not found");
+                    return;
+                }
+
+                renderUser(data);
+            } catch (err) {
+                console.error(err);
+                renderError("Failed to load user");
+            }
+        }
+
+        // --- RENDER USER ---
+        function renderUser(user) {
+            const nameEl = document.getElementById("displayUsername");
+            nameEl.innerHTML = user.username;
+
+            if (user.verified) nameEl.innerHTML += `<img src="img/verified-badge.png"alt="Verified"title="Verified account"class="verified-badge-img"/>`;
+
+            document.getElementById("displayRole").textContent = user.role || "Member";
+            document.getElementById("displayUserId").textContent = `ID: ${user.user_id}`;
+
+            const joined = new Date(user.created_at);
+            document.getElementById("displayJoinDate").textContent = `Joined: ${joined.toLocaleDateString()}`;
+
+            document.getElementById("userAvatar").src = `https://api.dicebear.com/9.x/identicon/svg?seed=${user.username}`;
+
+            // Placeholder stats (replace later)
+            document.getElementById("statLevels").textContent = "0";
+            document.getElementById("statJumps").textContent = "0";
+            document.getElementById("statTime").textContent = "0h";
+            document.getElementById("activityList").innerHTML = `<div style="text-align:center; color:#666; padding:20px;">No recent activity found.</div>`;
+        }
+
+        // --- ERROR STATE ---
+        function renderError(message) {
+            document.getElementById("displayUsername").textContent = message;
+            document.getElementById("displayRole").style.display = "none";
+            document.getElementById("displayJoinDate").style.display = "none";
+            document.getElementById("displayUserId").style.display = "none";
+        }
+
+        // --- INIT ---
+        window.addEventListener("DOMContentLoaded", loadUser);
+        document.getElementById("overview-tab").addEventListener("click", () => switchTab("overview"));
+        document.getElementById("levels-tab").addEventListener("click", () => switchTab("levels"));
+    </script>
 </body>
-
 </html>
