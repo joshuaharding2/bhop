@@ -1,19 +1,19 @@
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open('my-game-cache').then(cache => {
-      return cache.addAll([
-        '/',
-        '/index.html',
-        '/bhop.html',
-        '/editor.html',
-        '/icon-192.png',
-        '/icon-512.png',
-      ]);
-    })
-  );
+    event.waitUntil(
+        caches.open('my-game-cache').then(cache => {
+            return cache.addAll([
+                '/',
+                '/index.html',
+                '/bhop.html',
+                '/editor.html',
+                '/icon-192.png',
+                '/icon-512.png',
+            ]);
+        })
+    );
 });
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
-  );
+    event.respondWith(
+        caches.match(event.request).then(response => response || fetch(event.request))
+    );
 });
