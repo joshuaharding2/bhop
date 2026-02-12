@@ -1,377 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Bhop – Custom Levels</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Bhop – Custom Levels</title>
+    <style>
+        .search-section {
+            margin-top: -10px;
+            width: 70%;
+            max-width: 900px;
+            display: flex;
+            justify-content: center;
+        }
 
-  <style>
-    .search-section {
-      margin-top: -10px;
-      width: 70%;
-      max-width: 900px;
-      display: flex;
-      justify-content: center;
-    }
+        .search-bar {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1.4em;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--glass);
+            color: white;
+            backdrop-filter: blur(6px);
+            outline: none;
+        }
 
-    .search-bar {
-      width: 100%;
-      padding: 14px 18px;
-      font-size: 1.4em;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--glass);
-      color: white;
-      backdrop-filter: blur(6px);
-      outline: none;
-    }
+        .featured-title {
+            font-size: 2.2em;
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
 
-    .featured-title {
-      font-size: 2.2em;
-      margin-top: 40px;
-      margin-bottom: 16px;
-    }
+        /* Scrollable featured container */
+        .featured-scroll {
+            width: 80%;
+            max-width: 1100px;
+            max-height: 550px;
+            /* Scroll height */
+            overflow-y: auto;
+            padding-right: 10px;
+            scrollbar-gutter: stable;
+        }
 
-    /* Scrollable featured container */
-    .featured-scroll {
-      width: 80%;
-      max-width: 1100px;
-      max-height: 550px;     /* Scroll height */
-      overflow-y: auto;
-      padding-right: 10px;
-      scrollbar-gutter: stable;
-    }
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
 
-    .featured-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-      width: 100%;
-    }
+        .level-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .level-card {
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      backdrop-filter: blur(8px);
-      cursor: pointer;
-      transition: 0.2s;
-    }
+        .level-card:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+        }
 
-    .level-card:hover {
-      transform: scale(1.04);
-      box-shadow: 0 0 25px rgba(0,0,0,0.35);
-    }
+        .level-name {
+            font-size: 1.6em;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
 
-    .level-name {
-      font-size: 1.6em;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
+        .level-author {
+            font-size: 1.15em;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
 
-    .level-author {
-      font-size: 1.15em;
-      color: #ccc;
-      margin-bottom: 10px;
-    }
+        /* Difficulty icons */
+        .difficulty {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
 
-    /* Difficulty icons */
-    .difficulty {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 10px;
-    }
+        .diff-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-block;
+        }
 
-    .diff-icon {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: inline-block;
-    }
+        .easy {
+            background: #6fdc6f;
+        }
 
-    .easy   { background: #6fdc6f; }
-    .medium { background: #f7d06a; }
-    .hard   { background: #f57b63; }
-    .insane { background: #ff3c3c; }
+        .medium {
+            background: #f7d06a;
+        }
 
-    .difficulty span {
-      font-size: 1.2em;
-      color: #eee;
-    }
+        .hard {
+            background: #f57b63;
+        }
 
-    /* Tags */
-    .tags {
-      margin-top: 6px;
-      margin-bottom: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+        .insane {
+            background: #ff3c3c;
+        }
 
-    .tag {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.25);
-      padding: 4px 10px;
-      border-radius: 10px;
-      font-size: 0.95em;
-      color: #ddd;
-      backdrop-filter: blur(4px);
-    }
+        .difficulty span {
+            font-size: 1.2em;
+            color: #eee;
+        }
 
-    .level-desc {
-      font-size: 1.25em;
-      color: #ddd;
-      line-height: 1.35em;
-    }
+        /* Tags */
+        .tags {
+            margin-top: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
 
-    /* Scrollbar styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-    }
-  </style>
+        .tag {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.95em;
+            color: #ddd;
+            backdrop-filter: blur(4px);
+        }
+
+        .level-desc {
+            font-size: 1.25em;
+            color: #ddd;
+            line-height: 1.35em;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+        }
+    </style>
 </head>
-
 <body>
-  <header></header>
+    <header></header>
+    <main>
+        <h1 class="title">Custom Levels</h1>
 
-  <main>
-    <h1 class="title">Custom Levels</h1>
-
-    <!-- Search -->
-    <div class="search-section">
-      <input id="searchInput" class="search-bar" type="text" placeholder="Search levels…">
-    </div>
-
-    <div class="featured-title">⭐ Featured Levels</div>
-
-    <!-- Scrollable Featured List -->
-    <div class="featured-scroll">
-      <div class="featured-grid" id="featuredGrid">
-
-        <!-- Example Level 1 -->
-        <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
-          <div class="level-name">Skyline Sprint</div>
-          <div class="level-author">by Aurora</div>
-
-          <div class="difficulty">
-            <div class="diff-icon easy"></div>
-            <span>Easy</span>
-          </div>
-
-          <div class="tags">
-            <div class="tag">Beginner</div>
-            <div class="tag">Flow</div>
-            <div class="tag">Rooftops</div>
-          </div>
-
-          <div class="level-desc">
-            A smooth flow map across floating rooftops. Perfect for new players.
-          </div>
+        <!-- Search -->
+        <div class="search-section">
+            <input id="searchInput" class="search-bar" type="text" placeholder="Search levels…">
         </div>
 
-        <!-- Example Level 2 -->
-        <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
-          <div class="level-name">Fractal Control</div>
-          <div class="level-author">by Nex</div>
+        <div class="featured-title">⭐ Featured Levels</div>
 
-          <div class="difficulty">
-            <div class="diff-icon hard"></div>
-            <span>Hard</span>
-          </div>
+        <!-- Scrollable Featured List -->
+        <div class="featured-scroll">
+            <div class="featured-grid" id="featuredGrid">
+                <!-- Example Level 1 -->
+                <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
+                    <div class="level-name">Skyline Sprint</div>
+                    <div class="level-author">by Aurora</div>
 
-          <div class="tags">
-            <div class="tag">Tech</div>
-            <div class="tag">Strafing</div>
-            <div class="tag">Speed</div>
-          </div>
+                    <div class="difficulty">
+                        <div class="diff-icon easy"></div>
+                        <span>Easy</span>
+                    </div>
 
-          <div class="level-desc">
-            A technical challenge featuring sharp corners and tight movement control.
-          </div>
+                    <div class="tags">
+                        <div class="tag">Beginner</div>
+                        <div class="tag">Flow</div>
+                        <div class="tag">Rooftops</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A smooth flow map across floating rooftops. Perfect for new players.
+                    </div>
+                </div>
+                <!-- Example Level 2 -->
+                <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
+                    <div class="level-name">Fractal Control</div>
+                    <div class="level-author">by Nex</div>
+
+                    <div class="difficulty">
+                        <div class="diff-icon hard"></div>
+                        <span>Hard</span>
+                    </div>
+
+                    <div class="tags">
+                        <div class="tag">Tech</div>
+                        <div class="tag">Strafing</div>
+                        <div class="tag">Speed</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A technical challenge featuring sharp corners and tight movement control.
+                    </div>
+                </div>
+                <!-- Example Level 3 -->
+                <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
+                    <div class="level-name">Glacier Run</div>
+                    <div class="level-author">by Frostbyte</div>
+
+                    <div class="difficulty">
+                        <div class="diff-icon medium"></div>
+                        <span>Medium</span>
+                    </div>
+
+                    <div class="tags">
+                        <div class="tag">Ice</div>
+                        <div class="tag">Scenic</div>
+                        <div class="tag">Long Jumps</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A beautiful ice-themed map with smooth jumps and chill vibes.
+                    </div>
+                </div>
+                <!-- Example Level 1 -->
+                <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
+                    <div class="level-name">Skyline Sprint</div>
+                    <div class="level-author">by Aurora</div>
+
+                    <div class="difficulty">
+                        <div class="diff-icon easy"></div>
+                        <span>Easy</span>
+                    </div>
+
+                    <div class="tags">
+                        <div class="tag">Beginner</div>
+                        <div class="tag">Flow</div>
+                        <div class="tag">Rooftops</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A smooth flow map across floating rooftops. Perfect for new players.
+                    </div>
+                </div>
+                <!-- Example Level 2 -->
+                <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
+                    <div class="level-name">Fractal Control</div>
+                    <div class="level-author">by Nex</div>
+
+                    <div class="difficulty">
+                        <div class="diff-icon hard"></div>
+                        <span>Hard</span>
+                    </div>
+
+                    <div class="tags">
+                        <div class="tag">Tech</div>
+                        <div class="tag">Strafing</div>
+                        <div class="tag">Speed</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A technical challenge featuring sharp corners and tight movement control.
+                    </div>
+                </div>
+                <!-- Example Level 3 -->
+                <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
+                    <div class="level-name">Glacier Run</div>
+                    <div class="level-author">by Frostbyte</div>
+
+                    <div class="difficulty">
+                        <div class="diff-icon medium"></div>
+                        <span>Medium</span>
+                    </div>
+
+                    <div class="tags">
+                        <div class="tag">Ice</div>
+                        <div class="tag">Scenic</div>
+                        <div class="tag">Long Jumps</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A beautiful ice-themed map with smooth jumps and chill vibes.
+                    </div>
+                </div>
+                <!-- Example Level 1 -->
+                <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
+                    <div class="level-name">Skyline Sprint</div>
+                    <div class="level-author">by Aurora</div>
+
+                    <div class="difficulty">
+                        <div class="diff-icon easy"></div>
+                        <span>Easy</span>
+                    </div>
+
+                    <div class="tags">
+                        <div class="tag">Beginner</div>
+                        <div class="tag">Flow</div>
+                        <div class="tag">Rooftops</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A smooth flow map across floating rooftops. Perfect for new players.
+                    </div>
+                </div>
+                <!-- Example Level 2 -->
+                <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
+                    <div class="level-name">Fractal Control</div>
+                    <div class="level-author">by Nex</div>
+
+                    <div class="difficulty">
+                        <div class="diff-icon hard"></div>
+                        <span>Hard</span>
+                    </div>
+
+                    <div class="tags">
+                        <div class="tag">Tech</div>
+                        <div class="tag">Strafing</div>
+                        <div class="tag">Speed</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A technical challenge featuring sharp corners and tight movement control.
+                    </div>
+                </div>
+                <!-- Example Level 3 -->
+                <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
+                    <div class="level-name">Glacier Run</div>
+                    <div class="level-author">by Frostbyte</div>
+
+                    <div class="difficulty">
+                        <div class="diff-icon medium"></div>
+                        <span>Medium</span>
+                    </div>
+
+                    <div class="tags">
+                        <div class="tag">Ice</div>
+                        <div class="tag">Scenic</div>
+                        <div class="tag">Long Jumps</div>
+                    </div>
+
+                    <div class="level-desc">
+                        A beautiful ice-themed map with smooth jumps and chill vibes.
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Example Level 3 -->
-        <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
-          <div class="level-name">Glacier Run</div>
-          <div class="level-author">by Frostbyte</div>
-
-          <div class="difficulty">
-            <div class="diff-icon medium"></div>
-            <span>Medium</span>
-          </div>
-
-          <div class="tags">
-            <div class="tag">Ice</div>
-            <div class="tag">Scenic</div>
-            <div class="tag">Long Jumps</div>
-          </div>
-
-          <div class="level-desc">
-            A beautiful ice-themed map with smooth jumps and chill vibes.
-          </div>
-        </div>
-        
-        <!-- Example Level 1 -->
-        <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
-          <div class="level-name">Skyline Sprint</div>
-          <div class="level-author">by Aurora</div>
-
-          <div class="difficulty">
-            <div class="diff-icon easy"></div>
-            <span>Easy</span>
-          </div>
-
-          <div class="tags">
-            <div class="tag">Beginner</div>
-            <div class="tag">Flow</div>
-            <div class="tag">Rooftops</div>
-          </div>
-
-          <div class="level-desc">
-            A smooth flow map across floating rooftops. Perfect for new players.
-          </div>
-        </div>
-
-        <!-- Example Level 2 -->
-        <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
-          <div class="level-name">Fractal Control</div>
-          <div class="level-author">by Nex</div>
-
-          <div class="difficulty">
-            <div class="diff-icon hard"></div>
-            <span>Hard</span>
-          </div>
-
-          <div class="tags">
-            <div class="tag">Tech</div>
-            <div class="tag">Strafing</div>
-            <div class="tag">Speed</div>
-          </div>
-
-          <div class="level-desc">
-            A technical challenge featuring sharp corners and tight movement control.
-          </div>
-        </div>
-
-        <!-- Example Level 3 -->
-        <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
-          <div class="level-name">Glacier Run</div>
-          <div class="level-author">by Frostbyte</div>
-
-          <div class="difficulty">
-            <div class="diff-icon medium"></div>
-            <span>Medium</span>
-          </div>
-
-          <div class="tags">
-            <div class="tag">Ice</div>
-            <div class="tag">Scenic</div>
-            <div class="tag">Long Jumps</div>
-          </div>
-
-          <div class="level-desc">
-            A beautiful ice-themed map with smooth jumps and chill vibes.
-          </div>
-        </div>
-
-        <!-- Example Level 1 -->
-        <div class="level-card" data-tags="beginner roofs flow" data-diff="easy">
-          <div class="level-name">Skyline Sprint</div>
-          <div class="level-author">by Aurora</div>
-
-          <div class="difficulty">
-            <div class="diff-icon easy"></div>
-            <span>Easy</span>
-          </div>
-
-          <div class="tags">
-            <div class="tag">Beginner</div>
-            <div class="tag">Flow</div>
-            <div class="tag">Rooftops</div>
-          </div>
-
-          <div class="level-desc">
-            A smooth flow map across floating rooftops. Perfect for new players.
-          </div>
-        </div>
-
-        <!-- Example Level 2 -->
-        <div class="level-card" data-tags="tech strafing corners speed" data-diff="hard">
-          <div class="level-name">Fractal Control</div>
-          <div class="level-author">by Nex</div>
-
-          <div class="difficulty">
-            <div class="diff-icon hard"></div>
-            <span>Hard</span>
-          </div>
-
-          <div class="tags">
-            <div class="tag">Tech</div>
-            <div class="tag">Strafing</div>
-            <div class="tag">Speed</div>
-          </div>
-
-          <div class="level-desc">
-            A technical challenge featuring sharp corners and tight movement control.
-          </div>
-        </div>
-
-        <!-- Example Level 3 -->
-        <div class="level-card" data-tags="ice visuals longjumps scenic" data-diff="medium">
-          <div class="level-name">Glacier Run</div>
-          <div class="level-author">by Frostbyte</div>
-
-          <div class="difficulty">
-            <div class="diff-icon medium"></div>
-            <span>Medium</span>
-          </div>
-
-          <div class="tags">
-            <div class="tag">Ice</div>
-            <div class="tag">Scenic</div>
-            <div class="tag">Long Jumps</div>
-          </div>
-
-          <div class="level-desc">
-            A beautiful ice-themed map with smooth jumps and chill vibes.
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </main>
-
-  <footer></footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="common.js"></script>
-  <script>
-    // Search filtering by name, author, tags
-    const searchInput = document.getElementById("searchInput");
-    const cards = Array.from(document.querySelectorAll(".level-card"));
-
-    searchInput.addEventListener("input", () => {
-      const q = searchInput.value.toLowerCase();
-      if (q === "") {
-        document.querySelector(".featured-title").innerText = "⭐ Featured Levels";
-      } else {
-        document.querySelector(".featured-title").innerText = `🔍 Search Results for "${searchInput.value}"`;
-      }
-      cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        const tags = card.dataset.tags;
-        card.style.display = (text.includes(q) || tags.includes(q)) ? "" : "none";
-      });
-    });
-  </script>
-
+    </main>
+    <footer></footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="common.js"></script>
+    <script>
+        // Search filtering by name, author, tags
+        const searchInput = document.getElementById("searchInput");
+        const cards = Array.from(document.querySelectorAll(".level-card"));
+        searchInput.addEventListener("input", () => {
+            const q = searchInput.value.toLowerCase();
+            if (q === "") {
+                document.querySelector(".featured-title").innerText = "⭐ Featured Levels";
+            } else {
+                document.querySelector(".featured-title").innerText = `🔍 Search Results for "${searchInput.value}"`;
+            }
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                const tags = card.dataset.tags;
+                card.style.display = (text.includes(q) || tags.includes(q)) ? "" : "none";
+            });
+        });
+    </script>
 </body>
 </html>

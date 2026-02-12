@@ -1,8 +1,8 @@
 /* ======================================
-   UNIVERSAL STYLE SHEET — BHOP UI
+   BHOP WEBSITE UI STYLESHEET
    ====================================== */
 
-   :root {
+:root {
     --bg: #000000;
     --panel: #181818;
     --accent: #00ffa6;
@@ -11,16 +11,16 @@
     --hover: #00c77a;
     --glass: rgba(255, 255, 255, 0.05);
     --border: rgba(255, 255, 255, 0.1);
-  }
-  
-  /* ---- GLOBAL ---- */
-  html {
+}
+
+/* ---- GLOBAL ---- */
+html {
     zoom: calc(100% * var(--scale));
     user-select: none;
     -webkit-user-drag: none;
-  }
-  
-  body {
+}
+
+body {
     margin: 0;
     background: var(--bg);
     color: var(--text);
@@ -29,9 +29,9 @@
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
-  }
-  
-  main {
+}
+
+main {
     position: absolute;
     flex-grow: 0;
     display: flex;
@@ -44,19 +44,24 @@
     height: 100%;
     width: 100%;
     display: none;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: var(--text);
     margin: 0;
-  }
+}
 
-  img {
+img {
     -webkit-user-drag: none;
-  }
-  
-  /* ---- HEADER ---- */
-  header {
+}
+
+/* ---- HEADER ---- */
+header {
     width: 100%;
     height: 10.67%;
     display: flex;
@@ -66,10 +71,10 @@
     box-sizing: border-box;
     z-index: 1;
     display: flex;
-  }
-  
-  /* ---- ACCOUNT ---- */
-  .account {
+}
+
+/* ---- ACCOUNT ---- */
+.account {
     display: flex;
     position: absolute;
     top: 36px;
@@ -86,34 +91,34 @@
     --div-scale: 1.8;
     transform: translate(var(--div-tx), var(--div-ty)) scale(var(--div-scale));
     transition: 0.2s;
-  }
-  
-  .account:hover:not(.show-dropdown) {
+}
+
+.account:hover:not(.show-dropdown) {
     border-color: var(--accent);
-  }
-  
-  .account.show-dropdown {
+}
+
+.account.show-dropdown {
     border-color: var(--accent);
-  }
-  
-  .account img {
+}
+
+.account img {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-  }
-  
-  .username {
+}
+
+.username {
     font-weight: 600;
     font-size: 15px;
-  }
+}
 
-  #down-facing-triangle {
+#down-facing-triangle {
     font-size: 20px;
     transform: translateY(-1.5px);
-  }
+}
 
-  /* ---- ACCOUNT DROPDOWN ---- */
-  .account-dropdown {
+/* ---- ACCOUNT DROPDOWN ---- */
+.account-dropdown {
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
@@ -128,43 +133,43 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     --div-scale: 1;
     overflow: hidden;
-  }
+}
 
-  .account.show-dropdown .account-dropdown {
+.account.show-dropdown .account-dropdown {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
-  }
+}
 
-  .dropdown-item {
+.dropdown-item {
     padding: 10px 16px;
     cursor: pointer;
     color: var(--text-dim);
-    transition:  0.2s;
-  }
+    transition: 0.2s;
+}
 
-  .dropdown-item:hover {
+.dropdown-item:hover {
     background: var(--accent);
     color: #000;
-  }
+}
 
-  .dropdown-item.logout {
+.dropdown-item.logout {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     margin-top: 4px;
     color: red;
-  }
-  
-  /* ---- TITLES ---- */
-  .title {
+}
+
+/* ---- TITLES ---- */
+.title {
     font-size: 90px;
     letter-spacing: 2px;
     font-weight: 700;
     margin-bottom: 60px;
     text-shadow: 0 0 20px rgba(0, 255, 166, 0.3);
-  }
-  
-  /* ---- BUTTONS ---- */
-  .btn {
+}
+
+/* ---- BUTTONS ---- */
+.btn {
     background: var(--panel);
     color: var(--text);
     border: 2px solid var(--accent);
@@ -178,17 +183,17 @@
     letter-spacing: 1px;
     transition: 0.2s ease;
     cursor: pointer;
-  }
-  
-  .btn:hover {
+}
+
+.btn:hover {
     background: var(--accent);
     color: #000;
     transform: scale(1.05);
     box-shadow: 0 0 20px var(--accent);
-  }
-  
-  /* ---- BACK BUTTON ---- */
-  .back-btn {
+}
+
+/* ---- BACK BUTTON ---- */
+.back-btn {
     position: absolute;
     top: 20px;
     left: 30px;
@@ -206,41 +211,41 @@
     --btn-scale: 1;
     transform: translate(var(--btn-tx), var(--btn-ty)) scale(var(--btn-scale));
     transition: 0.2s;
-  }
+}
 
-  .back-btn:hover {
+.back-btn:hover {
     background: var(--accent);
     color: #000;
     box-shadow: 0 0 20px var(--accent);
     transform: translate(var(--btn-tx), var(--btn-ty)) scale(calc(var(--btn-scale) * 1.05));
-  }
+}
 
-  .back-btn-text {
+.back-btn-text {
     vertical-align: middle;
-  }
+}
 
-  .back-btn-svg {
+.back-btn-svg {
     margin-right: 8px;
     vertical-align: middle;
     transition: 0.2s;
     margin-left: -10px;
     margin-right: 0px;
-  }
+}
 
-  .back-btn:hover .back-btn-svg {
+.back-btn:hover .back-btn-svg {
     fill: #000;
-  }
-  
-  /* ---- MENUS ---- */
-  .menu {
+}
+
+/* ---- MENUS ---- */
+.menu {
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
-  }
-  
-  /* ---- FOOTER ---- */
-  footer {
+}
+
+/* ---- FOOTER ---- */
+footer {
     padding: 5px 14px;
     bottom: 0px;
     text-align: center;
@@ -253,9 +258,9 @@
     backdrop-filter: blur(6px);
     display: flex;
     height: 5%;
-  }
+}
 
-  .footer-text {
+.footer-text {
     margin: 8px 0;
     font-size: 20px;
     position: absolute;
@@ -263,14 +268,14 @@
     left: 50%;
     transform: translateX(-50%);
     top: 17%;
-  }
-  
-  .footer-links {
+}
+
+.footer-links {
     display: flex;
     gap: 12px;
-  }
-  
-  .footer-btn {
+}
+
+.footer-btn {
     background: var(--panel);
     color: var(--text);
     border: 2px solid var(--accent);
@@ -281,33 +286,33 @@
     cursor: pointer;
     transition: 0.2s;
     zoom: 150%;
-  }
-  
-  .footer-btn:hover {
+}
+
+.footer-btn:hover {
     background: var(--accent);
     color: #000;
     transform: scale(1.05);
     box-shadow: 0 0 20px var(--accent);
-  }
-  
-  .footer-btn.discord {
+}
+
+.footer-btn.discord {
     display: flex;
     align-items: center;
     gap: 6px;
-  }
-  
-  .discord-icon {
+}
+
+.discord-icon {
     width: 18px;
     height: 18px;
     filter: brightness(0) invert(1);
-  }
+}
 
-  .update-text {
+.update-text {
     margin-top: -8px;
-  }
-  
-  /* ---- PARTICLE BACKGROUND ---- */
-  .particles {
+}
+
+/* ---- PARTICLE BACKGROUND ---- */
+.particles {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -315,31 +320,50 @@
     top: 0;
     left: 0;
     z-index: -1;
-    background: #000; /* black background */
-  }
-  
-  .particle {
+    background: #000;
+}
+
+.particle {
     position: absolute;
     background: var(--accent);
     border-radius: 50%;
     opacity: 0.25;
     animation: floatAround 15s infinite ease-in-out;
-  }
-  
-  /* floating in random directions, not just up */
-  @keyframes floatAround {
-    0% { transform: translate(0, 0) scale(1); opacity: 0.25; }
-    25% { transform: translate(30px, -40px) scale(1.2); opacity: 0.6; }
-    50% { transform: translate(-40px, -10px) scale(0.8); opacity: 0.4; }
-    75% { transform: translate(20px, 40px) scale(1.1); opacity: 0.6; }
-    100% { transform: translate(0, 0) scale(1); opacity: 0.25; }
-  }
-  
-  .logout {
-    border-top: 1px solid #333;
-  }
+}
 
-  #ui-scale-wrapper {
+/* floating in random directions */
+@keyframes floatAround {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.25;
+    }
+
+    25% {
+        transform: translate(30px, -40px) scale(1.2);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translate(-40px, -10px) scale(0.8);
+        opacity: 0.4;
+    }
+
+    75% {
+        transform: translate(20px, 40px) scale(1.1);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.25;
+    }
+}
+
+.logout {
+    border-top: 1px solid #333;
+}
+
+#ui-scale-wrapper {
     width: 1920px;
     height: 1080px;
     position: absolute;
@@ -351,4 +375,4 @@
     align-items: center;
     justify-content: center;
     z-index: 0;
-  }
+}
