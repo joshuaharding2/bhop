@@ -6,8 +6,6 @@ self.addEventListener('install', event => {
                 '/index.html',
                 '/bhop.html',
                 '/editor.html',
-                '/icon-192.png',
-                '/icon-512.png',
             ]);
         })
     );
