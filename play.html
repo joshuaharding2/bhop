@@ -1,4 +1,4 @@
-<!-- Copyright © 2025 Joshua Harding. All rights reserved -->
+<!-- Copyright © 2026 Joshua Harding. All rights reserved -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -150,261 +150,6 @@
             <svg id="mobileButtonReset" class="mobileButton" onclick="mobileRPressed();" style="display: none; position: absolute; left: 210px; bottom: 260px; pointer-events: auto;" width="240" height="240" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="43.2511" y="49.3115" width="25" height="6" transform="rotate(-105 43.2511 49.3115)" fill="white"/> <rect x="18.428" y="30.0809" width="25" height="6" transform="rotate(-15 18.428 30.0809)" fill="white"/> <path d="M67.5058 78.0119C61.2892 79.6776 54.6951 79.228 48.7621 76.734C42.829 74.24 37.8942 69.8433 34.7348 64.2362C31.5754 58.6292 30.3709 52.1305 31.3111 45.7636C32.2513 39.3967 35.2827 33.5235 39.9279 29.069" stroke="white" stroke-width="6"/> <path d="M52.4943 21.9881C58.7109 20.3224 65.3049 20.772 71.238 23.266C77.171 25.76 82.1058 30.1567 85.2652 35.7638C88.4246 41.3708 89.6291 47.8695 88.6889 54.2364C87.7487 60.6033 84.7173 66.4765 80.0722 70.931" stroke="white" stroke-width="6"/> <rect x="76.7489" y="50.6885" width="25" height="6" transform="rotate(75 76.7489 50.6885)" fill="white"/> <rect x="101.572" y="69.9191" width="25" height="6" transform="rotate(165 101.572 69.9191)" fill="white"/> <g filter="url(#filter0_d_0_1)"> <rect x="11" y="1.00003" width="98" height="98" rx="9" stroke="white" stroke-width="2" shape-rendering="crispEdges"/> </g> <defs> <filter id="filter0_d_0_1" x="0" y="3.05176e-05" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="10"/> <feGaussianBlur stdDeviation="5"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/> </filter> </defs> </svg>
             <svg id="mobileButtonUp" class="mobileButton" data-key="e" style="display: none; position: absolute; left: 410px; bottom: 260px; pointer-events: auto;" width="240" height="240" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="8" height="71" transform="matrix(1 0 0 -1 56 87)" fill="white"/> <path d="M60 12L54.3431 17.6569L86.163 49.4767L91.8198 43.8198L60 12Z" fill="white"/> <path d="M60 12L28.1802 43.8198L33.837 49.4767L65.6569 17.6569L60 12Z" fill="white"/> <g filter="url(#filter0_d_26_5)"> <rect x="11" y="1" width="98" height="98" rx="9" stroke="white" stroke-width="2" shape-rendering="crispEdges"/> </g> <defs> <filter id="filter0_d_26_5" x="0" y="0" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="10"/> <feGaussianBlur stdDeviation="5"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_26_5"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_26_5" result="shape"/> </filter> </defs> </svg>
         </div>
-        <button id="startButton" onclick="playClicked('startButton')">P L A Y<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
-        <button id="createButton" onclick="window.location.href=window.location.origin + '/editor'">C R E A T E<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
-        <button id="eventsButton" onclick="playClicked('eventsButton')">E V E N T S<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
-        <button id="controlsButton" onclick="openMenu('controlsMenu')">C O N T R O L S<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
-        <div id="controlsMenu">
-            <h2>Controls</h2>
-            <ul style="list-style: none; padding: 0; text-align: left; margin-top: 1em;">
-                <li><b>a/d</b>: Strafe left and right</li>
-                <li><b>q/e</b>: look down and up</li>
-                <li><b>Space</b>: Jump</li>
-                <li><b>r</b>: Restart</li>
-                <li><b>m</b>: Restart map (including checkpoints)</li>
-                <li><b>f</b>: Toggle freecam mode</li>
-                <li><b>w/s</b>: Move forward and backward (freecam)</li>
-                <li><b>a/d</b>: Look left and right (freecam)</li>
-                <li><b>q/e</b>: look down and up (freecam)</li>
-                <li><b>arrow keys</b>: Move left, right, up, and down (freecam)</li>
-                <li><b>Space / Shift</b>: Move up and down based on world not pitch and yaw (freecam)</li>
-                <li><b>Escape</b></li>
-                <li><b>\</b>: Toggle player hitbox (dev tool)</li>
-                <li><b>t (pressed 3 times)</b>: Toggle test mode (dev tool)</li>\
-                <li><b>0</b>: Replay menu</li>
-                <li><b>p</b>: Toggle practice mode</li>
-                <li><b>f</b>: Noclipd mode replaces freecam in practice (doesn't reset your position after disabling)</li>
-                <li><b>c</b>: Place a checkpoint to spawn to (practice mode)</li>
-            </ul><button class="simpleButton" onclick="closeMenu('controlsMenu')">Back</button>
-        </div>
-        <button id="tutorialButton" onclick="playClicked('tutorialButton')">T U T O R I A L<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
-        <button id="updatesButton" onclick="openMenu('updatesMenu')">U P D A T E S<div id="clip"><div id="leftTop" class="corner"></div><div id="rightBottom" class="corner"></div><div id="rightTop" class="corner"></div><div id="leftBottom" class="corner"></div></div><span id="rightArrow" class="arrow"></span><span id="leftArrow" class="arrow"></span></button>
-        <div id="updatesMenu">
-            <h2>What's New? Change log</h2>
-            <h3 style="margin-top: 1em;">Minor update v1.5.11: 8/26/2025</h3>
-            <ul style="text-align: left; margin-top: 1em;">
-                <li><b>Mobile: added pause button on mobile on the left, and fixed exit replay button not working on mobile.</b></li>
-            </ul>
-            <h3 style="margin-top: 1em;">Major update v1.5.0: 7/18/2025</h3>
-            <ul style="text-align: left; margin-top: 1em;">
-                <li>It's been a while! I decided to make this a major update since how many things I changed and we got a new domain and stuff (it's <a href="https://bhop.site" target="_blank">https://bhop.site</a> use it if you can and aren't already because the codehs one is sometimes really slow to load for some reason)</li>
-                <li>You should still join the discord server: <a href="https://discord.gg/TcTvmwxgJb" target="_blank">https://discord.gg/TcTvmwxgJb</a></li>
-                <li>And also I do not think this list covers everything i've changed because there's so many little changes I probably forgot about or can't remember right now. Here we go</li>
-                <li><b>Added fullscreen option in pause menu becuase I made a pwa desktop app and I didn't like the visible bar at the top</b></li>
-                <li><b>Finished input recording system and replay system (used for checking authenticity of runs and TAS runs)</b></li>
-                <li><b>Fully Created another recording system that just stores your position, direction, and total time each frame (used for watching replays and making ghosts on frontend)</b></li>
-                <li><b>Used this 2nd replay system to make replays and ghosts accessable in game through buttons on the top right: </b>These work for world record and author record (but the buttons only show up if there is a valid replay code and all the world records at the time of release are old and don't have one :/)</li>
-                <li><b>I made the entire game have a forced aspect ratio</b>
-                    <ul style="margin-left: 1.5em; list-style-type: disc;">
-                        <li>This makes all UI the same size no matter what screen resolution you're using (black bars on the sides if it doesn't fit)</li>
-                        <li>I also resized the ui to be bigger because this shrinked it a little and it was smaller than intended already. This was because I developed the game on a crappy school computer (don't worry I'm using my home computer now that it's summer) and the screen was small so I liked to change the screen resolution so things were bigger and I could see but didn't realize that for everyone else the UI would be smaller.</li>
-                        <li>I am planning on adding customization to aspect ratio and resolution later (including UI size)</li>
-                    </ul>
-                </li>
-                <li><b>You may also have noticed that the base bhop.site page is an account creation page (you can make one, but it doesn't do anything yet.) </b>I am planning on making this save times and stuff and maybe even be able to upload levels on your account? It has a lot of potential I need to get working on that</li>
-                <li><b>Added mobile support:</b>
-                    <ul style="margin-left: 1.5em; list-style-type: disc;">
-                        <li>If you're on mobile and start the game you'll see some buttons that control the game (unless my mobile device detection code is wrong let me know if it is)</li>
-                        <li>In case you want to use a keyboard and the mobile buttons are in the way the mobile buttons will dissapear if the website detects any key input (assumes you don't need them)</li>
-                        <li>The reset button resets the player unless you press it twice within 1 second then it will fully reset you</li>
-                        <li>I also made a manifest.json and service worker so it runs offline if you add the website to homescreen (and it launches in fullscreen too!)</li>
-                    </ul>
-                </li>
-                <li><b>Oh also I added favicons to the website and app (icons next to the tab name, app icons, stuff like that)</b></li>
-                <li><b>Minor changes:</b>
-                    <ul style="margin-left: 1.5em; list-style-type: disc;">
-                        <li>Direction reporter in top left actually makes sense now (I was using the wrong vector3 lol)</li>
-                        <li>Version numbers now only have 3 numbers and have a v before it</li>
-                        <li>When you submit a record now it stores the current version number</li>
-                        <li>Campaign level data is now stored in the main html file instead of other files (no loading time, works offline, no fetching errors)</li>
-                        <li>Key inputs are no longer case sensitive</li>
-                        <li>I made this menu way wider so it could fit all this text on one screen since now with the aspect ratio you can't scroll anymore (I also made the text smaller)</li>
-                        <li>Removed outdated info on credits page</li>
-                        <li>Fixed typo on 3rd button of 2nd row of 3rd campaign</li>
-                        <li>Added warning when you open the console on the website</li>
-                        <li>As a sideproduct of storing level data in the main file now the loadLevelFromFile(); function is useless</li>
-                    </ul>
-                </li>
-                <li>I'm probably gonna think of more things to add to this list later but that's all I can remember for now</li>
-            </ul>
-            <button class="simpleButton" onclick="closeMenu('updatesMenu')">
-                Back
-            </button>
-        </div>
-        <button id="creditsButton" onclick="openMenu('creditsMenu')">
-            C R E D I T S
-            <div id="clip">
-                <div id="leftTop" class="corner"></div>
-                <div id="rightBottom" class="corner"></div>
-                <div id="rightTop" class="corner"></div>
-                <div id="leftBottom" class="corner"></div>
-            </div>
-            <span id="rightArrow" class="arrow"></span>
-            <span id="leftArrow" class="arrow"></span>
-        </button>
-        <div id="creditsMenu" style="
-            display: none;
-            position: absolute;
-            top: 0px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            padding: 2em;
-            border-radius: 10px;
-            font-family: Arial, sans-serif;
-            font-size: 25px;
-            text-align: center;
-            max-width: 90%;
-            width: 600px;
-            z-index: 100;
-            flex-direction: column;
-            justify-content: space-between;
-        ">
-            <h2>Credits</h2>
-            <ul style="list-style: none;">
-            <li>⠀</li>
-            </ul>
-            <h3>Joshua Harding</h3>
-            <ul style="list-style: none; padding: 0; text-align: left;">
-                <li>⠀</li>
-            </ul>
-            <ul style="text-align: left;">
-                <li>I made the levels</li>
-                <li>Made the movement</li>
-                <li>Made all the buttons and ui</li>
-                <li>Coded freecam</li>
-                <li>Added all different types of boxes</li>
-                <li>Fixed and coded editor</li>
-                <li>Finished making world records work</li>
-                <li>Tell me if theres a bug, i'll fix it</li>
-            </ul> 
-            <ul style="list-style: none; padding: 0; text-align: left;">
-                <li>⠀</li>
-            </ul> 
-            <h3>Ben Messer</h3>
-            <ul style="list-style: none; padding: 0; text-align: left;">
-                <li>⠀</li>
-            </ul>
-            <ul style="text-align: left;">
-                <li>He inspired the project</li>
-                <li>Made the .json level idea</li>
-                <li>Came up with editor and started coding it</li>
-                <li>I took the freecam movement from one of his projects and altered it</li>
-                <li>Advertising</li>
-                <li>He started making world records work and made the post function in the apps script, without him I would be lost</li>
-            </ul>
-            <ul style="list-style: none; padding: 0; text-align: left;">
-                <li>⠀</li>
-            </ul> 
-            <h3>Liam Reinert</h3>
-            <ul style="list-style: none; padding: 0; text-align: left;">
-                <li>⠀</li>
-            </ul>
-            <ul style="text-align: left;">
-                <li>Made tutorial levels</li>
-                <li>Supports the game's development process</li>
-                <li>Playtested and reported bugs</li>
-            </ul>
-            <button class="simpleButton" onclick="closeMenu('creditsMenu')">
-                Back
-            </button>
-        </div>
-        <button id = "campaign1" type ="button" class="btn" onclick="showCampaign('1')">
-            <strong>CAMPAIGN 1</strong>
-            <div id="container-stars">
-                <div id="stars"></div>
-            </div>
-            <div id="glow">
-                <div class="circle"></div>
-                <div class="circle"></div>
-            </div>
-        </button>
-        <button id = "campaign2" type ="button" class="btn">
-            <strong>COMING SOON</strong>
-            <div id="container-stars">
-                <div id="stars"></div>
-            </div>
-            <div id="glow">
-                <div class="circle"></div>
-                <div class="circle"></div>
-            </div>
-        </button>
-        <button id = "campaign3" type ="button" class="btn" onclick="showCampaign('3')">
-            <strong>PLAYER PACK 1</strong>
-            <div id="container-stars">
-                <div id="stars"></div>
-            </div>
-            <div id="glow">
-                <div class="circle"></div>
-                <div class="circle"></div>
-            </div>
-        </button>
-        <button id="loadLevel" type="button" class="btn" onclick="startGame('loadLevel')">
-            <strong>LOAD CUSTOM LEVEL</strong>
-            <div id="container-stars" style="margin-top: -2.8em;">
-                <div id="stars"></div>
-            </div>
-            <div id="glow">
-                <div class="circle"></div>
-                <div class="circle"></div>
-            </div>
-        </button>
-        <div id="campaign-1Levels">
-            <div class="campaignRow">
-                <div class="campaignColumn">
-                    <button id="campaign-1LevelButton" type="button" class="levelButtonDisabled">
-                        <span>Event 01</span>
-                    </button>
-                    <div id="event-1-countdown" class="eventCountdown"></div>
-                </div>
-            </div>
-        </div>              
-        <div id="campaign0Levels">
-            <div class="campaignRow">
-                <button id="campaign0LevelButton" type="button" class="levelButton" onclick="campaignNumber = 0, campaignLevel = 1, startGame()"><span>Open World</span></button>
-                <button id="campaign0LevelButton" type="button" class="levelButton" onclick="campaignNumber = 0, campaignLevel = 2, startGame()"><span>Tunnel</span></button>
-                <button id="campaign0LevelButton" type="button" class="levelButton" onclick="campaignNumber = 0, campaignLevel = 3, startGame()"><span>First Danger</span></button>
-            </div>
-            <div class="campaignRow">
-                <button id="campaign0LevelButton" type="button" class="levelButton" onclick="campaignNumber = 0, campaignLevel = 4, startGame()"><span>Collect the Yellow!</span></button>
-                <button id="campaign0LevelButton" type="button" class="levelButton" onclick="campaignNumber = 0, campaignLevel = 5, startGame()"><span>Teleporter Intro</span></button>
-                <button id="campaign0LevelButton" type="button" class="levelButton" onclick="campaignNumber = 0, campaignLevel = 6, startGame()"><span>Compilation</span></button>
-            </div>
-        </div>
-        <div id="campaign1Levels">
-            <div class="campaignRow">
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 1, startGame()"><span>Labyrinth 01</span></button>
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 2, startGame()"><span>Labyrinth 02</span></button>
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 3, startGame()"><span>Labyrinth 03</span></button>
-            </div>
-            <div class="campaignRow">
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 4, startGame()"><span>KillLevel 01</span></button>
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 5, startGame()"><span>KillLevel 02</span></button>
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 6, startGame()"><span>KillLevel 03</span></button>
-            </div>
-            <div class="campaignRow">
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 7, startGame()"><span>CheckpointLevel 01</span></button>
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 8, startGame()"><span>CheckpointLevel 02</span></button>
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 9, startGame()"><span>CheckpointLevel 03</span></button>
-            </div>
-            <div class="campaignRow">
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 91, startGame()"><span>TeleportLevel 01</span></button>
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 92, startGame()"><span>TeleportLevel 02</span></button>
-                <button id="campaign1LevelButton" type="button" class="levelButton" onclick="campaignNumber = 1, campaignLevel = 93, startGame()"><span>TeleportLevel 03</span></button>
-            </div>
-        </div>
-        <div id="campaign3Levels">
-            <div class="campaignRow">
-                <button id="campaign3LevelButton" type="button" class="levelButton" onclick="campaignNumber = 3, campaignLevel = 1, startGame()"><span>Challenge 01</span></button>
-                <button id="campaign3LevelButton" type="button" class="levelButton" onclick="// campaignNumber = 3, campaignLevel = 2, startGame()"><span>Not Available</span></button>
-                <button id="campaign3LevelButton" type="button" class="levelButton" onclick="// campaignNumber = 3, campaignLevel = 3, startGame()"><span>Not Available</span></button>
-            </div>
-            <div class="campaignRow">
-                <button id="campaign3LevelButton" type="button" class="levelButton" onclick="campaignNumber = 3, campaignLevel = 4, startGame()"><span>Tower 01</span></button>
-                <button id="campaign3LevelButton" type="button" class="levelButton" onclick="campaignNumber = 3, campaignLevel = 5, startGame()"><span>Tower 02</span></button>
-                <button id="campaign3LevelButton" type="button" class="levelButton" onclick="// campaignNumber = 3, campaignLevel = 6, startGame()"><span>Not Available</span></button>
-            </div>
-        </div>
         <form id="worldRecordMenu" style="
         display: none;
         position: absolute;
@@ -529,7 +274,6 @@
         </div>
     </div>
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-    <input type="file" id="fileInput" style="display: none;" accept=".json">
     <script>
         console.log("%cWARNING!", "color: red; font-size: 300%;")
         console.log("The browser console is a developer tool only and not intended for use by users. Do not copy and paste any code in this window. It may put your account in danger. Any code execution in this window may result in the suspension of your account.")
@@ -706,171 +450,39 @@
         let worldGhostReplayFrames = [];
         let worldGhostReplayIndex = 0;
         let worldGhostVisible = false;
-        playClicked('startButton');
-        showCampaign('1');
         campaignNumber = 1;
         campaignLevel = 1;
-        startGame();
+        document.querySelector(".title").style.display = "none";
+        document.body.style.backgroundColor = "transparent"; // Change background to transparent
+        fpsCounter.style.display = "block";
+        positionReporter.style.display = "block";
+        directionReporter.style.display = "block";
+        mapInfo.style.display = "block";
+        const times = mapInfo.querySelectorAll(".times");
+        times.forEach(div => div.style.display = "flex");
+        if (isMobileDevice()) {
+            const mobileButtons = mobileButtonWrapper.querySelectorAll(".mobileButton");
+            mobileButtons.forEach(svg => {
+                svg.style.display = "block";
+            });
+            document.addEventListener("touchstart", handleTouch, { passive: false });
+            document.addEventListener("touchmove", handleTouch, { passive: false });
+            document.addEventListener("touchend", handleTouchEnd);
+            document.addEventListener("touchcancel", handleTouchEnd);
+            document.getElementById("mobileButtonReset").addEventListener("touchend", (e) => {
+                e.preventDefault();
+                mobileRPressed();
+            }, { passive: false });
+            document.getElementById("mobilePauseButtonRow").style.display = "flex";
+            let pauseBtn = document.getElementById("mobilePauseButton");
+        }
+        init();
         function log(msg) {
             const logEl = document.getElementById("mobileLog");
             const line = document.createElement("div");
             line.textContent = msg;
             logEl.appendChild(line);
             logEl.scrollTop = logEl.scrollHeight; // auto scroll
-        }
-        function hideMenuButtons() {
-            document.getElementById("startButton").style.display = "none";
-            document.getElementById("createButton").style.display = "none";
-            document.getElementById("eventsButton").style.display = "none";
-            document.getElementById("controlsButton").style.display = "none";
-            document.getElementById("tutorialButton").style.display = "none";
-            document.getElementById("updatesButton").style.display = "none";
-            document.getElementById("creditsButton").style.display = "none";
-        }
-        function showMenuButtons() {
-            document.getElementById("startButton").style.display = "block";
-            document.getElementById("createButton").style.display = "block";
-            document.getElementById("eventsButton").style.display = "block";
-            document.getElementById("controlsButton").style.display = "block";
-            document.getElementById("tutorialButton").style.display = "block";
-            document.getElementById("updatesButton").style.display = "block";
-            document.getElementById("creditsButton").style.display = "block";
-        }
-        function openMenu(menuName) {
-            hideMenuButtons();
-            document.querySelector(".title").style.display = "none";
-            const menu = document.getElementById(menuName);
-            menu.style.display = "block";
-            requestAnimationFrame(() => menu.classList.add("show"));
-        }
-        function closeMenu(menuName) {
-            const menu = document.getElementById(menuName);
-            menu.classList.remove("show");
-            setTimeout(() => {
-                menu.style.display = "none";
-                showMenuButtons();
-                document.querySelector(".title").style.display = "block";
-            }, 300); // matches the CSS transition duration
-        }
-        function playClicked(button) {
-            hideMenuButtons();
-            if (button === "startButton") {
-                showPlayOptions();
-            } else if (button === "tutorialButton") {
-                showCampaign(0);
-            } else if (button === "eventsButton") {
-                showCampaign(-1)
-                startCountdowns();
-            }
-        }
-        function showPlayOptions() {
-            document.getElementById("campaign1").style.display = "block";
-            document.getElementById("campaign2").style.display = "block";
-            document.getElementById("campaign3").style.display = "block";
-            document.getElementById("loadLevel").style.display = "block";
-        }
-        function hidePlayOptions() {
-            document.getElementById("campaign1").style.display = "none";
-            document.getElementById("campaign2").style.display = "none";
-            document.getElementById("campaign3").style.display = "none";
-            document.getElementById("loadLevel").style.display = "none";
-        }
-        function showCampaign(campaignNumber) {
-            hidePlayOptions();
-            const levelsContainer = document.getElementById("campaign" + campaignNumber + "Levels");
-            levelsContainer.style.display = "block";
-            const levelButtons = levelsContainer.querySelectorAll(".levelButton");
-            levelButtons.forEach(btn => {
-                btn.style.display = "flex";
-            });
-            const disabledLevelButtons = levelsContainer.querySelectorAll(".levelButtonDisabled");
-            disabledLevelButtons.forEach(btn => {
-                btn.style.display = "flex";
-            });
-        }
-        function hideCampaign(campaignNumber) {
-            hidePlayOptions();
-            const levelsContainer = document.getElementById("campaign" + campaignNumber + "Levels");
-            levelsContainer.style.display = "none";
-            const levelButtons = levelsContainer.querySelectorAll(".levelButton");
-            levelButtons.forEach(btn => {
-                btn.style.display = "none";
-            });
-            const disabledLevelButtons = levelsContainer.querySelectorAll(".levelButtonDisabled");
-            disabledLevelButtons.forEach(btn => {
-                btn.style.display = "none";
-            });
-        }
-        function startCountdowns() {
-            const eventStartTime = new Date("2025-08-07T14:00:00Z").getTime();
-            const eventEndTime = new Date("2025-08-07T18:00:00Z").getTime();
-            const countdownEl = document.getElementById("event-1-countdown");
-            const button = document.getElementById("campaign-1LevelButton");
-            function updateCountdown() {
-                const now = Date.now();
-                const diff = eventStartTime - now;
-                if (diff <= 0) {
-                    const endDiff = eventEndTime - now;
-                    if (endDiff >= 0) {
-                        countdownEl.textContent = "Event has started!";
-                        clearInterval(interval);
-                        button.classList.remove("levelButtonDisabled");
-                        button.classList.add("levelButton");
-                        button.onclick = function() {
-                            campaignNumber = -1;
-                            campaignLevel = 1;
-                            startGame();
-                        };
-                        return;
-                    } else {
-                        countdownEl.textContent = "Event has ended.";
-                        return;
-                    }
-                }
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((diff / (1000 * 60)) % 60);
-                const seconds = Math.floor((diff / 1000) % 60);
-                countdownEl.textContent = `Starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }
-            const interval = setInterval(updateCountdown, 1000);
-            updateCountdown();
-        }
-        function startGame(initCommand) {
-            document.querySelector(".title").style.display = "none";
-            hideMenuButtons();
-            hidePlayOptions();
-            document.body.style.backgroundColor = "transparent"; // Change background to transparent
-            fpsCounter.style.display = "block";
-            positionReporter.style.display = "block";
-            directionReporter.style.display = "block";
-            if (initCommand === "loadLevel") {
-                init("loadLevel")
-            } else {
-                hideCampaign(campaignNumber)
-                mapInfo.style.display = "block";
-                const times = mapInfo.querySelectorAll(".times");
-                times.forEach(div => {
-                    div.style.display = "flex";
-                });
-                if (isMobileDevice()) {
-                    const mobileButtons = mobileButtonWrapper.querySelectorAll(".mobileButton");
-                    mobileButtons.forEach(svg => {
-                        svg.style.display = "block";
-                    });
-                    document.addEventListener("touchstart", handleTouch, { passive: false });
-                    document.addEventListener("touchmove", handleTouch, { passive: false });
-                    document.addEventListener("touchend", handleTouchEnd);
-                    document.addEventListener("touchcancel", handleTouchEnd);
-                    document.getElementById("mobileButtonReset").addEventListener("touchend", (e) => {
-                        e.preventDefault();
-                        mobileRPressed();
-                    }, { passive: false });
-                    document.getElementById("mobilePauseButtonRow").style.display = "flex";
-                    let pauseBtn = document.getElementById("mobilePauseButton");
-                }
-                init();
-            }
         }
         function isMobileDevice() {
             return (
@@ -914,38 +526,7 @@
                 }
             }
         }
-        function handleFileImport(event) {
-            if (!playing) {
-                startGame();
-            }
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const levelData = JSON.parse(e.target.result);
-                clearScene();
-                loadLevel(levelData);
-            };
-            reader.readAsText(file);
-        }
-        function init(initCommand) {
-            if (initCommand === "loadLevel") {
-                document.getElementById("fileInput").click();
-                if (isMobileDevice()) {
-                    const mobileButtons = mobileButtonWrapper.querySelectorAll(".mobileButton");
-                    mobileButtons.forEach(svg => {
-                        svg.style.display = "block";
-                    });
-                    document.addEventListener("touchstart", handleTouch, { passive: false });
-                    document.addEventListener("touchmove", handleTouch, { passive: false });
-                    document.addEventListener("touchend", handleTouchEnd);
-                    document.addEventListener("touchcancel", handleTouchEnd);
-                    document.getElementById("mobileButtonReset").addEventListener("touchend", (e) => {
-                        e.preventDefault();
-                        mobileRPressed();
-                    }, { passive: false });
-                }
-            }
+        function init() {
             playing = true;
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -1168,7 +749,6 @@
             window.addEventListener("blur", () => {
                 for (let key in keys) keys[key] = false;
             });
-            document.getElementById("fileInput").addEventListener("change", handleFileImport);
             if (campaignNumber !== null && campaignLevel !== null) {
                 // loadLevelFromFile("campaign"+campaignNumber+"."+campaignLevel); // changed to store data in actual bhop file so it works offline and no possible bugs
                 let campaignLevelData = campaignLevels[campaignNumber + "." + campaignLevel];
