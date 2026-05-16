@@ -346,7 +346,7 @@
                         <div class="level-row">
                             <div class="level-info">
                                 <span class="level-number">01</span>
-                                <span class="level-name">Basics</span>
+                                <span class="level-name">Labyrinth 01</span>
                                 <span class="level-diff diff-easy">Easy</span>
                             </div>
                             <div class="level-stats">
@@ -359,12 +359,12 @@
                                     <div class="mini-medal m-wr" title="World Record"></div>
                                 </div>
                             </div>
-                            <button class="play-btn" onclick="playLevel('bootcamp_1')">Play</button>
+                            <button class="play-btn" onclick="playLevel('1.1')">Play</button>
                         </div>
                         <div class="level-row">
                             <div class="level-info">
                                 <span class="level-number">02</span>
-                                <span class="level-name">Air Control</span>
+                                <span class="level-name">Labyrinth 02</span>
                                 <span class="level-diff diff-easy">Easy</span>
                             </div>
                             <div class="level-stats">
@@ -377,12 +377,12 @@
                                     <div class="mini-medal m-wr" title="World Record"></div>
                                 </div>
                             </div>
-                            <button class="play-btn" onclick="playLevel('bootcamp_2')">Play</button>
+                            <button class="play-btn" onclick="playLevel('1.2')">Play</button>
                         </div>
                         <div class="level-row">
                             <div class="level-info">
                                 <span class="level-number">03</span>
-                                <span class="level-name">Bunny Hop</span>
+                                <span class="level-name">Labyrinth 03</span>
                                 <span class="level-diff diff-medium">Medium</span>
                             </div>
                             <div class="level-stats">
@@ -395,7 +395,7 @@
                                     <div class="mini-medal m-wr" title="World Record"></div>
                                 </div>
                             </div>
-                            <button class="play-btn" onclick="playLevel('bootcamp_3')">Play</button>
+                            <button class="play-btn" onclick="playLevel('1.3')">Play</button>
                         </div>
                     </div>
                 </div>
@@ -403,8 +403,8 @@
                     <div class="card-header" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), linear-gradient(45deg, #001a33, #003366);" onclick="toggleCampaign(this)">
                         <div class="header-content">
                             <div class="campaign-info">
-                                <h2>Neon City</h2>
-                                <p class="campaign-desc">Fast-paced jumps through a cyberpunk skyline.</p>
+                                <h2>Icy Area</h2>
+                                <p class="campaign-desc">An icy introduction to sliding.</p>
                             </div>
                             <div class="campaign-badge diff-medium">Medium</div>
                         </div>
@@ -489,7 +489,6 @@
         </div>
     </main>
     <footer></footer>
-    <script src="common.js"></script>
     <script>
         function toggleCampaign(headerElement) {
             const card = headerElement.parentElement;
@@ -497,8 +496,10 @@
         }
 
         function playLevel(levelId) {
-            alert("Starting Level: " + levelId);
+            window.location.href = `play.html?level=${levelId}`;
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="common.js"></script>
 </body>
 </html>

@@ -268,7 +268,7 @@
             <button class="simpleButton" style="margin-top: -0.5em; width: 500px;" onclick="">
                 <span style="display: inline-block; transform: scale(1.5); transform-origin: center;">Coming Soon</span>
             </button>
-            <button class="simpleButton" style="margin-top: -0.5em; width: 500px;" onclick="location.reload();">
+            <button class="simpleButton" style="margin-top: -0.5em; width: 500px;" onclick="window.history.back();">
                 <span style="display: inline-block; transform: scale(1.5); transform-origin: center;">Exit</span>
             </button>
         </div>
@@ -450,8 +450,10 @@
         let worldGhostReplayFrames = [];
         let worldGhostReplayIndex = 0;
         let worldGhostVisible = false;
-        campaignNumber = 1;
-        campaignLevel = 1;
+        
+        let levelID = new URLSearchParams(window.location.search).get("level");
+        campaignNumber = parseInt(levelID.split(".")[0]);
+        campaignLevel = parseInt(levelID.split(".")[1]);
         document.querySelector(".title").style.display = "none";
         document.body.style.backgroundColor = "transparent"; // Change background to transparent
         fpsCounter.style.display = "block";
