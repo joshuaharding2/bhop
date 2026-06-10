@@ -1,0 +1,16 @@
+name: Mirror Repository Sync
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  mirror_sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync Mirror Repo
+        run: |
+          git clone --mirror https://github.com/joshuaharding2/bhop.git source-mirror
+          cd source-mirror
+          git push --mirror https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/bhop-game/bhop-game.github.io.git
