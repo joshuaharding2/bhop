@@ -13,4 +13,4 @@ jobs:
         run: |
           git clone --mirror https://github.com/joshuaharding2/bhop.git source-mirror
           cd source-mirror
-          git push --mirror https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/bhop-game/bhop-game.github.io.git
+          git push --mirror https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/bhop-game/bhop-game.github.io
