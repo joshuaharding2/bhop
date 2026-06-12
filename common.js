@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
                     // Redirect to public profile page
-                    window.location.href = `/user.html?id=${data.user_id}`;
+                    window.location.href = window.location.href.replace(/\/$/, '').replace(/\/[^\/]*$/, '') + `/user.html?id=${data.user_id}`;
 
                 } catch (err) {
                     console.error("View profile error:", err);

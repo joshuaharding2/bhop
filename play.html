@@ -412,8 +412,8 @@
         let worldGhostReplayIndex = 0;
         let worldGhostVisible = false;
         
-        levelID = new URLSearchParams(window.location.search).get("level");
-        fetch(window.location.href.replace(/\/[^\/]*$/, '') + "/replays/" + levelID + ".txt")
+        levelID = new URLSearchParams(window.location.search).get("level").replace(/\/$/, '');
+        fetch(window.location.href.replace(/\/$/, '').replace(/\/[^\/]*$/, '') + "/replays/" + levelID + ".txt")
             .then(response => response.text())
             .then(replayData => {
                 authorReplayCode = replayData;
@@ -716,7 +716,7 @@
                 for (let key in keys) keys[key] = false;
             });
             if (levelID !== null) {
-                fetch(window.location.href.replace(/\/[^\/]*$/, '') + "/levels/" + levelID + ".json")
+                fetch(window.location.href.replace(/\/$/, '').replace(/\/[^\/]*$/, '') + "/levels/" + levelID + ".json")
                     .then(response => response.json())
                     .then(levelData => {
                         clearScene();
