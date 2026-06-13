@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.removeItem("session");
 
                 // Full reload or redirect to login
-                window.location.href = "/login.html"; // or: location.reload();
+                window.location.href = "login.html"; // or: location.reload();
             });
         }
         // View Profile handler
@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Get logged-in user (UUID)
                     const { data: { user } } = await client.auth.getUser();
                     if (!user) {
-                        window.location.href = "/login.html";
+                        window.location.href = "login.html";
                         return;
                     }
 
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
                     // Redirect to public profile page
-                    window.location.href = window.location.href.replace(/\/$/, '').replace(/\/[^\/]*$/, '') + `/user.html?id=${data.user_id}`;
+                    window.location.href = `user.html?id=${data.user_id}`;
 
                 } catch (err) {
                     console.error("View profile error:", err);
