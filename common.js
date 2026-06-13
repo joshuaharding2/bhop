@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ${headerHTML}
       `;
     }
-    if (page === "login.html" || page === "login") {
+    if (page === "login.html" || page === "login" || page === "index.html" || page === "index") {
         headerHTML = ``;
     }
 

@@ -2,10 +2,9 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open('my-game-cache').then(cache => {
             return cache.addAll([
-                '/',
-                '/index.html',
-                '/bhop.html',
-                '/editor.html',
+                'index.html',
+                'bhop.html',
+                'editor.html',
             ]);
         })
     );
