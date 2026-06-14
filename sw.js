@@ -1,6 +1,6 @@
 self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open('my-game-cache').then(cache => {
+        caches.open('bhop-cache').then(cache => {
             return cache.addAll([
                 'index.html',
                 'bhop.html',
@@ -29,11 +29,17 @@ self.addEventListener('fetch', event => {
     fetch(event.request)
       .then(response => {
         let responseClone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+        caches.open('bhop-cache').then(cache => cache.put(event.request, responseClone));
         return response;
       })
       .catch(() => {
-        return caches.match(event.request);
+        return caches.match(event.request).then(cachedResponse => {
+          if (cachedResponse) return cachedResponse;
+          return new Response('Offline and asset not cached.', {
+            status: 404,
+            statusText: 'Not Found'
+          });
+        });
       })
   );
 });
