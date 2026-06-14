@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (usernameSpan) usernameSpan.textContent = username;
     if (username === "Guest") {
         const div = document.querySelector(".account-dropdown");
-        div.innerHTML = `<div class="dropdown-item" onclick="location.href='login.html'">Log In</div>`;
+        if (div) div.innerHTML = `<div class="dropdown-item" onclick="location.href='login.html'">Log In</div>`;
     } else {
         const pfp = document.getElementById("pfp");
         if (pfp) {
