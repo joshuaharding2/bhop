@@ -3,7 +3,7 @@
     "short_name": "Bhop",
     "start_url": ".",
     "display": "fullscreen",
-    "orientation": "landscape",
+    "orientation": "landscape-primary",
     "background_color": "#000000",
     "theme_color": "#000000",
     "icons": [
