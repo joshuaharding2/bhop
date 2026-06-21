@@ -1895,12 +1895,13 @@
         }
         function mutate(genome) {
             const child = [...genome];
-            for (let i = 0; i < child.length; i++) {
-                if (Math.random() < 0.01) {
-                    child[i] =
-                        child[i] === "L"
-                            ? "R"
-                            : "L";
+            for (let i = 0; i < 100; i++) {
+                if (child[i]) {
+                    if (Math.random() < 0.01) {
+                        child[i] = child[i] === "L" ? "R" : "L";
+                    }
+                } else {
+                    child[i] = Math.random() < 0.5 ? "L" : "R";
                 }
             }
             return child;
