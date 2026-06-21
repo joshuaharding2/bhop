@@ -1959,6 +1959,18 @@
             }
             return btoa(JSON.stringify(replayRecording));
         }
+        function replayCodeToGenome(replayCode) {
+            const replay = JSON.parse(atob(replayCode));
+            const genome = [];
+            for (const frame of replay) {
+                if (frame.i & 2) {
+                    genome.push("L");
+                } else if (frame.i & 4) {
+                    genome.push("R");
+                }
+            }
+            return genome;
+        }
         function animate(currentTime) {
             requestAnimationFrame(animate);
             frameCounter++;
