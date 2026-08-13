@@ -421,6 +421,8 @@
         let frameCounter = 0;
         let levelFinished = false;
         let bestCheckpointReached = 0;
+        let checkpointReached = 0;
+        let hitWall = false;
         let currentAction = null;
         let actionFramesRemaining = 0;
         let population = [];
@@ -1622,6 +1624,7 @@
                     cameraRig.position.copy(nextPosition);
                     if (checkCollisions(testDown, testDown) === false) isGrounded = false;
                 } else if (collision) {
+                    hitWall = true;
                     if (velocity.y < 0) {
                         if (performance.now() - lastTeleportTime > teleportCooldownTime) {
                             velocity.y = 0;
@@ -1785,6 +1788,8 @@
         // File specific AI functions
         function resetEpisode() {
             resetMap();
+            checkpointReached = 0;
+            hitWall = false;
             levelFinished = false;
             frameCounter = 0;
         }
@@ -1819,6 +1824,9 @@
                 reward = getReward(true);
             } else {
                 reward = getReward(false);
+            }
+            if (checkpoint > checkpointReached) {
+                checkpointReached = checkpoint;
             }
             if (checkpoint > bestCheckpointReached) {
                 bestCheckpointReached = checkpoint;
@@ -1879,35 +1887,43 @@
             }
             return genome;
         }
-        function evaluateGenome(genome) {
+        function evaluateGenome(genome, maxCheckpoints = 999) {
             resetEpisode();
             let frame;
+            let hitCheckpointFrame = 0;
+            let oldCheckpoint = 0;
             for (frame = 0; frame < genome.length; frame++) {
                 const action = genome[frame];
+                oldCheckpoint = checkpointReached;
                 step({
                     left: action === "L",
                     right: action === "R",
                     jump: true
                 });
+                if (checkpointReached > oldCheckpoint) hitCheckpointFrame = frame;
+                if (hitWall) {
+                    break;
+                }
                 if (levelFinished) break;
+                if (checkpointReached >= maxCheckpoints) break;
             }
-            return bestCheckpointReached * 1000 - frame;
+            return { genome: hitWall ? genome.slice(0, frame + 1) : genome, fitness: checkpointReached * 1000 - frame };
         }
         function mutate(genome) {
             const child = [...genome];
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 3000; i++) {
                 if (child[i]) {
                     if (Math.random() < 0.01) {
                         child[i] = child[i] === "L" ? "R" : "L";
                     }
                 } else {
-                    child[i] = Math.random() < 0.5 ? "L" : "R";
+                    child.push(Math.random() < 0.5 ? "L" : "R");
                 }
             }
             return child;
         }
         // Actually create and run simulations
-        function runGeneration() {
+        function runGeneration(maxCheckpoints = 999) {
             useAI = true;
             bestCheckpointReached = 0;
             if (nextPopulation.length > 0) {
@@ -1918,10 +1934,7 @@
                     population.push(createGenome(3000));
                 }
             }
-            const scoredPopulation = population.map(genome => ({
-                genome,
-                fitness: evaluateGenome(genome)
-            }));
+            const scoredPopulation = population.map(genome => (evaluateGenome(genome, maxCheckpoints)));
             scoredPopulation.sort(
                 (a, b) => b.fitness - a.fitness
             );
@@ -1988,7 +2001,6 @@
             // controlState.left = aiAction.left;
             // controlState.right = aiAction.right;
             // controlState.jump = aiAction.jump;
-
             updatePlayer(currentTime);
             renderer.render(scene, camera);
         }
