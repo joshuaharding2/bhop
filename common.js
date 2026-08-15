@@ -243,8 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         oauthWindow.close();
                         return;
                     }
-                    console.log("OAuth URL:", data.authorization_url);
-                    oauthWindow.location.href =data.authorization_url;
+                    // console.log("OAuth URL:", data.authorization_url);
+                    oauthWindow.location.href = data.authorization_url;
                 } catch (err) {
                     console.error("Link Discord error:", err);
                     oauthWindow.close();
