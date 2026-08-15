@@ -52,28 +52,16 @@
             document.querySelector("h1.title").innerText = "Discord linking failed";
             document.getElementById("menu").innerText = "Could not retrieve your Discord account.";
         } else if (status === "alreadyLinked") {
-            document.querySelector("h1.title").innerText = "Discord Already Linked";
-            document.getElementById("menu").innerText = "This Discord account is already linked to this Bhop account.";
+            document.querySelector("h1.title").innerText = "Discord already linked";
+            document.getElementById("menu").innerText = "This Discord account is already linked to your Bhop account.";
         }
-        else if (status === "accountAlreadyLinked") {
-            document.querySelector("h1.title").innerText = "Bhop Account Already Linked";
-            document.getElementById("menu").innerText = "This Bhop account is already linked to a different Discord account.";
+        else if (status === "bhopAccountAlreadyLinked") {
+            document.querySelector("h1.title").innerText = "Discord linking failed";
+            document.getElementById("menu").innerText = "Your Bhop account is already linked to a different Discord account.";
         }
         else if (status === "discordAlreadyLinked") {
-            document.querySelector("h1.title").innerText = "Discord Account Already Linked";
-            document.getElementById("menu").innerText = "This Discord account is already linked to a different Bhop account.";
-        }
-        else if (status === "cancelled") {
-            document.querySelector("h1.title").innerText = "Discord Linking Cancelled";
-            document.getElementById("menu").innerText = "Discord authorization was cancelled.";
-        }
-        else if (status === "invalidState") {
-            document.querySelector("h1.title").innerText = "Discord Linking Failed";
-            document.getElementById("menu").innerText = "The OAuth request was invalid or could not be verified.";
-        }
-        else if (status === "expired") {
-            document.querySelector("h1.title").innerText = "Discord Linking Expired";
-            document.getElementById("menu").innerText = "The Discord linking request expired. Please try again.";
+            document.querySelector("h1.title").innerText = "Discord linking failed";
+            document.getElementById("menu").innerText = "This Discord account is already linked to another Bhop account.";
         } else {
             setTimeout(() => {
                 window.close();
