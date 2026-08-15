@@ -207,21 +207,17 @@ document.addEventListener("DOMContentLoaded", () => {
                         return;
                     }
 
-                    // Get numeric user_id from profiles
                     const { data, error } = await client
-                        .from("profiles")
-                        .select("user_id")
-                        .eq("id", user.id)
-                        .single();
+                        .rpc("get_my_user_id");
 
-                    if (error || !data) {
+                    if (error || data === null) {
                         console.error("Profile lookup failed:", error);
                         alert("Profile not found.");
                         return;
                     }
 
                     // Redirect to public profile page
-                    window.location.href = `user.html?id=${data.user_id}`;
+                    window.location.href = `user.html?id=${data}`;
 
                 } catch (err) {
                     console.error("View profile error:", err);
