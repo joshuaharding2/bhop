@@ -316,7 +316,6 @@ window.addEventListener("load", initParticles);
 
 // Scale based on height
 let scale = window.innerHeight / 1020;
-
 function scaleUI() {
     scale = window.innerHeight / 1020;
     document.documentElement.style.setProperty('--scale', scale);
