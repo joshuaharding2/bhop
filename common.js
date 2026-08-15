@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <path d="M480-360 280-560h400L480-360Z" />
         </svg>
         <div class="account-dropdown">
+          <div class="dropdown-item homepage">Homepage</div>
           <div class="dropdown-item view-profile">View Profile</div>
           <div class="dropdown-item link-discord">Link Discord</div>
           <div class="dropdown-item logout">Log Out</div>
@@ -111,7 +112,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let headerHTML = newLocal;
 
     // Add special buttons or variants depending on the page
-    if (page !== "home.html" && page !== "home") {
+    if (page === "discord-linked.html" || page === "discord-linked") {
+        headerHTML = `
+        <button class="back-btn" onclick="window.close()">
+        <svg class="back-btn-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#00ffa6"><path d="m315-433 232 232-67 66-345-345 345-346 67 67-232 232h511v94H315Z"/></svg>
+        <span class="back-btn-text">Close</span>
+        </button>
+        ${headerHTML}
+      `;
+    } else if (page !== "home.html" && page !== "home") {
         headerHTML = `
         <button class="back-btn" onclick="window.history.back()">
         <svg class="back-btn-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#00ffa6"><path d="m315-433 232 232-67 66-345-345 345-346 67 67-232 232h511v94H315Z"/></svg>
@@ -244,6 +253,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.error("Link Discord error:", err);
                     oauthWindow.close();
                 }
+            });
+        }
+
+        const homepage = document.querySelector(".homepage");
+        if (homepage) {
+            homepage.addEventListener("click", () => {
+                window.location.href = "home.html";
             });
         }
     }
