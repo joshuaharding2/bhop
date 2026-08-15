@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bhop - Discord Linked</title>
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        #menu {
+            background: var(--glass);
+            color: var(--text);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            width: 400px;
+            height: auto;
+            padding: 16px 0;
+            letter-spacing: 1px;
+            font-size: 20px;
+            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            width: 850px;
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <main>
+        <img class="title" alt="BHOP" width="600" height="auto" src="img/title.png">
+        <h1 class="title">Discord Linked Successfully</h1>
+        <div id="menu">Your Discord account has been linked. This tab will close in 5 seconds.</div>
+    </main>
+    <footer></footer>
+    <script>
+        const status = new URLSearchParams(window.location.search).get("status");
+        if (status === "success") {
+            setTimeout(() => {
+                window.close();
+            }, 5000);
+        } else if (status === "updateError") {
+            document.querySelector("h1.title").innerText = "Discord linking failed";
+            document.getElementById("menu").innerText = "We couldn't save your Discord connection.";
+        } else if (status === "noID") {
+            document.querySelector("h1.title").innerText = "Discord linking failed";
+            document.getElementById("menu").innerText = "Discord did not return a user ID.";
+        } else if (status === "discordError") {
+            document.querySelector("h1.title").innerText = "Discord linking failed";
+            document.getElementById("menu").innerText = "Could not retrieve your Discord account.";
+        } else if (status === "alreadyLinked") {
+            document.querySelector("h1.title").innerText = "Discord Already Linked";
+            document.getElementById("menu").innerText = "This Discord account is already linked to this Bhop account.";
+        }
+        else if (status === "accountAlreadyLinked") {
+            document.querySelector("h1.title").innerText = "Bhop Account Already Linked";
+            document.getElementById("menu").innerText = "This Bhop account is already linked to a different Discord account.";
+        }
+        else if (status === "discordAlreadyLinked") {
+            document.querySelector("h1.title").innerText = "Discord Account Already Linked";
+            document.getElementById("menu").innerText = "This Discord account is already linked to a different Bhop account.";
+        }
+        else if (status === "cancelled") {
+            document.querySelector("h1.title").innerText = "Discord Linking Cancelled";
+            document.getElementById("menu").innerText = "Discord authorization was cancelled.";
+        }
+        else if (status === "invalidState") {
+            document.querySelector("h1.title").innerText = "Discord Linking Failed";
+            document.getElementById("menu").innerText = "The OAuth request was invalid or could not be verified.";
+        }
+        else if (status === "expired") {
+            document.querySelector("h1.title").innerText = "Discord Linking Expired";
+            document.getElementById("menu").innerText = "The Discord linking request expired. Please try again.";
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="common.js"></script>
+</body>
+</html>

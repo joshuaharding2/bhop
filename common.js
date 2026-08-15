@@ -102,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </svg>
         <div class="account-dropdown">
           <div class="dropdown-item view-profile">View Profile</div>
+          <div class="dropdown-item link-discord">Link Discord</div>
           <div class="dropdown-item logout">Log Out</div>
         </div>
       </div>
@@ -215,6 +216,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 } catch (err) {
                     console.error("View profile error:", err);
+                }
+            });
+        }
+
+        const linkDiscord = document.querySelector(".link-discord");
+        if (linkDiscord) {
+            linkDiscord.addEventListener("click", async () => {
+                const oauthWindow = window.open(
+                    "about:blank",
+                    "_blank"
+                );
+                if (!oauthWindow) {
+                    alert("Please allow pop-ups for bhop to link your Discord account.");
+                    return;
+                }
+                try {
+                    const { data, error } = await client.functions.invoke("discord-oauth");
+                    if (error) {
+                        console.error("OAuth function error:", error);
+                        oauthWindow.close();
+                        return;
+                    }
+                    console.log("OAuth URL:", data.authorization_url);
+                    oauthWindow.location.href =data.authorization_url;
+                } catch (err) {
+                    console.error("Link Discord error:", err);
+                    oauthWindow.close();
                 }
             });
         }
