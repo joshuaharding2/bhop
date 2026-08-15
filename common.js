@@ -227,29 +227,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const linkDiscord = document.querySelector(".link-discord");
         if (linkDiscord) {
+            // Check current Discord link status
+            try {
+                const { data, error } = await client.functions.invoke("discord-status");
+                if (error) {
+                    console.error("Discord status error:", error);
+                } else if (data.linked) {
+                    linkDiscord.textContent = "Unlink Discord";
+                    linkDiscord.dataset.action = "unlink";
+                } else {
+                    linkDiscord.textContent = "Link Discord";
+                    linkDiscord.dataset.action = "link";
+                }
+            } catch (err) {
+                console.error("Discord status check failed:", err);
+            }
+
             linkDiscord.addEventListener("click", async () => {
-                const oauthWindow = window.open(
-                    "about:blank",
-                    "_blank"
-                );
-                if (!oauthWindow) {
-                    alert("Please allow pop-ups for bhop to link your Discord account.");
+                const action = linkDiscord.dataset.action;
+                if (action === "link") {
+                    try {
+                        const { data, error } = await client.functions.invoke("discord-oauth");
+
+                        if (error) {
+                            console.error("OAuth function error:", error);
+                            return;
+                        }
+
+                        console.log("OAuth URL:", data.authorization_url);
+
+                        window.open(data.authorization_url, "_blank");
+                    } catch (err) {
+                        console.error("Link Discord error:", err);
+                    }
                     return;
                 }
-                try {
-                    const { data, error } = await client.functions.invoke("discord-oauth");
-                    if (error) {
-                        console.error("OAuth function error:", error);
-                        oauthWindow.close();
-                        return;
+
+                if (action === "unlink") {
+                    const confirmed = confirm("Are you sure you want to unlink your Discord account?");
+                    if (!confirmed) return;
+
+                    try {
+                        const { data, error } = await client.functions.invoke("discord-unlink");
+                        
+                        if (error) {
+                            console.error("Unlink function error:", error);
+                            alert("Failed to unlink your Discord account.");
+                            return;
+                        }
+                        
+                        if (!data?.success) {
+                            alert("Failed to unlink your Discord account.");
+                            return;
+                        }
+
+                        // Change the button back to Link Discord
+                        linkDiscord.textContent = "Link Discord";
+                        linkDiscord.dataset.action = "link";
+                    } catch (err) {
+                        console.error("Unlink Discord error:", err);
+                        alert("Failed to unlink your Discord account.");
                     }
-                    // console.log("OAuth URL:", data.authorization_url);
-                    oauthWindow.location.href = data.authorization_url;
-                } catch (err) {
-                    console.error("Link Discord error:", err);
-                    oauthWindow.close();
                 }
-            });
+            }
+            );
         }
 
         const homepage = document.querySelector(".homepage");
