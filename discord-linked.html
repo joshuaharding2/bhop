@@ -74,6 +74,10 @@
         else if (status === "expired") {
             document.querySelector("h1.title").innerText = "Discord Linking Expired";
             document.getElementById("menu").innerText = "The Discord linking request expired. Please try again.";
+        } else {
+            setTimeout(() => {
+                window.close();
+            }, 5000);
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
