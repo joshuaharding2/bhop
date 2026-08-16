@@ -89,77 +89,6 @@ function initParticles() {
     }
 }
 
-// Function to check if discord is linked and update the button accordingly
-async function setupDiscordButton() {
-    // Check current Discord link status
-    try {
-        const { data, error } = await client.functions.invoke("discord-status");
-        if (error) {
-            console.error("Discord status error:", error);
-            return;
-        }
-
-        if (data?.linked) {
-            linkDiscord.textContent = "Unlink Discord";
-            linkDiscord.dataset.action = "unlink";
-        } else {
-            linkDiscord.textContent = "Link Discord";
-            linkDiscord.dataset.action = "link";
-        }
-    } catch (err) {
-        console.error("Discord status check failed:", err);
-    }
-
-    linkDiscord.addEventListener("click", async () => {
-        const action = linkDiscord.dataset.action;
-
-        if (action === "link") {
-            try {
-                const { data, error } = await client.functions.invoke("discord-oauth");
-                if (error) {
-                    console.error(
-                        "OAuth function error:",
-                        error
-                    );
-                    return;
-                }
-
-                console.log("OAuth URL:", data.authorization_url);
-                window.open(data.authorization_url, "_blank");
-            } catch (err) {
-                console.error("Link Discord error:", err);
-            }
-            return;
-        }
-
-        if (action === "unlink") {
-            const confirmed = confirm("Are you sure you want to unlink your Discord account?");
-            if (!confirmed) return;
-
-            try {
-                const { data, error } = await client.functions.invoke("discord-unlink");
-                if (error) {
-                    console.error("Unlink function error:", error);
-                    alert("Failed to unlink your Discord account.");
-                    return;
-                }
-
-                if (!data?.success) {
-                    alert("Failed to unlink your Discord account.");
-                    return;
-                }
-
-                // Successfully unlinked
-                linkDiscord.textContent ="Link Discord";
-                linkDiscord.dataset.action = "link";
-            } catch (err) {
-                console.error("Unlink Discord error:", err);
-                alert("Failed to unlink your Discord account.");
-            }
-        }
-    });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
     const path = window.location.pathname;
     const page = path.substring(path.lastIndexOf("/") + 1);
@@ -298,11 +227,78 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const linkDiscord = document.querySelector(".link-discord");
         if (linkDiscord) {
+            async function setupDiscordButton() {
+                // Check current Discord link status
+                try {
+                    const { data, error } = await client.functions.invoke("discord-status");
+                    if (error) {
+                        console.error("Discord status error:", error);
+                        return;
+                    }
+
+                    if (data?.linked) {
+                        linkDiscord.textContent = "Unlink Discord";
+                        linkDiscord.dataset.action = "unlink";
+                    } else {
+                        linkDiscord.textContent = "Link Discord";
+                        linkDiscord.dataset.action = "link";
+                    }
+                } catch (err) {
+                    console.error("Discord status check failed:", err);
+                }
+
+                linkDiscord.addEventListener("click", async () => {
+                    const action = linkDiscord.dataset.action;
+
+                    if (action === "link") {
+                        try {
+                            const { data, error } = await client.functions.invoke("discord-oauth");
+                            if (error) {
+                                console.error(
+                                    "OAuth function error:",
+                                    error
+                                );
+                                return;
+                            }
+
+                            console.log("OAuth URL:", data.authorization_url);
+                            window.open(data.authorization_url, "_blank");
+                        } catch (err) {
+                            console.error("Link Discord error:", err);
+                        }
+                        return;
+                    }
+
+                    if (action === "unlink") {
+                        const confirmed = confirm("Are you sure you want to unlink your Discord account?");
+                        if (!confirmed) return;
+
+                        try {
+                            const { data, error } = await client.functions.invoke("discord-unlink");
+                            if (error) {
+                                console.error("Unlink function error:", error);
+                                alert("Failed to unlink your Discord account.");
+                                return;
+                            }
+
+                            if (!data?.success) {
+                                alert("Failed to unlink your Discord account.");
+                                return;
+                            }
+
+                            // Successfully unlinked
+                            linkDiscord.textContent ="Link Discord";
+                            linkDiscord.dataset.action = "link";
+                        } catch (err) {
+                            console.error("Unlink Discord error:", err);
+                            alert("Failed to unlink your Discord account.");
+                        }
+                    }
+                });
+            }
             // Run the async setup function
             setupDiscordButton();
-            window.addEventListener("focus", () => {
-                setupDiscordButton();
-            });
+            window.addEventListener("focus", setupDiscordButton);
         }
 
         const homepage = document.querySelector(".homepage");
